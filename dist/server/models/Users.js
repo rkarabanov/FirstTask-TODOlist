@@ -10,7 +10,8 @@ var Schema = _mongoose2["default"].Schema;
 
 var UserSchema = new Schema({
     email: { type: String, required: true },
-    pass: { type: String, required: true }
+    pass: { type: String, required: true },
+    role: { type: String, required: true }
 });
 
 var User = _mongoose2["default"].model('User', UserSchema);

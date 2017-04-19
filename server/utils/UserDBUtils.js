@@ -6,12 +6,14 @@ const User = mongoose.model('User');
 
 export function setUpConnection(){
     mongoose.connect(`mongodb://test:test@ds157390.mlab.com:57390/newdb`);
+
 }
 
 export function createUser(data) {
     const user = new User({
         email: data.email,
-        pass: data.pass
+        pass: data.pass,
+        role:data.role
     });
     return user.save();
 }
@@ -22,6 +24,11 @@ export function find(data) {
         pass: data.pass
     });
 }
+
+export function getAll() {
+    return User.find({});
+}
+
 
 export function findByEmail(data) {
     return User.find({

@@ -6,6 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.setUpConnection = setUpConnection;
 exports.createUser = createUser;
 exports.find = find;
+exports.getAll = getAll;
 exports.findByEmail = findByEmail;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -25,7 +26,8 @@ function setUpConnection() {
 function createUser(data) {
     var user = new User({
         email: data.email,
-        pass: data.pass
+        pass: data.pass,
+        role: data.role
     });
     return user.save();
 }
@@ -35,6 +37,10 @@ function find(data) {
         email: data.email,
         pass: data.pass
     });
+}
+
+function getAll() {
+    return User.find({});
 }
 
 function findByEmail(data) {
