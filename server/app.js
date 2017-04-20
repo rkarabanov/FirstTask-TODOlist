@@ -8,6 +8,8 @@ const app = express();
 
 userDB.setUpConnection();
 
+let localStorage=null;
+
 if (typeof localStorage === "undefined" || localStorage === null) {
     var LocalStorage = require('node-localstorage').LocalStorage;
     localStorage = new LocalStorage('./scratch');
@@ -19,22 +21,19 @@ app.use(cors({origin: "*"}));
 
 
 app.get('/login', (req, res) => {
-    let error=req.get("error");
-    console.log(error);
-    (error!=undefined&&error!=null)?res.send(error):res.send();
+        res.send();
 });
 
 app.post('/login', (req, res) => {
     userDB.find(req.body).then((data) => {
-        if(data.length==0){
-            res.set("error","Ошибка! Неверные и/или логин/пароль");
-            res.redirect('/login');
-        }
-        else{
+        console.log(data);
+        if(data.length!=0){
             localStorage.setItem('userInSystem', data[0]);
-            res.redirect('/dashboard');
+            res.send(data);
         }
+        else{res.send(['asd']);}
         });
+
 });
 
 app.get('/dashboard', (req, res) => {

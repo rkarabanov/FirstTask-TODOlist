@@ -24,12 +24,11 @@ var _validationValidation = require('./validation/Validation');
 
 var valid = _interopRequireWildcard(_validationValidation);
 
-
-
 var app = (0, _express2['default'])();
 
 userDB.setUpConnection();
-var localStorage;
+
+var localStorage = null;
 
 if (typeof localStorage === "undefined" || localStorage === null) {
     var LocalStorage = require('node-localstorage').LocalStorage;
@@ -41,19 +40,17 @@ app.use(_bodyParser2['default'].json());
 app.use((0, _cors2['default'])({ origin: "*" }));
 
 app.get('/login', function (req, res) {
-    var error = req.get("error");
-    console.log(error);
-    error != undefined && error != null ? res.send(error) : res.send();
+    res.send();
 });
 
 app.post('/login', function (req, res) {
     userDB.find(req.body).then(function (data) {
-        if (data.length == 0) {
-            res.set("error", "Ошибка! Неверные и/или логин/пароль");
-            res.redirect('/login');
-        } else {
+        console.log(data);
+        if (data.length != 0) {
             localStorage.setItem('userInSystem', data[0]);
-            res.redirect('/dashboard');
+            res.send(data);
+        } else {
+            res.send(['asd']);
         }
     });
 });

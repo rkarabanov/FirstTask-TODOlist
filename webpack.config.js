@@ -1,11 +1,14 @@
 var webpack = require('webpack');
 
 module.exports = {
-    entry: "./client/main.js",
+    entry: "./client_my/main.js",
     output: {
         path: __dirname + '/public/build/',
         publicPath: "build/",
         filename: "bundle.js"
+    },
+    devServer: {
+        historyApiFallback: true
     },
     module: {
         loaders: [
