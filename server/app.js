@@ -26,12 +26,15 @@ app.get('/login', (req, res) => {
 
 app.post('/login', (req, res) => {
     userDB.find(req.body).then((data) => {
-        console.log(data);
         if(data.length!=0){
             localStorage.setItem('userInSystem', data[0]);
-            res.send(data);
+            console.log(req.body);
+            res.send(data[0]);
         }
-        else{res.send(['asd']);}
+        else{
+            console.log(req.body);
+            res.send("Ошибка ввода: Неверной email/пароль"
+            );}
         });
 
 });

@@ -1,23 +1,22 @@
 import React, {PropTypes, Component} from 'react'
 
 export default class LoginForm extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
     toLogin(e){
         this.props.loginAction({"email":""+document.getElementsByName("email")[0].value,"pass":""+document.getElementsByName("pass")[0].value});
     }
 
-    componentDidUpdate(prevProps, prevState){
-        console.log(prevProps);
-        console.log(prevState);
-    }
 
     render() {
         const {msg} = this.props;
+        console.log(msg);
         return <div>
-            <div>
-                {msg}
-            </div>
             <form>
-                <div>Пожалуйста авторизируйтесь!</div>
+                <div>{msg}</div>
                 <div>Email:</div>
                 <input type="email" name="email" required/>
                 <div> Пароль:</div>

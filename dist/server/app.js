@@ -45,12 +45,13 @@ app.get('/login', function (req, res) {
 
 app.post('/login', function (req, res) {
     userDB.find(req.body).then(function (data) {
-        console.log(data);
         if (data.length != 0) {
             localStorage.setItem('userInSystem', data[0]);
-            res.send(data);
+            console.log(req.body);
+            res.send(data[0]);
         } else {
-            res.send(['asd']);
+            console.log(req.body);
+            res.send("Ошибка ввода: Неверной email/пароль");
         }
     });
 });

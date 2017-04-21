@@ -14,7 +14,8 @@ class App extends Component {
 
 function mapStateToProps (state) {
     return {
-        msg: state.msg
+        msg: state.msg,
+        userInSystem:state.userInSystem
     }
 }
 
