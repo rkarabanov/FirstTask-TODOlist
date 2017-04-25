@@ -6,7 +6,7 @@ import * as loginAction from '../actions/LoginAction'
 
 class App extends Component {
     render() {
-        const { msg } = this.props;
+        const { msg, userInSystem } = this.props;
         const {loginAction }=this.props.loginAction;
         return <LoginForm msg={msg} loginAction={loginAction}/>
     }
