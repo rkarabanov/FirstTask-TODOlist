@@ -8,7 +8,6 @@ class App extends Component {
     render() {
         const { msg, userInSystem } = this.props;
         const {loginAction }=this.props.loginAction;
-        console.log(loginAction);
         return <LoginForm msg={msg} loginAction={loginAction}/>
     }
 }

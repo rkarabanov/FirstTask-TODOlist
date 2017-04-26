@@ -4,10 +4,6 @@ import '../models/ForgotPass';
 
 const ForgotPass = mongoose.model('ForgotPass');
 
-export function setUpConnection(){
-    mongoose.connect(`mongodb://test:test@ds157390.mlab.com:57390/newdb`);
-
-}
 
 export function createForgotPass(data) {
     const forgotPass = new ForgotPass({
@@ -21,9 +17,9 @@ export function removeByEmail(data) {
    return ForgotPass.remove({email:data.email});
 }
 
-export function findById(data) {
+export function findById(id) {
     return ForgotPass.find({
-        _id: data.id,
+        _id: id,
     });
 }
 

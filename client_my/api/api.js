@@ -9,6 +9,14 @@ export default {
 
     sendIns(data){
     return axios.post(adressServer+"/sendInsructions",data);
+    },
+
+    checkToAccessRestore(id){
+        return axios.get(adressServer+"/restorePass?id="+id);
+    },
+
+    restorePass(id,data){
+        return axios.post(adressServer+"/restorePass?id="+id,data);
     }
 }
 

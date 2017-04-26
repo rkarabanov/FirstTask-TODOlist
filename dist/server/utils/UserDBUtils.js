@@ -5,6 +5,7 @@ Object.defineProperty(exports, '__esModule', {
 });
 exports.setUpConnection = setUpConnection;
 exports.createUser = createUser;
+exports.restorePass = restorePass;
 exports.find = find;
 exports.getAll = getAll;
 exports.findByEmail = findByEmail;
@@ -28,6 +29,14 @@ function createUser(data) {
         email: data.email,
         pass: data.pass,
         role: data.role
+    });
+    return user.save();
+}
+
+function restorePass(data, newPass) {
+    data.pass = newPass;
+    var user = new User({
+        data: data
     });
     return user.save();
 }

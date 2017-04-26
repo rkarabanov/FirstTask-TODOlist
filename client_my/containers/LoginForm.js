@@ -1,6 +1,5 @@
 import React, {PropTypes, Component} from 'react'
 import { Link } from 'react-router'
-
 export default class LoginForm extends Component {
 
     constructor(props) {
@@ -8,14 +7,12 @@ export default class LoginForm extends Component {
     }
 
     toLogin(e){
-        console.log(this.props.loginAction);
         this.props.loginAction({"email":""+document.getElementsByName("email")[0].value,"pass":""+document.getElementsByName("pass")[0].value});
     }
 
 
     render() {
         const {msg} = this.props;
-        console.log(msg);
         return <div>
             <form>
                 <div>{msg}</div>

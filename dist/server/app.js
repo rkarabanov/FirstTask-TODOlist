@@ -59,7 +59,7 @@ app.get('/login', function (req, res) {
 app.post('/sendInsructions', function (req, res) {
     userDB.findByEmail(req.body).then(function (data) {
         if (data.length == 0) {
-            res.send("error");
+            res.send(false);
         } else {
             forgotPassDB.removeByEmail(req.body).then(function () {
                 forgotPassDB.createForgotPass(req.body).then(function (data) {
@@ -77,11 +77,11 @@ app.post('/sendInsructions', function (req, res) {
                     transporter.sendMail(mailOptions, function (error, info) {
                         if (error) {
 
-                            res.send("error");
+                            res.send(false);
                             return console.log(error);
                         }
                         console.log('Message %s sent: %s', info.messageId, info.response);
-                        res.send('success');
+                        res.send(true);
                     });
                 });
             });
@@ -105,13 +105,47 @@ app.post('/login', function (req, res) {
     });
 });
 
-app.post('/sendInsructions', function (req, res) {
-    console.log(req.body);
-    res.send("Ошибка ввода: Неверной email/пароль");
-});
-
 app.get('/dashboard', function (req, res) {
     res.send();
+});
+
+app.get('/restorePass', function (req, res) {
+    console.log(req.query.id);
+    function date_diff_indays(date1) {
+        console.log("lool");
+        console.log(date1);
+        var dt1 = new Date(date1);
+        var dt2 = new Date();
+
+        return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
+    };
+
+    forgotPassDB.findById(req.query.id).then(function (data) {
+        console.log(data);
+        if (data.length == 0 || date_diff_indays(data[0].date) > 2) {
+            res.send(false);
+        }
+        console.log(date_diff_indays(data[0].date));
+        res.send(true);
+    })['catch'](function (error) {
+        res.send(false);
+    });
+});
+
+app.post('/restorePass', function (req, res) {
+    var email = undefined;
+    forgotPassDB.findById(req.query.id).then(function (data) {
+        email = data.email;
+        userDB.findByEmail(email).then(function (data) {
+            userDB.restorePass(data, req.body.pass).then(function (date) {
+                forgotPassDB.removeByEmail(email).then(function (date) {
+                    res.send(true);
+                });
+            });
+        });
+    })['catch'](function (error) {
+        res.send(false);
+    });
 });
 
 var server = app.listen(8080, function () {

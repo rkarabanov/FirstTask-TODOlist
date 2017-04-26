@@ -18,6 +18,14 @@ export function createUser(data) {
     return user.save();
 }
 
+export function restorePass(data, newPass) {
+    data.pass=newPass;
+    const user = new User({
+        data
+    });
+    return user.save();
+}
+
 export function find(data) {
     return User.find({
         email: data.email,

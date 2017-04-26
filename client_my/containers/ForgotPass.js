@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as sendInstructions from '../actions/ForgotPass'
+import * as funcs from '../actions/ForgotPass'
 
 
 
@@ -9,11 +9,11 @@ import * as sendInstructions from '../actions/ForgotPass'
 export default class ForgotPass extends Component {
 
     sendInstructionsClick(e){
-        console.log(this.props.sendInstructions.sendInstructions);
-        this.props.sendInstructions.sendInstructions({"email":""+document.getElementsByName("email")[0].value});
+        this.props.sendInstructions({"email":""+document.getElementsByName("email")[0].value});
     }
 
     render() {
+        
         return <form>
             <h2>Введите ваш email-адресс, для инстркукций по востановлению</h2>
             <div>Email:</div>
@@ -31,7 +31,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        sendInstructions: bindActionCreators(sendInstructions, dispatch)
+        sendInstructions: bindActionCreators(funcs.sendInstructions, dispatch)
     }
 }
 
