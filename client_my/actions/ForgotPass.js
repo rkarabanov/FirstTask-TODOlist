@@ -1,9 +1,9 @@
 import *as res from "../api/api"
 
-export function loginAction(user) {
+export function sendInstructions(email) {
     return dispatch=>dispatch({
-        type: "IS_LOGIN",
-        payload:new Promise((resolve, reject)=>{res.login(user)
+        type: "SEND_INSTRUCTIONS",
+        payload:new Promise((resolve, reject)=>{res.sendIns(email)
             .then((response)=>{
                 resolve( response.data) })})
     })

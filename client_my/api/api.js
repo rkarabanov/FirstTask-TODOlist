@@ -5,6 +5,10 @@ export default {
 
     login(data){
         return axios.post(adressServer+"/login",data);
-    }
+    },
 
+    sendIns(data){
+    return axios.post(adressServer+"/sendInsructions",data);
+    }
 }
+

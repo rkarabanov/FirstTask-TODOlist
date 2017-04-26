@@ -1,4 +1,5 @@
 import React, {PropTypes, Component} from 'react'
+import { Link } from 'react-router'
 
 export default class LoginForm extends Component {
 
@@ -7,6 +8,7 @@ export default class LoginForm extends Component {
     }
 
     toLogin(e){
+        console.log(this.props.loginAction);
         this.props.loginAction({"email":""+document.getElementsByName("email")[0].value,"pass":""+document.getElementsByName("pass")[0].value});
     }
 
@@ -25,6 +27,7 @@ export default class LoginForm extends Component {
                 <input type="button" value="Подтвердить" onClick={this.toLogin.bind(this)}/>
                 <input type="reset" value="Сбросить"/>
             </form>
+            <Link  to="/forgotPass">Забыли пароль?</Link>
         </div>;
     }
 }
