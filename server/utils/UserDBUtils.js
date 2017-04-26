@@ -20,9 +20,10 @@ export function createUser(data) {
 
 export function restorePass(data, newPass) {
     data.pass=newPass;
-    const user = new User({
+    console.log(data);
+    const user = new User(
         data
-    });
+    );
     return user.save();
 }
 

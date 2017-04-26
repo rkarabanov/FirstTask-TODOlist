@@ -9,10 +9,10 @@ export function checkToAccessRestore(id) {
     })
 }
 
-export function restorePass(emailObj) {
+export function restorePass(id,emailObj) {
     return dispatch=>dispatch({
         type: "RESTORE_PASSWORD",
-        payload:new Promise((resolve, reject)=>{res.restorePass(emailObj)
+        payload:new Promise((resolve, reject)=>{res.restorePass(id,emailObj)
             .then((response)=>{
                 resolve( response.data) })})
     })

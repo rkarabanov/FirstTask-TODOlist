@@ -49,10 +49,10 @@ app.post('/sendInsructions', function (req, res) {
                             to: '' + req.body.email, // list of receivers
                             subject: 'Hello ✔', // Subject line
                             text: 'Hello world ?', // plain text body
-                            html: '<div><b>Если вы хотите изметь ваш парль, то пройдите по ссылке внизу</b>' +
-                            '<a href="http://localhost:8090/restorePass?id=' +
+                            html: '<div><div><b>Если вы хотите изметь ваш пароль, то пройдите по ссылке внизу</b></div>' +
+                            '<div><a href="http://localhost:8090/restorePass?id=' +
                             id +
-                            '">Ссылка</a></div> ' // html body
+                            '">Ссылка</a></div></div> ' // html body
                         };
 
 // send mail with defined transport object
@@ -124,10 +124,13 @@ app.get('/restorePass', (req, res) => {
 app.post('/restorePass', (req, res) => {
     let email;
     forgotPassDB.findById(req.query.id).then((data)=>{
-        email=data.email;
-        userDB.findByEmail(email).then(data=>{
-            userDB.restorePass(data,req.body.pass).then(date=>{
-                forgotPassDB.removeByEmail(email).then(date=>{
+        email=data[0].email;
+        console.log(email);
+        userDB.findByEmail({email:email}).then(data=>{
+            console.log(data[0]);
+            console.log(req.body);
+            userDB.restorePass(data[0],req.body.pass).then(date=>{
+                forgotPassDB.removeByEmail({email:email}).then(date=>{
                     res.send(true);
                 })
             })

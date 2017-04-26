@@ -9,12 +9,12 @@ import * as funcs from '../actions/RestorePass'
 export default class RestorePass extends Component {
 
     restore(e){
-        console.log(this.props.errorToAccess);
-        // this.props.restorePass(this.props.params.id,{"email":""+document.getElementsByName("email")[0].value});
+        // console.log(this.props.errorToAccess);
+        this.props.restorePass(this.props.location.query.id,{"pass":""+document.getElementsByName("password")[0].value});
     }
 
     render() {
-        if(this.props.errorToAccess!=undefined&&errorToAccess)
+        if(this.props.errorToAccess!=undefined&&this.props.errorToAccess)
             return <h2>
                 Неверная или уже устаревшая ссылка
             </h2>;
@@ -38,6 +38,7 @@ export default class RestorePass extends Component {
 
 function mapStateToProps (state) {
     return {
+        errorToAccess: state.errorToAccess
     }
 }
 
@@ -48,8 +49,5 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-RestorePass.propTypes = {
-    errorToAccess: PropTypes.bool
-};
 
 export default connect(mapStateToProps,mapDispatchToProps)(RestorePass)

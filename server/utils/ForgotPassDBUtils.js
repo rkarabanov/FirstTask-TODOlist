@@ -14,7 +14,7 @@ export function createForgotPass(data) {
 }
 
 export function removeByEmail(data) {
-   return ForgotPass.remove({email:data.email});
+   return ForgotPass.remove(data);
 }
 
 export function findById(id) {

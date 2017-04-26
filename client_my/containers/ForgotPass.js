@@ -26,6 +26,7 @@ export default class ForgotPass extends Component {
 }
 function mapStateToProps (state) {
     return {
+        forgotMsg: state.forgotMsg
     }
 }
 

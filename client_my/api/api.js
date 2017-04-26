@@ -16,6 +16,7 @@ export default {
     },
 
     restorePass(id,data){
+        console.log(data);
         return axios.post(adressServer+"/restorePass?id="+id,data);
     }
 }
