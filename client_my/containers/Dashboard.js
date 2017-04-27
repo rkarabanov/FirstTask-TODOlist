@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 export default class Dashboard extends Component {
     render() {
         const {  userInSystem } = this.props;
@@ -7,6 +8,7 @@ export default class Dashboard extends Component {
             <div>
                 Your email is {userInSystem.email}
             </div>
+            <Link  to="/admin">Администратор?</Link>
         </div>
     }
 
