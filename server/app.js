@@ -4,9 +4,10 @@ import cors from 'cors';
 import * as userDB from './utils/UserDBUtils';
 import * as forgotPassDB from './utils/ForgotPassDBUtils';
 import * as valid from '../client_my/validation/Validation';
-
+let session = require('express-session');
 
 const app = express();
+
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
@@ -19,20 +20,23 @@ const transporter = nodemailer.createTransport({
 
 userDB.setUpConnection();
 
-let localStorage = null;
-
-if (typeof localStorage === "undefined" || localStorage === null) {
-    let LocalStorage = require('node-localstorage').LocalStorage;
-    localStorage = new LocalStorage('./scratch');
-}
-
+// let localStorage = null;
+//
+// if (typeof localStorage === "undefined" || localStorage === null) {
+//     let LocalStorage = require('node-localstorage').LocalStorage;
+//     localStorage = new LocalStorage('./scratch');
+// }
 app.use(bodyParser.json());
 
 app.use(cors({origin: "*"}));
 
 
+
+
+
 app.get('/login', (req, res) => {
-    res.send();
+
+    res.send(200);
 });
 
 
@@ -99,14 +103,13 @@ app.get('/dashboard', (req, res) => {
     res.send();
 });
 
-
 app.get('/restorePass', (req, res) => {
     console.log(req.query.id);
+    console.log(req.get("authorization"));
      function date_diff_indays (date1) {
-        console.log(date1);
+        // console.log(date1);
        let dt1 = new Date(date1);
        let dt2 = new Date();
-
         return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) / (1000 * 60 * 60 * 24));
     };
 
@@ -115,7 +118,6 @@ app.get('/restorePass', (req, res) => {
         if (data.length == 0 || date_diff_indays(data[0].date) > 2) {
             res.send(false);
         }
-        console.log(date_diff_indays(data[0].date));
         res.send(true);
     }).catch((error)=>{
         res.send(false);

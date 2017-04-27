@@ -28,7 +28,10 @@ var _client_myValidationValidation = require('../client_my/validation/Validation
 
 var valid = _interopRequireWildcard(_client_myValidationValidation);
 
+var session = require('express-session');
+
 var app = (0, _express2['default'])();
+
 var nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport({
@@ -41,19 +44,19 @@ var transporter = nodemailer.createTransport({
 
 userDB.setUpConnection();
 
-var localStorage = null;
-
-if (typeof localStorage === "undefined" || localStorage === null) {
-    var LocalStorage = require('node-localstorage').LocalStorage;
-    localStorage = new LocalStorage('./scratch');
-}
-
+// let localStorage = null;
+//
+// if (typeof localStorage === "undefined" || localStorage === null) {
+//     let LocalStorage = require('node-localstorage').LocalStorage;
+//     localStorage = new LocalStorage('./scratch');
+// }
 app.use(_bodyParser2['default'].json());
 
 app.use((0, _cors2['default'])({ origin: "*" }));
 
 app.get('/login', function (req, res) {
-    res.send();
+
+    res.send(200);
 });
 
 app.post('/sendInsructions', function (req, res) {
@@ -112,11 +115,11 @@ app.get('/dashboard', function (req, res) {
 
 app.get('/restorePass', function (req, res) {
     console.log(req.query.id);
+    console.log(req.get("authorization"));
     function date_diff_indays(date1) {
-        console.log(date1);
+        // console.log(date1);
         var dt1 = new Date(date1);
         var dt2 = new Date();
-
         return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
     };
 
@@ -125,7 +128,6 @@ app.get('/restorePass', function (req, res) {
         if (data.length == 0 || date_diff_indays(data[0].date) > 2) {
             res.send(false);
         }
-        console.log(date_diff_indays(data[0].date));
         res.send(true);
     })['catch'](function (error) {
         res.send(false);

@@ -12,7 +12,9 @@ export default {
     },
 
     checkToAccessRestore(id){
-        return axios.get(adressServer+"/restorePass?id="+id);
+        return axios.get(adressServer+"/restorePass?id="+id
+            , {headers:{Authorization:"Basic "+"HEYQ!"}}
+            );
     },
 
     restorePass(id,data){
