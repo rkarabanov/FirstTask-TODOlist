@@ -35,14 +35,15 @@ export default  function reduce(state=initialState, action) {
             return {...state,information:action.payload?"Успех! Проверьте свой почтовый ящик на наличие инструкций":"Неверный email или ошибка на сервере"};
             break;
         case 'IS_LOGIN_FULFILLED':
-            let user=action.payload;
-            if (typeof user == 'string') {
+            let data=action.payload;
+            if (typeof data == 'string') {
                 return {...state, msg: action.payload};
             }
             else {
                 browserHistory.push("/dashboard");
-                console.log(user);
-                return {...state, msg: "Пожалуйста авторизируйтесь!", userInSystem: user}
+                console.log(data);
+                document.cookie="user="+data.token;
+                return {...state, msg: "Пожалуйста авторизируйтесь!", userInSystem: data.user}
             }
             break;
         default:

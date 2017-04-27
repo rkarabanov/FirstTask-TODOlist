@@ -30,6 +30,10 @@ var valid = _interopRequireWildcard(_client_myValidationValidation);
 
 var session = require('express-session');
 
+var morgan = require('morgan');
+
+var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
+
 var app = (0, _express2['default'])();
 
 var nodemailer = require('nodemailer');
@@ -44,20 +48,21 @@ var transporter = nodemailer.createTransport({
 
 userDB.setUpConnection();
 
-// let localStorage = null;
-//
-// if (typeof localStorage === "undefined" || localStorage === null) {
-//     let LocalStorage = require('node-localstorage').LocalStorage;
-//     localStorage = new LocalStorage('./scratch');
-// }
 app.use(_bodyParser2['default'].json());
 
 app.use((0, _cors2['default'])({ origin: "*" }));
 
-app.get('/login', function (req, res) {
+app.use(morgan('dev'));
 
-    res.send(200);
-});
+// app.set('superSecret', {
+//     "typ": "JWT",
+//     "alg": "HS256"
+// });
+//
+// app.get('/login', (req, res) => {
+//
+//     res.send(200);
+// });
 
 app.post('/sendInsructions', function (req, res) {
     userDB.findByEmail(req.body).then(function (data) {
@@ -98,10 +103,13 @@ app.post('/login', function (req, res) {
     }
     userDB.find(req.body).then(function (data) {
         if (data.length != 0) {
-            localStorage.setItem('userInSystem', data[0]);
-            console.log(req.body);
+            // console.log(req.body);
             console.log(data[0]);
-            res.send(data[0]);
+            var g = data[0];
+            var token = jwt.sign(g, 'superSecret', {
+                expiresIn: 60 * 60 * 24
+            });
+            res.send({ token: token, user: data[0] });
         } else {
             console.log(req.body);
             res.send("Ошибка ввода: Неверной email/пароль");
@@ -115,7 +123,7 @@ app.get('/dashboard', function (req, res) {
 
 app.get('/restorePass', function (req, res) {
     console.log(req.query.id);
-    console.log(req.get("authorization"));
+    // console.log(req.get("authorization"));
     function date_diff_indays(date1) {
         // console.log(date1);
         var dt1 = new Date(date1);
@@ -128,6 +136,7 @@ app.get('/restorePass', function (req, res) {
         if (data.length == 0 || date_diff_indays(data[0].date) > 2) {
             res.send(false);
         }
+        //{'WWW-Authenticate': 'Basic realm="Access"'}
         res.send(true);
     })['catch'](function (error) {
         res.send(false);

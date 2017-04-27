@@ -6,6 +6,10 @@ import * as forgotPassDB from './utils/ForgotPassDBUtils';
 import * as valid from '../client_my/validation/Validation';
 let session = require('express-session');
 
+const morgan      = require('morgan');
+
+const jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
+
 const app = express();
 
 const nodemailer = require('nodemailer');
@@ -20,24 +24,22 @@ const transporter = nodemailer.createTransport({
 
 userDB.setUpConnection();
 
-// let localStorage = null;
-//
-// if (typeof localStorage === "undefined" || localStorage === null) {
-//     let LocalStorage = require('node-localstorage').LocalStorage;
-//     localStorage = new LocalStorage('./scratch');
-// }
+
 app.use(bodyParser.json());
 
 app.use(cors({origin: "*"}));
 
+app.use(morgan('dev'));
 
-
-
-
-app.get('/login', (req, res) => {
-
-    res.send(200);
-});
+// app.set('superSecret', {
+//     "typ": "JWT",
+//     "alg": "HS256"
+// });
+//
+// app.get('/login', (req, res) => {
+//
+//     res.send(200);
+// });
 
 
 app.post('/sendInsructions', function (req, res) {
@@ -85,10 +87,13 @@ app.post('/login', (req, res) => {
     }
     userDB.find(req.body).then((data) => {
         if (data.length != 0) {
-            localStorage.setItem('userInSystem', data[0]);
-            console.log(req.body);
+            // console.log(req.body);
             console.log(data[0]);
-            res.send(data[0]);
+            let g=data[0];
+            let token = jwt.sign(g,'superSecret', {
+                expiresIn : 60*60*24
+            });
+            res.send({token:token,user:data[0]});
         }
         else {
             console.log(req.body);
@@ -105,7 +110,7 @@ app.get('/dashboard', (req, res) => {
 
 app.get('/restorePass', (req, res) => {
     console.log(req.query.id);
-    console.log(req.get("authorization"));
+    // console.log(req.get("authorization"));
      function date_diff_indays (date1) {
         // console.log(date1);
        let dt1 = new Date(date1);
@@ -118,6 +123,7 @@ app.get('/restorePass', (req, res) => {
         if (data.length == 0 || date_diff_indays(data[0].date) > 2) {
             res.send(false);
         }
+        //{'WWW-Authenticate': 'Basic realm="Access"'}
         res.send(true);
     }).catch((error)=>{
         res.send(false);
