@@ -35,6 +35,7 @@ app.get('/login', (req, res) => {
     res.send();
 });
 
+
 app.post('/sendInsructions', function (req, res) {
     userDB.findByEmail(req.body).then((data) => {
         if (data.length == 0) {
@@ -82,6 +83,7 @@ app.post('/login', (req, res) => {
         if (data.length != 0) {
             localStorage.setItem('userInSystem', data[0]);
             console.log(req.body);
+            console.log(data[0]);
             res.send(data[0]);
         }
         else {
@@ -101,7 +103,6 @@ app.get('/dashboard', (req, res) => {
 app.get('/restorePass', (req, res) => {
     console.log(req.query.id);
      function date_diff_indays (date1) {
-         console.log("lool");
         console.log(date1);
        let dt1 = new Date(date1);
        let dt2 = new Date();

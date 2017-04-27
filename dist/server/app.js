@@ -70,7 +70,7 @@ app.post('/sendInsructions', function (req, res) {
                         to: '' + req.body.email, // list of receivers
                         subject: 'Hello ✔', // Subject line
                         text: 'Hello world ?', // plain text body
-                        html: '<div><b>Если вы хотите изметь ваш парль, то пройдите по ссылке внизу</b>' + '<a href="http://localhost:8090/restorePass?id=' + id + '">Ссылка</a></div> ' // html body
+                        html: '<div><div><b>Если вы хотите изметь ваш пароль, то пройдите по ссылке внизу</b></div>' + '<div><a href="http://localhost:8090/restorePass?id=' + id + '">Ссылка</a></div></div> ' // html body
                     };
 
                     // send mail with defined transport object
@@ -97,6 +97,7 @@ app.post('/login', function (req, res) {
         if (data.length != 0) {
             localStorage.setItem('userInSystem', data[0]);
             console.log(req.body);
+            console.log(data[0]);
             res.send(data[0]);
         } else {
             console.log(req.body);
@@ -112,7 +113,6 @@ app.get('/dashboard', function (req, res) {
 app.get('/restorePass', function (req, res) {
     console.log(req.query.id);
     function date_diff_indays(date1) {
-        console.log("lool");
         console.log(date1);
         var dt1 = new Date(date1);
         var dt2 = new Date();
@@ -135,10 +135,13 @@ app.get('/restorePass', function (req, res) {
 app.post('/restorePass', function (req, res) {
     var email = undefined;
     forgotPassDB.findById(req.query.id).then(function (data) {
-        email = data.email;
-        userDB.findByEmail(email).then(function (data) {
-            userDB.restorePass(data, req.body.pass).then(function (date) {
-                forgotPassDB.removeByEmail(email).then(function (date) {
+        email = data[0].email;
+        console.log(email);
+        userDB.findByEmail({ email: email }).then(function (data) {
+            console.log(data[0]);
+            console.log(req.body);
+            userDB.restorePass(data[0], req.body.pass).then(function (date) {
+                forgotPassDB.removeByEmail({ email: email }).then(function (date) {
                     res.send(true);
                 });
             });

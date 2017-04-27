@@ -35,9 +35,8 @@ function createUser(data) {
 
 function restorePass(data, newPass) {
     data.pass = newPass;
-    var user = new User({
-        data: data
-    });
+    console.log(data);
+    var user = new User(data);
     return user.save();
 }
 

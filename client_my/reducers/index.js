@@ -1,24 +1,21 @@
 import {browserHistory} from 'react-router'
 import "babel-polyfill";
 
-
 const initialState = {
     msg: "Пожалуйста авторизируйтесь!",
     userInSystem: {},
     errorToAccess:true,
-    forgotMsg:""
+    information:false
 };
 
-export default  function reduce(state = initialState, action) {
+export default  function reduce(state=initialState, action) {
 
     switch (action.type) {
         case 'CHECK_TO_ACCESS_RESTORE_FULFILLED':
             console.log(action.payload);
             if(action.payload){
-                console.log("All ok");
                 return {...state,errorToAccess:false};
             }else {
-                console.log("errorToAccess:true");
                 return {...state,errorToAccess:true};
             }
             break;
@@ -33,20 +30,22 @@ export default  function reduce(state = initialState, action) {
         case 'SEND_INSTRUCTIONS_FULFILLED':
             console.log(action.payload);
 
-            // browserHistory.push("/login");
-            return {...state,forgotMsg:action.payload?"Успех! Проверьте свой почтовыыйы ящик":"Вы ввели невверные данные"};
+            browserHistory.push("/info");
+            
+            return {...state,information:action.payload?"Успех! Проверьте свой почтовый ящик на наличие инструкций":"Неверный email или ошибка на сервере"};
             break;
         case 'IS_LOGIN_FULFILLED':
-            if (typeof action.payload == 'string') {
+            let user=action.payload;
+            if (typeof user == 'string') {
                 return {...state, msg: action.payload};
             }
             else {
                 browserHistory.push("/dashboard");
-                console.log(action.payload);
-                return {...state, msg: "Пожалуйста авторизируйтесь!", userInSystem: action.payload}
+                console.log(user);
+                return {...state, msg: "Пожалуйста авторизируйтесь!", userInSystem: user}
             }
             break;
         default:
-            return state;
+            return {...state};
     }
 }

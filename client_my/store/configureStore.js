@@ -2,8 +2,10 @@ import { createStore ,applyMiddleware} from 'redux'
 import rootReducer from '../reducers'
 import thunk from "redux-thunk"
 import promise from "redux-promise-middleware"
-export default function configureStore(initialState) {
-    const store = createStore(rootReducer, initialState, applyMiddleware(thunk,promise()));
+import { createLogger } from 'redux-logger'
+
+export default function configureStore() {
+    const store = createStore(rootReducer, applyMiddleware(createLogger(),thunk,promise()));
 
     if (module.hot) {
         module.hot.accept('../reducers', function(){
@@ -11,5 +13,6 @@ export default function configureStore(initialState) {
             store.replaceReducer(nextRootReducer);
         })
     }
+
     return store;
 }
