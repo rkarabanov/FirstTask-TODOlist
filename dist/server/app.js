@@ -136,6 +136,7 @@ app.post('/restorePass', function (req, res) {
     var email = undefined;
     forgotPassDB.findById(req.query.id).then(function (data) {
         email = data[0].email;
+        console.log(data);
         console.log(email);
         userDB.findByEmail({ email: email }).then(function (data) {
             console.log(data[0]);

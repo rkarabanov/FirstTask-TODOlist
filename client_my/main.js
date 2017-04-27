@@ -9,10 +9,12 @@ import RestorePass from './containers/RestorePass'
 import Info from './containers/Info'
 import Admin from './containers/Admin'
 import configureStore from './store/configureStore'
-
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 
 const store = configureStore();
+
+
 
 render(
     <Provider store={store}>

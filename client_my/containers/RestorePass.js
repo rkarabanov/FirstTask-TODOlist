@@ -14,6 +14,7 @@ export default class RestorePass extends Component {
 
     render() {
 
+        if(!this.props.errorToAccess){
         return <form>
             <h2>Введите ваш новый пароль:</h2>
             <div>Пароль:</div>
@@ -21,7 +22,8 @@ export default class RestorePass extends Component {
             <div>Повторите ваш новый пароль:</div>
             <input type="password" name="password" required/>
             <input type="button" value="Подтвердить" onClick={this.restore.bind(this)}/>
-        </form>
+        </form>}
+        else return <h2>Неверная или устаревшая ссылка!</h2>
     }
 
     componentWillMount() {
@@ -33,6 +35,7 @@ export default class RestorePass extends Component {
 
 function mapStateToProps (state) {
     return {
+        errorToAccess:state.errorToAccess
     }
 }
 
