@@ -20,6 +20,11 @@ export default {
     restorePass(id,data){
         console.log(data);
         return axios.post(adressServer+"/restorePass?id="+id,data);
+    },
+
+    inSystem(jwtUser){
+        // console.log(jwtUser);
+        return axios.post(adressServer+"/checkJwt",jwtUser);
     }
 }
 

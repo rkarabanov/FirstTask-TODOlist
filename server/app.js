@@ -6,9 +6,9 @@ import * as forgotPassDB from './utils/ForgotPassDBUtils';
 import * as valid from '../client_my/validation/Validation';
 let session = require('express-session');
 
-const morgan      = require('morgan');
+const morgan = require('morgan');
 
-const jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
+const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
 const app = express();
 
@@ -41,6 +41,38 @@ app.use(morgan('dev'));
 //     res.send(200);
 // });
 
+
+function getToken(data) {
+    return jwt.sign(data, 'superSecret', {
+        expiresIn: 60 * 60 * 24
+    });
+}
+
+app.post("/checkJwt", function (req, res) {
+    let token = req.body.token;
+    // console.log(token);
+    if (token.length > 0) {
+        jwt.verify(token, 'superSecret', function (err, decoded) {
+            if (err) {
+                console.log(err);
+                return res.send({success: false});
+            } else {
+                // console.log(decoded._doc);
+                userDB.find(decoded._doc).then(data => {
+                    if (data.length == 0) {
+                        return res.send({success: false});
+                    }
+                    else {
+                        console.log({success: true, user: data[0], token:getToken(data[0])});
+                        return res.send({success: true, user: data[0], token:getToken(data[0])});
+                    }
+                });
+            }
+        });
+    }else {
+        return res.send({success: false});
+    }
+});
 
 app.post('/sendInsructions', function (req, res) {
     userDB.findByEmail(req.body).then((data) => {
@@ -82,23 +114,17 @@ app.post('/sendInsructions', function (req, res) {
 });
 
 app.post('/login', (req, res) => {
-    if (!valid.isValidateEmail(req.body.email)) {
-        res.send("Ошибка ввода: Некорректный email")
-    }
-    userDB.find(req.body).then((data) => {
+    userDB.findByEmailAndPass(req.body).then((data) => {
         if (data.length != 0) {
             // console.log(req.body);
             console.log(data[0]);
-            let g=data[0];
-            let token = jwt.sign(g,'superSecret', {
-                expiresIn : 60*60*24
-            });
-            res.send({token:token,user:data[0]});
+            let token = getToken(data[0]);
+            console.log({token: token, user: data[0]});
+            res.send({token: token, user: data[0]});
         }
         else {
             console.log(req.body);
-            res.send("Ошибка ввода: Неверной email/пароль"
-            );
+            res.send("Ошибка ввода: Неверной email/пароль");
         }
     });
 
@@ -110,11 +136,9 @@ app.get('/dashboard', (req, res) => {
 
 app.get('/restorePass', (req, res) => {
     console.log(req.query.id);
-    // console.log(req.get("authorization"));
-     function date_diff_indays (date1) {
-        // console.log(date1);
-       let dt1 = new Date(date1);
-       let dt2 = new Date();
+    function date_diff_indays(date1) {
+        let dt1 = new Date(date1);
+        let dt2 = new Date();
         return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) / (1000 * 60 * 60 * 24));
     };
 
@@ -123,30 +147,30 @@ app.get('/restorePass', (req, res) => {
         if (data.length == 0 || date_diff_indays(data[0].date) > 2) {
             res.send(false);
         }
-        //{'WWW-Authenticate': 'Basic realm="Access"'}
         res.send(true);
-    }).catch((error)=>{
+    }).catch((error) => {
         res.send(false);
     });
 });
 
 app.post('/restorePass', (req, res) => {
     let email;
-    forgotPassDB.findById(req.query.id).then((data)=>{
-        email=data[0].email;
+    forgotPassDB.findById(req.query.id).then((data) => {
+        email = data[0].email;
         console.log(data);
         console.log(email);
-        userDB.findByEmail({email:email}).then(data=>{
+        userDB.findByEmail({email: email}).then(data => {
             console.log(data[0]);
             console.log(req.body);
-            userDB.restorePass(data[0],req.body.pass).then(date=>{
-                forgotPassDB.removeByEmail({email:email}).then(date=>{
+            userDB.restorePass(data[0], req.body.pass).then(date => {
+                forgotPassDB.removeByEmail({email: email}).then(date => {
                     res.send(true);
                 })
             })
         })
-    }).catch((error)=>{
-        res.send(false);}
+    }).catch((error) => {
+            res.send(false);
+        }
     );
 
 });

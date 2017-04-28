@@ -32,7 +32,7 @@ export default class RestorePass extends Component {
 
     componentWillMount() {
         // console.log(this.state.id);
-        this.props.checkToAccessRestore(this.state.id);
+        return this.props.checkToAccessRestore(this.state.id);
     }
     // componentWillReceiveProps(nextProps){
     //     this.props.checkToAccessRestore(this.state.id);

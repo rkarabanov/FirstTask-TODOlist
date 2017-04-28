@@ -2,26 +2,30 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import LoginForm from './LoginForm'
-import * as loginAction from '../actions/LoginAction'
+import * as res from '../actions/LoginAction'
+import * as loadCompAction from '../actions/LoadComponentAction'
+
 
 class App extends Component {
     render() {
-        const { msg, userInSystem } = this.props;
-        const {loginAction }=this.props.loginAction;
-        return <LoginForm msg={msg} loginAction={loginAction}/>
+        const {msg, loadingStatus} = this.props;
+        const {loginAction,isInSystem, loadComponentAction }=this.props;
+        return <LoginForm msg={msg} loadingStatus={loadingStatus} loadComponentAction={loadComponentAction} loginAction={loginAction}  isInSystem={isInSystem}/>
     }
 }
 
 function mapStateToProps (state) {
     return {
         msg: state.msg,
-        userInSystem:state.userInSystem
+        loadingStatus: state.loadingStatus
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        loginAction: bindActionCreators(loginAction, dispatch)
+        loginAction: bindActionCreators(res.loginAction, dispatch),
+        isInSystem:bindActionCreators(res.isInSystem, dispatch),
+        loadComponentAction:bindActionCreators(loadCompAction.loadComponentAction, dispatch)
     }
 }
 

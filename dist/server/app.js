@@ -64,6 +64,37 @@ app.use(morgan('dev'));
 //     res.send(200);
 // });
 
+function getToken(data) {
+    return jwt.sign(data, 'superSecret', {
+        expiresIn: 60 * 60 * 24
+    });
+}
+
+app.post("/checkJwt", function (req, res) {
+    var token = req.body.token;
+    // console.log(token);
+    if (token.length > 0) {
+        jwt.verify(token, 'superSecret', function (err, decoded) {
+            if (err) {
+                console.log(err);
+                return res.send({ success: false });
+            } else {
+                // console.log(decoded._doc);
+                userDB.find(decoded._doc).then(function (data) {
+                    if (data.length == 0) {
+                        return res.send({ success: false });
+                    } else {
+                        console.log({ success: true, user: data[0], token: getToken(data[0]) });
+                        return res.send({ success: true, user: data[0], token: getToken(data[0]) });
+                    }
+                });
+            }
+        });
+    } else {
+        return res.send({ success: false });
+    }
+});
+
 app.post('/sendInsructions', function (req, res) {
     userDB.findByEmail(req.body).then(function (data) {
         if (data.length == 0) {
@@ -98,17 +129,12 @@ app.post('/sendInsructions', function (req, res) {
 });
 
 app.post('/login', function (req, res) {
-    if (!valid.isValidateEmail(req.body.email)) {
-        res.send("Ошибка ввода: Некорректный email");
-    }
-    userDB.find(req.body).then(function (data) {
+    userDB.findByEmailAndPass(req.body).then(function (data) {
         if (data.length != 0) {
             // console.log(req.body);
             console.log(data[0]);
-            var g = data[0];
-            var token = jwt.sign(g, 'superSecret', {
-                expiresIn: 60 * 60 * 24
-            });
+            var token = getToken(data[0]);
+            console.log({ token: token, user: data[0] });
             res.send({ token: token, user: data[0] });
         } else {
             console.log(req.body);
@@ -123,9 +149,7 @@ app.get('/dashboard', function (req, res) {
 
 app.get('/restorePass', function (req, res) {
     console.log(req.query.id);
-    // console.log(req.get("authorization"));
     function date_diff_indays(date1) {
-        // console.log(date1);
         var dt1 = new Date(date1);
         var dt2 = new Date();
         return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
@@ -136,7 +160,6 @@ app.get('/restorePass', function (req, res) {
         if (data.length == 0 || date_diff_indays(data[0].date) > 2) {
             res.send(false);
         }
-        //{'WWW-Authenticate': 'Basic realm="Access"'}
         res.send(true);
     })['catch'](function (error) {
         res.send(false);

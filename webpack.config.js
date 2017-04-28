@@ -18,6 +18,11 @@ module.exports = {
                 exclude: [/node_modules/, /public/]
             },
             {
+                test: /\.css$/,
+                loader: "style-loader!css-loader!autoprefixer-loader",
+                exclude: [/node_modules/, /public/]
+            },
+            {
                 test: /\.jsx$/,
                 loader: "react-hot!babel",
                 exclude: [/node_modules/, /public/]

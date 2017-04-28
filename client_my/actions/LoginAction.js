@@ -8,3 +8,22 @@ export function loginAction(user) {
                 resolve( response.data) })})
     })
 }
+
+export function isInSystem() {
+    return dispatch=>dispatch({
+        type: "IS_IN_SYSTEM",
+        payload:new Promise((resolve, reject)=>{
+            let jwtUser="";
+            let arrCookie=document.cookie.split(";");
+            for (let cookie of arrCookie){
+                if(cookie.split("=")[0]=="jwtUser"){
+                    jwtUser=cookie.split("=")[1];
+                    console.log(jwtUser);
+                    break;
+                }
+            }
+            res.inSystem({token:jwtUser})
+            .then((response)=>{
+                resolve( response.data) })})
+    })
+}

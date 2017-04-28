@@ -28,6 +28,10 @@ export function restorePass(data, newPass) {
 }
 
 export function find(data) {
+    return User.find(data);
+}
+
+export function findByEmailAndPass(data) {
     return User.find({
         email: data.email,
         pass: data.pass
