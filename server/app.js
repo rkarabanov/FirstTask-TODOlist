@@ -124,7 +124,7 @@ app.post('/login', (req, res) => {
         }
         else {
             console.log(req.body);
-            res.send("Ошибка ввода: Неверной email/пароль");
+            res.send("Ошибка ввода: Неверный email/пароль");
         }
     });
 

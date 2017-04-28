@@ -63,7 +63,7 @@ export default  function reduce(state = initialState, action) {
                 console.log(data);
                 document.cookie = "jwtUser=" + data.token + ";";
                 console.log(document.cookie);
-                browserHistory.push("/dashboard");
+                // browserHistory.push("/dashboard");
                 return {
                     ...state,
                     msg: "Пожалуйста авторизируйтесь!",
