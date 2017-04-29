@@ -64,7 +64,6 @@ export default class ForgotPass extends Component {
                     <Paper>
                         <div className="main-container">
                             <div>
-
                                 <h3> {this.informationPrint()}
                                 </h3>
                                 <ValidatorForm
@@ -102,7 +101,6 @@ export default class ForgotPass extends Component {
 
 function mapStateToProps(state) {
     return {
-        userInSystem: state.userInSystem,
         loadingStatus: state.loadingStatus,
         information: state.information
     }
