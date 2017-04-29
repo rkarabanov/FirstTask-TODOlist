@@ -2,6 +2,7 @@
     text-align: -webkit-center;
     padding: 50px;
     max-height: 100%;
+
 }
 .main-container>div{
     display: block;
@@ -11,8 +12,13 @@
     margin-top: 10px;
 }
 .forgot{
-    margin-top: 50px;
+    margin-top: 20px;
     margin-bottom: 10px;
     text-align: right;
+}
+.forgot>div{
+    display: table-cell;
+    width:160px;
+    margin: 2px 0;
 }
 

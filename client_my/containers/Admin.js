@@ -34,9 +34,9 @@ class Admin extends Component {
                         </Paper>
                     </MuiThemeProvider>);
                 else  return(
-                    <MuiThemeProvider>
-                        <Paper>
-                            <div className="main-container">
+                    <MuiThemeProvider style="heigth:100vh;">
+                        <Paper style="heigth:100vh;">
+                            <div className="main-container" >
                                 <div>
                                     <h3>HTTP Forbidden 403</h3>
                                 </div>

@@ -21,26 +21,16 @@ export default class RestorePass extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    componentWillMount() {
 
-    }
 
-    handleChange(event) {
-        console.log(this,event);
-        this.setState({ password:event.target.value});
-    }
-    handleChangeRepeatPass(event) {
-        console.log(this,event);
-        this.setState({repeatPassword: event.target.value});
-    }
+
+
     handleSubmit() {
         this.props.restorePass(this.props.location.query.id, {"pass": "" + document.getElementsByName("password")[0].value});
         browserHistory.push("/login");
     }
 
-    // restore(e) {
-    //     this.props.restorePass(this.props.location.query.id, {"pass": "" + document.getElementsByName("password")[0].value});
-    // }
+
 
     handleChange(event) {
         const { user } = this.state;

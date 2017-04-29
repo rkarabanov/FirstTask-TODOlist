@@ -89,8 +89,10 @@ export default class LoginForm extends Component {
                                                       fullWidth="true"/>
                                     </ValidatorForm>
                                     <br/>
+                                    {/*<RaisedButton  secondary='true' href="/login" label="Регистрация"/>*/}
                                 </div>
                                 <div className="forgot">
+                                    <RaisedButton  secondary='true' href="/login" label="Регистрация"/>
                                     <RaisedButton className="button" label="Забыли пароль?" href="/forgotPass"/>
                                 </div>
                             </div>
