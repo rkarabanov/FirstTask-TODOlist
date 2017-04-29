@@ -79,7 +79,7 @@ app.post("/checkJwt", function (req, res) {
                 console.log(err);
                 return res.send({ success: false });
             } else {
-                console.log(decoded._doc);
+                // console.log(decoded._doc);
                 userDB.find(decoded._doc).then(function (data) {
                     if (data.length == 0) {
                         return res.send({ success: false });
@@ -116,9 +116,8 @@ app.post('/sendInsructions', function (req, res) {
                     // send mail with defined transport object
                     transporter.sendMail(mailOptions, function (error, info) {
                         if (error) {
-
                             res.send(false);
-                            return console.log(error);
+                            console.log(error);
                         }
                         console.log('Message %s sent: %s', info.messageId, info.response);
                         res.send(true);

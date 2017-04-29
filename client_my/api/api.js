@@ -30,5 +30,6 @@ export default {
     isReg(user){
       return axios.post(adressServer+"/reg",user);
     }
+
 }
 

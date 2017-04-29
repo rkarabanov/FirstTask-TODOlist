@@ -9,6 +9,7 @@ import enums from "../constans/Const"
 import {browserHistory} from 'react-router'
 import { RaisedButton, Paper} from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import ExitBtn from './ExitBtn'
 import '../css/main.css'
 
 export default class Dashboard extends Component {
@@ -36,6 +37,7 @@ export default class Dashboard extends Component {
                                 {this.isAdmin()}
                     {/*<Link to="/admin">Администратор?</Link>*/}
                             </div>
+                            <div><ExitBtn/></div>
                         </div>
                     </Paper>
                 </MuiThemeProvider>)

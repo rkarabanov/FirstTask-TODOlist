@@ -26,6 +26,21 @@ export default  function reduce(state = initialState, action) {
             console.log(action.payload);
             return {...state, loadingStatus: action.payload};
             break;
+        case 'EXIT_USER':{
+            // console.log(action.payload);
+            let cook="";
+            let arrCookie=document.cookie.split(";");
+            for (let cookie of arrCookie){
+                if(cookie.split("=")[0]!="jwtUser"){
+                    cook=cookie+";";
+            }
+            else{
+                    cook="jwtUser=;"
+                }
+            }
+            document.cookie=cook;
+            return {...state, loadingStatus: enums.LOAD_USER_FAIL, userInSystem:{}};}
+            break;
         case 'BACKUP_INFORMATION':
             return {...state, information: ""};
             break;
