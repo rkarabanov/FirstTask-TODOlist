@@ -14,7 +14,7 @@ export default class LoginForm extends Component {
     toLogin(e) {
         this.props.loginAction({
             "email": "" + document.getElementsByName("email")[0].value,
-            "pass": "" + document.getElementsByName("pass")[0].value
+            "pass": "" + document.getElementsByName("password")[0].value
         });
     }
 
@@ -34,6 +34,9 @@ export default class LoginForm extends Component {
         this.props.isInSystem();
     }
 
+    informationPrint(){
+        return this.props.information ?this.props.information:"Пожалуйста авторизируйтесь!";
+    }
 
     handleChangeEmail(event) {
         const email = event.target.value;
@@ -46,7 +49,6 @@ export default class LoginForm extends Component {
     }
 
     render() {
-        const {msg} = this.props;
         const {email, pass} = this.state;
         switch (this.props.loadingStatus) {
             case enums.LOAD_REQUEST:
@@ -63,7 +65,7 @@ export default class LoginForm extends Component {
                         <Paper>
                             <div className="main-container">
                                 <div>
-                                    <h3>{msg}</h3>
+                                    <h3>{this.informationPrint()}</h3>
                                     <ValidatorForm ref="form" onSubmit={this.toLogin.bind(this)}>
                                         <TextValidator
                                             floatingLabelText="Email"
@@ -78,7 +80,7 @@ export default class LoginForm extends Component {
                                             floatingLabelText="Пароль"
                                             onChange={this.handleChange}
                                             type="password"
-                                            name="pass"
+                                            name="password"
                                             value={pass}
                                             validators={['required']}
                                             errorMessages={['это поле обязатальное']}
@@ -92,7 +94,7 @@ export default class LoginForm extends Component {
                                     {/*<RaisedButton  secondary='true' href="/login" label="Регистрация"/>*/}
                                 </div>
                                 <div className="forgot">
-                                    <RaisedButton  secondary='true' href="/login" label="Регистрация"/>
+                                    <RaisedButton  secondary='true' href="/registration" label="Регистрация"/>
                                     <RaisedButton className="button" label="Забыли пароль?" href="/forgotPass"/>
                                 </div>
                             </div>
@@ -105,14 +107,16 @@ export default class LoginForm extends Component {
 
     componentWillUnmount() {
         this.props.loadComponentAction();
+        this.props.backupInformation();
     }
 
 }
 
 LoginForm.propTypes = {
-    msg: PropTypes.string.isRequired,
+    information: PropTypes.string.isRequired,
     loadingStatus: PropTypes.string.isRequired,
     loginAction: PropTypes.func.isRequired,
     isInSystem: PropTypes.func.isRequired,
+    backupInformation: PropTypes.func.isRequired,
     loadComponentAction: PropTypes.func.isRequired
 };

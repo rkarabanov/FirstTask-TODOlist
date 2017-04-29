@@ -3,7 +3,6 @@ import "babel-polyfill";
 import enums from "../constans/Const"
 
 const initialState = {
-    msg: "Пожалуйста авторизируйтесь!",
     errorToAccess: true,
     information: "",
     userInSystem: {},
@@ -47,17 +46,15 @@ export default  function reduce(state = initialState, action) {
             }
             break;
         case 'SEND_INSTRUCTIONS_FULFILLED':
-            // console.log(action.payload);
-            // browserHistory.push("/info");
             return {
                 ...state,
                 information: action.payload ? "Успех! Проверьте свой почтовый ящик на наличие инструкций" : "Неверный email или ошибка на сервере"
             };
             break;
-        case 'IS_LOGIN_FULFILLED':
+        case 'IS_LOGIN_FULFILLED':{
             let data = action.payload;
             if (typeof data == 'string') {
-                return {...state, msg: action.payload};
+                return {...state, information: action.payload};
             }
             else {
 
@@ -67,12 +64,31 @@ export default  function reduce(state = initialState, action) {
                 // browserHistory.push("/dashboard");
                 return {
                     ...state,
-                    msg: "Пожалуйста авторизируйтесь!",
+                    information: "",
+                    userInSystem: data.user,
+                    loadingStatus: enums.LOAD_USER_SUCCESS
+                }
+            }}
+            break;
+        case 'IS_REG_FULFILLED':{
+            let data = action.payload;
+            console.log(data);
+            if (typeof data == 'string') {
+                return {...state, information: action.payload};
+            }
+            else {
+
+                console.log(data);
+                document.cookie = "jwtUser=" + data.token + ";";
+                console.log(document.cookie);
+                return {
+                    ...state,
+                    information: "",
                     userInSystem: data.user,
                     loadingStatus: enums.LOAD_USER_SUCCESS
                 }
             }
-            break;
+            break;}
         default:
             return {...state};
     }

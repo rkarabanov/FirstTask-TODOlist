@@ -79,13 +79,14 @@ app.post("/checkJwt", function (req, res) {
                 console.log(err);
                 return res.send({ success: false });
             } else {
-                // console.log(decoded._doc);
+                console.log(decoded._doc);
                 userDB.find(decoded._doc).then(function (data) {
                     if (data.length == 0) {
                         return res.send({ success: false });
                     } else {
-                        console.log({ success: true, user: data[0], token: getToken(data[0]) });
-                        return res.send({ success: true, user: data[0], token: getToken(data[0]) });
+                        var _token = getToken(data[0]);
+                        console.log({ success: true, user: data[0], token: _token });
+                        return res.send({ success: true, user: data[0], token: _token });
                     }
                 });
             }
@@ -125,6 +126,19 @@ app.post('/sendInsructions', function (req, res) {
                 });
             });
         }
+    });
+});
+
+app.post('/reg', function (req, res) {
+    console.log(req.body);
+    userDB.findByEmail(req.body).then(function (data) {
+        if (data.length == 0) userDB.createUser(req.body).then(function (data) {
+            console.log(data);
+            var token = getToken(data);
+            res.send({ user: data, token: token });
+        });else res.send("Данный email уже зарегестрирован");
+    })['catch'](function (error) {
+        res.send("Ошибка обработки сервера!");
     });
 });
 

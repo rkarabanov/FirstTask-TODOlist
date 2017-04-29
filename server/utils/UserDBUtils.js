@@ -13,7 +13,7 @@ export function createUser(data) {
     const user = new User({
         email: data.email,
         pass: data.pass,
-        role:data.role
+        role:"user"
     });
     return user.save();
 }
@@ -26,6 +26,7 @@ export function restorePass(data, newPass) {
     );
     return user.save();
 }
+
 
 export function find(data) {
     return User.find(data);

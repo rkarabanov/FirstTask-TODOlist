@@ -3,12 +3,14 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as loadCompAction from '../actions/LoadComponentAction'
 import * as login from '../actions/LoginAction'
+import * as reg from '../actions/RegAction'
 import LoadingPage from "./LoadingPage"
 import enums from "../constans/Const"
 import {browserHistory} from 'react-router'
 import {RaisedButton, Paper} from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import * as funcs from '../actions/ForgotPass'
 import '../css/main.css'
 
 class Registration extends Component {
@@ -21,7 +23,9 @@ class Registration extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-
+    informationPrint(){
+        return this.props.information ? this.props.information:"Регистрация";
+    }
 
     handleChange(event) {
         const { user } = this.state;
@@ -29,8 +33,11 @@ class Registration extends Component {
         this.setState({ user });
     }
     handleSubmit() {
-
-        browserHistory.push("/login");
+        this.props.regAction({
+            "email": "" + document.getElementsByName("email")[0].value,
+            "pass": "" + document.getElementsByName("password")[0].value
+        })
+        // browserHistory.push("/login");
     }
 
     componentWillMount() {
@@ -46,6 +53,7 @@ class Registration extends Component {
 
     render() {
         const { user } = this.state;
+
         //console.log(this.props.userInSystem);
         switch (this.props.loadingStatus) {
             case enums.LOAD_REQUEST:
@@ -61,7 +69,7 @@ class Registration extends Component {
                         <Paper>
                             <div className="main-container">
                                 <div>
-                                    <h3>Регистрация</h3>
+                                    <h3> {this.informationPrint()}</h3>
                                     <br/>
                                     <ValidatorForm
                                         onSubmit={this.handleSubmit.bind(this)}
@@ -111,6 +119,7 @@ class Registration extends Component {
         }
     }
     componentWillUnmount() {
+        this.props.backupInformation();
         this.props.loadComponentAction();
     }
 }
@@ -119,12 +128,15 @@ class Registration extends Component {
 
 function mapStateToProps (state) {
     return {
-        loadingStatus:state.loadingStatus
+        loadingStatus:state.loadingStatus,
+        information:state.information
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
+        backupInformation: bindActionCreators(funcs.backupInformation, dispatch),
+        regAction:bindActionCreators(reg.regAction,dispatch),
         isInSystem:bindActionCreators(login.isInSystem, dispatch),
         loadComponentAction:bindActionCreators(loadCompAction.loadComponentAction, dispatch)
     }

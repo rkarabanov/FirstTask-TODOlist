@@ -25,6 +25,10 @@ export default {
     inSystem(jwtUser){
         // console.log(jwtUser);
         return axios.post(adressServer+"/checkJwt",jwtUser);
+    },
+
+    isReg(user){
+      return axios.post(adressServer+"/reg",user);
     }
 }
 

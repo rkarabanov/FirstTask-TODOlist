@@ -29,7 +29,7 @@ function createUser(data) {
     var user = new User({
         email: data.email,
         pass: data.pass,
-        role: data.role
+        role: "user"
     });
     return user.save();
 }
