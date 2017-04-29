@@ -8,3 +8,9 @@ export function sendInstructions(email) {
                 resolve( response.data) })})
     })
 }
+
+export function backupInformation() {
+    return dispatch=>dispatch({
+        type: "BACKUP_INFORMATION"
+    })
+}

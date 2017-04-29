@@ -5,7 +5,7 @@ import enums from "../constans/Const"
 const initialState = {
     msg: "Пожалуйста авторизируйтесь!",
     errorToAccess: true,
-    information: false,
+    information: "",
     userInSystem: {},
     loadingStatus: enums.LOAD_REQUEST
 };
@@ -27,6 +27,9 @@ export default  function reduce(state = initialState, action) {
             console.log(action.payload);
             return {...state, loadingStatus: action.payload};
             break;
+        case 'BACKUP_INFORMATION':
+            return {...state, information: ""};
+            break;
         case 'CHECK_TO_ACCESS_RESTORE_FULFILLED':
             console.log(action.payload);
             if (action.payload) {
@@ -44,10 +47,8 @@ export default  function reduce(state = initialState, action) {
             }
             break;
         case 'SEND_INSTRUCTIONS_FULFILLED':
-            console.log(action.payload);
-
-            browserHistory.push("/info");
-
+            // console.log(action.payload);
+            // browserHistory.push("/info");
             return {
                 ...state,
                 information: action.payload ? "Успех! Проверьте свой почтовый ящик на наличие инструкций" : "Неверный email или ошибка на сервере"

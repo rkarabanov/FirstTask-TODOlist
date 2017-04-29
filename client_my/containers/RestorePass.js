@@ -2,7 +2,15 @@ import React, {PropTypes, Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as funcs from '../actions/RestorePass'
-
+import * as loadCompAction from '../actions/LoadComponentAction'
+import * as login from '../actions/LoginAction'
+import LoadingPage from "./LoadingPage"
+import enums from "../constans/Const"
+import {browserHistory} from 'react-router'
+import {RaisedButton, Paper} from 'material-ui'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import '../css/main.css'
 
 export default class RestorePass extends Component {
     constructor(props) {

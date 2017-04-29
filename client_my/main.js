@@ -23,7 +23,7 @@ render(
             <Route path="/dashboard" component={Dashboard}/>
             <Route path="/forgotPass" component={ForgotPass}/>
             <Route path="/restorePass" component={RestorePass}/>
-            <Route path="/info" component={Info}/>
+            {/*<Route path="/info" component={Info}/>*/}
             <Route path="/admin" component={Admin}/>
         </Router>
     </Provider>,
