@@ -24,10 +24,6 @@ var _utilsForgotPassDBUtils = require('./utils/ForgotPassDBUtils');
 
 var forgotPassDB = _interopRequireWildcard(_utilsForgotPassDBUtils);
 
-var _client_myValidationValidation = require('../client_my/validation/Validation');
-
-var valid = _interopRequireWildcard(_client_myValidationValidation);
-
 var session = require('express-session');
 
 var morgan = require('morgan');
@@ -48,8 +44,7 @@ var transporter = nodemailer.createTransport({
 
 userDB.setUpConnection();
 
-app.use(_bodyParser2['default'].json());
-
+app.use(_bodyParser2['default'].json({ limit: '5mb' }));
 app.use((0, _cors2['default'])({ origin: "*" }));
 
 app.use(morgan('dev'));
@@ -65,7 +60,8 @@ app.use(morgan('dev'));
 // });
 
 function getToken(data) {
-    return jwt.sign(data, 'superSecret', {
+    console.log(data.email);
+    return jwt.sign({ email: data.email, _id: data._id, role: data.role }, 'superSecret', {
         expiresIn: 60 * 60 * 24
     });
 }
@@ -79,11 +75,12 @@ app.post("/checkJwt", function (req, res) {
                 console.log(err);
                 return res.send({ success: false });
             } else {
-                // console.log(decoded._doc);
+                console.log(decoded._doc);
                 userDB.find(decoded._doc).then(function (data) {
                     if (data.length == 0) {
                         return res.send({ success: false });
                     } else {
+                        console.log(data);
                         var _token = getToken(data[0]);
                         console.log({ success: true, user: data[0], token: _token });
                         return res.send({ success: true, user: data[0], token: _token });
@@ -141,13 +138,70 @@ app.post('/reg', function (req, res) {
     });
 });
 
+app.post('/changeImage', function (req, res) {
+    console.log(req.body);
+    userDB.findByID(req.body).then(function (data) {
+        if (data.length == 0) {
+            res.send("Неверный ID пользователя");
+        } else {
+            // console.log(data[0],req.body.newPass);
+            userDB.restoreImage(data[0], req.body).then(function (data) {
+                // console.log({information:"Успешно изменён пароль",user:data,token:getToken(data)});
+                res.send({ information: "Успешно изменён аватар", user: data, token: getToken(data) });
+            })['catch'](function (err) {
+                return console.log(err);
+            });
+        }
+    })['catch'](function (error) {
+        res.send("Ошибка обработки сервера!");
+    });
+});
+
+app.post('/changePass', function (req, res) {
+    console.log(req.body);
+    userDB.findByIDAndPass(req.body).then(function (data) {
+        if (data.length == 0) {
+            res.send("Неверный пароль");
+        } else {
+            console.log(data[0], req.body.newPass);
+            userDB.restorePass(data[0], req.body.newPass).then(function (data) {
+                // console.log({information:"Успешно изменён пароль",user:data,token:getToken(data)});
+                res.send({ information: "Успешно изменён пароль", user: data, token: getToken(data) });
+            })['catch'](function (err) {
+                return console.log(err);
+            });
+        }
+    })['catch'](function (error) {
+        res.send("Ошибка обработки сервера!");
+    });
+});
+
+app.post('/changeEmail', function (req, res) {
+    console.log(req.body);
+    userDB.findByEmail(req.body).then(function (data) {
+        if (data.length == 0) {
+            userDB.findByIDAndPass(req.body).then(function (data) {
+                if (data.length == 0) {
+                    res.send("Неверный пароль");
+                } else {
+                    userDB.restoreEmail(data[0], req.body.email).then(function (data) {
+                        // console.log({information:"Успешно изменён email",user:data,token:getToken(data)});
+                        res.send({ information: "Успешно изменён email", user: data, token: getToken(data) });
+                    });
+                }
+            })['catch'](function (error) {
+                res.send("Ошибка обработки сервера!");
+            });
+        } else res.send("Ошибка - данный email уже есть в базе данных");
+    });
+});
+
 app.post('/login', function (req, res) {
     userDB.findByEmailAndPass(req.body).then(function (data) {
         if (data.length != 0) {
             // console.log(req.body);
-            console.log(data[0]);
+            console.log(data[0].email);
             var token = getToken(data[0]);
-            console.log({ token: token, user: data[0] });
             res.send({ token: token, user: data[0] });
         } else {
             console.log(req.body);

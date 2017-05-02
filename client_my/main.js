@@ -6,7 +6,7 @@ import App from './containers/App'
 import Dashboard from './containers/Dashboard'
 import ForgotPass from './containers/ForgotPass'
 import RestorePass from './containers/RestorePass'
-import Info from './containers/Info'
+import PersonalSettings from './containers/PersonalSettings'
 import Admin from './containers/Admin'
 import configureStore from './store/configureStore'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
@@ -23,7 +23,7 @@ render(
             <Route path="/dashboard" component={Dashboard}/>
             <Route path="/forgotPass" component={ForgotPass}/>
             <Route path="/restorePass" component={RestorePass}/>
-            {/*<Route path="/info" component={Info}/>*/}
+            <Route path="/personalSettings" component={PersonalSettings}/>
             <Route path="/registration" component={Registration}/>
             <Route path="/admin" component={Admin}/>
         </Router>

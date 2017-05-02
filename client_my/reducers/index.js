@@ -69,7 +69,7 @@ export default  function reduce(state = initialState, action) {
         case 'IS_LOGIN_FULFILLED':{
             let data = action.payload;
             if (typeof data == 'string') {
-                return {...state, information: action.payload};
+                return {...state, information: data};
             }
             else {
 
@@ -89,7 +89,7 @@ export default  function reduce(state = initialState, action) {
             let data = action.payload;
             console.log(data);
             if (typeof data == 'string') {
-                return {...state, information: action.payload};
+                return {...state, information: data};
             }
             else {
 
@@ -101,6 +101,63 @@ export default  function reduce(state = initialState, action) {
                     information: "",
                     userInSystem: data.user,
                     loadingStatus: enums.LOAD_USER_SUCCESS
+                }
+            }
+            break;}
+        case 'CHANGE_EMAIL_FULFILLED':{
+            let data = action.payload;
+            console.log(data);
+            if (typeof data == 'string') {
+                return {...state, information: data};
+            }
+            else {
+
+                // console.log(data);
+                document.cookie = "jwtUser=" + data.token + ";";
+                // console.log(document.cookie);
+                return {
+                    ...state,
+                    information: data.information,
+                    userInSystem: data.user,
+                    loadingStatus: enums.LOAD_USER_SUCCESS,
+                }
+            }
+            break;}
+        case 'CHANGE_IMAGE_FULFILLED':{
+            let data = action.payload;
+            console.log(data);
+            if (typeof data == 'string') {
+                return {...state, information: data};
+            }
+            else {
+
+                // console.log(data);
+                document.cookie = "jwtUser=" + data.token + ";";
+                // console.log(document.cookie);
+                return {
+                    ...state,
+                    information: data.information,
+                    userInSystem: data.user,
+                    loadingStatus: enums.LOAD_USER_SUCCESS,
+                }
+            }
+            break;}
+        case 'CHANGE_PASS_FULFILLED':{
+            let data = action.payload;
+            console.log(data);
+            if (typeof data == 'string') {
+                return {...state, information: data};
+            }
+            else {
+
+                console.log(data);
+                document.cookie = "jwtUser=" + data.token + ";";
+                // console.log(document.cookie);
+                return {
+                    ...state,
+                    information: data.information,
+                    userInSystem: data.user,
+                    loadingStatus: enums.LOAD_USER_SUCCESS,
                 }
             }
             break;}

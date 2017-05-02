@@ -25,8 +25,11 @@ export default class ForgotPass extends Component {
     }
 
     sendInstructionsClick(e) {
+        // this.props.backupInformation();
         this.setState({email:this.state.email, btn:<RaisedButton label="Отправка..." disabled="true" type="submit"/>});
+
         this.props.sendInstructions({"email": "" + document.getElementsByName("email")[0].value});
+        setTimeout(function() { this.setState({email: this.state.email,btn:<RaisedButton label="Отправить" type="submit"/>}); }.bind(this), 3000);
     }
 
     componentWillMount() {
@@ -35,16 +38,20 @@ export default class ForgotPass extends Component {
 
     handleChangeEmail(event) {
         const email = event.target.value;
-        this.setState({email: email, btn:this.state.btn});
+        this.setState({email: email, btn:this.state.btn,buffer:this.state.buffer});
+
     }
 
     informationPrint(){
-        return this.props.information ?this.props.information:"Введите ваш email-адресс, для инстркукций по востановлению";
+        return this.props.information?this.props.information:"Введите ваш email-адресс, для инстркукций по востановлению";
     }
 
     shouldComponentUpdate(nextProps,nextState){
-         console.log("componentDidUpdate");
+        console.log(nextProps,nextState);
+
+
         this.setState({email: this.state.email,btn:<RaisedButton label="Отправить" type="submit"/>});
+        // console.log(this.state.btn);
         return true;
     }
 

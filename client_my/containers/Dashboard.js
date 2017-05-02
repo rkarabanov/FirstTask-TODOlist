@@ -37,6 +37,8 @@ export default class Dashboard extends Component {
                                 {this.isAdmin()}
                     {/*<Link to="/admin">Администратор?</Link>*/}
                             </div>
+                            <div> <RaisedButton className="button"  label="Настройки" href="/personalSettings"/></div>
+                            <br/>
                             <div><ExitBtn/></div>
                         </div>
                     </Paper>

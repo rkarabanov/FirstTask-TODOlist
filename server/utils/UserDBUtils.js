@@ -27,6 +27,32 @@ export function restorePass(data, newPass) {
     return user.save();
 }
 
+export function restoreImage(data, newData) {
+    data.data_uri=newData.data_uri;
+    data.filename=newData.filename;
+    data.filetype=newData.filetype;
+    // console.log(data);
+    const user = new User(
+        data
+    );
+    return user.save();
+}
+
+export function restoreEmail(data, newEmail) {
+    data.email=newEmail;
+    console.log(data);
+    const user = new User(
+        data
+    );
+    return user.save();
+}
+
+export function findByIDAndPass(data) {
+    return User.find({
+        pass: data.pass,
+        _id:data._id
+    });
+}
 
 export function find(data) {
     return User.find(data);
@@ -36,6 +62,12 @@ export function findByEmailAndPass(data) {
     return User.find({
         email: data.email,
         pass: data.pass
+    });
+}
+
+export function findByID(data) {
+    return User.find({
+        _id:data._id
     });
 }
 

@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import * as userDB from './utils/UserDBUtils';
 import * as forgotPassDB from './utils/ForgotPassDBUtils';
-import * as valid from '../client_my/validation/Validation';
 let session = require('express-session');
 
 const morgan = require('morgan');
@@ -25,8 +24,7 @@ const transporter = nodemailer.createTransport({
 userDB.setUpConnection();
 
 
-app.use(bodyParser.json());
-
+app.use(bodyParser.json({limit: '5mb'}));
 app.use(cors({origin: "*"}));
 
 app.use(morgan('dev'));
@@ -43,7 +41,8 @@ app.use(morgan('dev'));
 
 
 function getToken(data) {
-    return jwt.sign(data, 'superSecret', {
+    console.log(data.email);
+    return jwt.sign({email:data.email, _id:data._id,role:data.role}, 'superSecret', {
         expiresIn: 60 * 60 * 24
     });
 }
@@ -57,12 +56,13 @@ app.post("/checkJwt", function (req, res) {
                 console.log(err);
                 return res.send({success: false});
             } else {
-                // console.log(decoded._doc);
+                console.log(decoded._doc);
                 userDB.find(decoded._doc).then(data => {
                     if (data.length == 0) {
                         return res.send({success: false});
                     }
                     else {
+                        console.log(data);
                         let token = getToken(data[0]);
                         console.log({success: true, user: data[0], token:token});
                         return res.send({success: true, user: data[0], token:token});
@@ -127,19 +127,67 @@ app.post('/reg',(req,res)=>{
         res.send("Ошибка обработки сервера!");
     });
 
-
-
-
 });
 
+app.post('/changeImage',(req,res)=>{
+    console.log(req.body);
+    userDB.findByID(req.body).then(data=>{
+        if(data.length == 0){
+            res.send("Неверный ID пользователя");}
+        else {
+            // console.log(data[0],req.body.newPass);
+            userDB.restoreImage(data[0], req.body).then((data) => {
+                // console.log({information:"Успешно изменён пароль",user:data,token:getToken(data)});
+                res.send({information:"Успешно изменён аватар",user:data,token:getToken(data)});
+            }).catch(err=>console.log(err))}
+    }).catch((error) => {
+        res.send("Ошибка обработки сервера!");
+    });
+});
+
+app.post('/changePass',(req,res)=>{
+    console.log(req.body);
+    userDB.findByIDAndPass(req.body).then(data=>{
+        if(data.length == 0){
+            res.send("Неверный пароль");}
+        else {
+            console.log(data[0],req.body.newPass);
+            userDB.restorePass(data[0], req.body.newPass).then((data) => {
+                // console.log({information:"Успешно изменён пароль",user:data,token:getToken(data)});
+                res.send({information:"Успешно изменён пароль",user:data,token:getToken(data)});
+      }).catch(err=>console.log(err))}
+    }).catch((error) => {
+        res.send("Ошибка обработки сервера!");
+    });
+});
+
+app.post('/changeEmail',(req,res)=>{
+    console.log(req.body);
+ userDB.findByEmail(req.body).then(data=>{
+     if(data.length == 0){
+         userDB.findByIDAndPass(req.body).then(data=>{
+             if(data.length == 0){
+                 res.send("Неверный пароль");}
+             else {
+                 userDB.restoreEmail(data[0], req.body.email).then(data => {
+                     // console.log({information:"Успешно изменён email",user:data,token:getToken(data)});
+                     res.send({information:"Успешно изменён email",user:data,token:getToken(data)});
+                 })}
+         }).catch((error) => {
+             res.send("Ошибка обработки сервера!");
+         });
+     }
+     else res.send("Ошибка - данный email уже есть в базе данных")
+ });
+
+});
 
 app.post('/login', (req, res) => {
     userDB.findByEmailAndPass(req.body).then((data) => {
         if (data.length != 0) {
             // console.log(req.body);
-            console.log(data[0]);
+            console.log(data[0].email);
             let token = getToken(data[0]);
-            console.log({token: token, user: data[0]});
             res.send({token: token, user: data[0]});
         }
         else {

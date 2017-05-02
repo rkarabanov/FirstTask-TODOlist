@@ -22,3 +22,8 @@
     margin: 2px 0;
 }
 
+.avatar{
+    max-height: 150px;
+    max-width: 150px;
+}
+

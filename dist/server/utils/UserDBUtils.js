@@ -6,8 +6,12 @@ Object.defineProperty(exports, '__esModule', {
 exports.setUpConnection = setUpConnection;
 exports.createUser = createUser;
 exports.restorePass = restorePass;
+exports.restoreImage = restoreImage;
+exports.restoreEmail = restoreEmail;
+exports.findByIDAndPass = findByIDAndPass;
 exports.find = find;
 exports.findByEmailAndPass = findByEmailAndPass;
+exports.findByID = findByID;
 exports.getAll = getAll;
 exports.findByEmail = findByEmail;
 
@@ -41,6 +45,29 @@ function restorePass(data, newPass) {
     return user.save();
 }
 
+function restoreImage(data, newData) {
+    data.data_uri = newData.data_uri;
+    data.filename = newData.filename;
+    data.filetype = newData.filetype;
+    // console.log(data);
+    var user = new User(data);
+    return user.save();
+}
+
+function restoreEmail(data, newEmail) {
+    data.email = newEmail;
+    console.log(data);
+    var user = new User(data);
+    return user.save();
+}
+
+function findByIDAndPass(data) {
+    return User.find({
+        pass: data.pass,
+        _id: data._id
+    });
+}
+
 function find(data) {
     return User.find(data);
 }
@@ -49,6 +76,12 @@ function findByEmailAndPass(data) {
     return User.find({
         email: data.email,
         pass: data.pass
+    });
+}
+
+function findByID(data) {
+    return User.find({
+        _id: data._id
     });
 }
 
