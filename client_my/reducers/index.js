@@ -6,7 +6,8 @@ const initialState = {
     errorToAccess: true,
     information: "",
     userInSystem: {},
-    loadingStatus: enums.LOAD_REQUEST
+    loadingStatus: enums.LOAD_REQUEST,
+    notes:[]
 };
 
 export default  function reduce(state = initialState, action) {

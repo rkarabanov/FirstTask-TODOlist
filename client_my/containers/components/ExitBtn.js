@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as exit from '../actions/ExitUserAction'
+import * as exit from '../../actions/ExitUserAction'
 
 import {browserHistory} from 'react-router'
 import {RaisedButton} from 'material-ui'

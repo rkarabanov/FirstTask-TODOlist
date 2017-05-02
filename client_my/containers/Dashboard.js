@@ -8,8 +8,10 @@ import LoadingPage from "./LoadingPage"
 import enums from "../constans/Const"
 import {browserHistory} from 'react-router'
 import { RaisedButton, Paper} from 'material-ui'
+import * as noteAction from '../actions/NoteAction'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import ExitBtn from './ExitBtn'
+import ExitBtn from './components/ExitBtn'
+import NotesDashboard from './components/NotesDashboard'
 import '../css/main.css'
 
 export default class Dashboard extends Component {
@@ -22,7 +24,8 @@ export default class Dashboard extends Component {
     }
 
     render() {
-        const {userInSystem} = this.props;
+        const {userInSystem,notes} = this.props;
+        const {changeTaskStatus,addNote,addTask} = this.props;
         switch (this.props.loadingStatus) {
             case enums.LOAD_REQUEST:
                 return <LoadingPage/>;
@@ -42,6 +45,7 @@ export default class Dashboard extends Component {
                             <div><ExitBtn/></div>
                         </div>
                     </Paper>
+                    {/*<NotesDashboard userInSystem={userInSystem} notes={notes} changeTaskStatus={changeTaskStatus} addNote={addNote} addTask={addTask}/>*/}
                 </MuiThemeProvider>)
             }
             break;
@@ -52,6 +56,7 @@ export default class Dashboard extends Component {
                 break;
         }
     }
+
     componentWillUnmount() {
         this.props.loadComponentAction();
     }
@@ -60,14 +65,18 @@ export default class Dashboard extends Component {
 function mapStateToProps (state) {
     return {
         userInSystem:state.userInSystem,
-        loadingStatus:state.loadingStatus
+        loadingStatus:state.loadingStatus,
+        notes:state.notes
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         isInSystem:bindActionCreators(login.isInSystem, dispatch),
-        loadComponentAction:bindActionCreators(loadCompAction.loadComponentAction, dispatch)
+        loadComponentAction:bindActionCreators(loadCompAction.loadComponentAction, dispatch),
+        changeTaskStatus:bindActionCreators(noteAction.changeTaskStatus, dispatch),
+        addNote:bindActionCreators(noteAction.addNote, dispatch),
+        addTask:bindActionCreators(noteAction.addTask, dispatch)
     }
 }
 

@@ -42,7 +42,7 @@ app.use(morgan('dev'));
 
 function getToken(data) {
     console.log(data.email);
-    return jwt.sign({email:data.email, _id:data._id,role:data.role}, 'superSecret', {
+    return jwt.sign({email: data.email, _id: data._id, role: data.role}, 'superSecret', {
         expiresIn: 60 * 60 * 24
     });
 }
@@ -57,23 +57,24 @@ app.post("/checkJwt", function (req, res) {
                 return res.send({success: false});
             } else {
                 console.log(decoded);
-                userDB.find({email:decoded.email, _id:decoded._id,role:decoded.role}).then(data => {
+                userDB.find({email: decoded.email, _id: decoded._id, role: decoded.role}).then(data => {
                     if (data.length == 0) {
                         return res.send({success: false});
                     }
                     else {
                         console.log(data);
                         let token = getToken(data[0]);
-                        console.log({success: true, user: data[0], token:token});
-                        return res.send({success: true, user: data[0], token:token});
+                        console.log({success: true, user: data[0], token: token});
+                        return res.send({success: true, user: data[0], token: token});
                     }
                 });
             }
         });
-    }else {
+    } else {
         return res.send({success: false});
     }
 });
+
 
 app.post('/sendInsructions', function (req, res) {
     userDB.findByEmail(req.body).then((data) => {
@@ -113,15 +114,15 @@ app.post('/sendInsructions', function (req, res) {
 
 });
 
-app.post('/reg',(req,res)=>{
+app.post('/reg', (req, res) => {
     console.log(req.body);
-    userDB.findByEmail(req.body).then(data=>{
-        if(data.length == 0)
-        userDB.createUser(req.body).then(data=>{
-            console.log(data);
-            let token = getToken(data);
-            res.send({user:data, token:token});
-        });
+    userDB.findByEmail(req.body).then(data => {
+        if (data.length == 0)
+            userDB.createUser(req.body).then(data => {
+                console.log(data);
+                let token = getToken(data);
+                res.send({user: data, token: token});
+            });
         else res.send("Данный email уже зарегестрирован")
     }).catch((error) => {
         res.send("Ошибка обработки сервера!");
@@ -129,56 +130,62 @@ app.post('/reg',(req,res)=>{
 
 });
 
-app.post('/changeImage',(req,res)=>{
+app.post('/changeImage', (req, res) => {
     console.log(req.body);
-    userDB.findByID(req.body).then(data=>{
-        if(data.length == 0){
-            res.send("Неверный ID пользователя");}
+    userDB.findByID(req.body).then(data => {
+        if (data.length == 0) {
+            res.send("Неверный ID пользователя");
+        }
         else {
             // console.log(data[0],req.body.newPass);
             userDB.restoreImage(data[0], req.body).then((data) => {
                 // console.log({information:"Успешно изменён пароль",user:data,token:getToken(data)});
-                res.send({information:"Успешно изменён аватар",user:data,token:getToken(data)});
-            }).catch(err=>console.log(err))}
+                res.send({information: "Успешно изменён аватар", user: data, token: getToken(data)});
+            }).catch(err => console.log(err))
+        }
     }).catch((error) => {
         res.send("Ошибка обработки сервера!");
     });
 });
 
-app.post('/changePass',(req,res)=>{
+app.post('/changePass', (req, res) => {
     console.log(req.body);
-    userDB.findByIDAndPass(req.body).then(data=>{
-        if(data.length == 0){
-            res.send("Неверный пароль");}
+    userDB.findByIDAndPass(req.body).then(data => {
+        if (data.length == 0) {
+            res.send("Неверный пароль");
+        }
         else {
-            console.log(data[0],req.body.newPass);
+            console.log(data[0], req.body.newPass);
             userDB.restorePass(data[0], req.body.newPass).then((data) => {
                 // console.log({information:"Успешно изменён пароль",user:data,token:getToken(data)});
-                res.send({information:"Успешно изменён пароль",user:data,token:getToken(data)});
-      }).catch(err=>console.log(err))}
+                res.send({information: "Успешно изменён пароль", user: data, token: getToken(data)});
+            }).catch(err => console.log(err))
+        }
     }).catch((error) => {
         res.send("Ошибка обработки сервера!");
     });
 });
 
-app.post('/changeEmail',(req,res)=>{
+app.post('/changeEmail', (req, res) => {
     console.log(req.body);
- userDB.findByEmail(req.body).then(data=>{
-     if(data.length == 0){
-         userDB.findByIDAndPass(req.body).then(data=>{
-             if(data.length == 0){
-                 res.send("Неверный пароль");}
-             else {
-                 userDB.restoreEmail(data[0], req.body.email).then(data => {
-                     // console.log({information:"Успешно изменён email",user:data,token:getToken(data)});
-                     res.send({information:"Успешно изменён email",user:data,token:getToken(data)});
-                 })}
-         }).catch((error) => {
-             res.send("Ошибка обработки сервера!");
-         });
-     }
-     else res.send("Ошибка - данный email уже есть в базе данных")
- });
+    userDB.findByEmail(req.body).then(data => {
+        if (data.length == 0) {
+            userDB.findByIDAndPass(req.body).then(data => {
+                if (data.length == 0) {
+                    res.send("Неверный пароль");
+                }
+                else {
+                    userDB.restoreEmail(data[0], req.body.email).then(data => {
+                        // console.log({information:"Успешно изменён email",user:data,token:getToken(data)});
+                        res.send({information: "Успешно изменён email", user: data, token: getToken(data)});
+                    })
+                }
+            }).catch((error) => {
+                res.send("Ошибка обработки сервера!");
+            });
+        }
+        else res.send("Ошибка - данный email уже есть в базе данных")
+    });
 
 });
 

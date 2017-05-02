@@ -40,8 +40,21 @@ export default {
     },
 
     changeImage(data){
-        console.log(data);
+        // console.log(data);
         return axios.post(adressServer + "/changeImage", data,{headers:{"Access-Control-Allow-Origin": "*"}})
-    }
+    },
+    changeTaskStatus(data){
+        // console.log(id);
+        return axios.post(adressServer + "/changeTaskStatus", data)
+    },
+    addNote(data){
+        // console.log(data);
+        return axios.post(adressServer + "/addNote", data)
+    },
+    addTask(data){
+        // console.log(data);
+        return axios.post(adressServer + "/addTask", data)
+    },
+
 }
 
