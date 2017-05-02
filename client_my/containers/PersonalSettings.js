@@ -47,7 +47,7 @@ class PersonalSettings extends Component {
     avatar(){
         if(this.props.userInSystem.data_uri==undefined)
             return"";
-        return <img src={this.props.userInSystem.data_uri} alt={this.props.userInSystem.filename}/>
+        return <Avatar size={60} src={this.props.userInSystem.data_uri} alt={this.props.userInSystem.filename}/>
     }
 
     informationPrint() {

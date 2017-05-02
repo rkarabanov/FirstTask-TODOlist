@@ -68,15 +68,15 @@ function getToken(data) {
 
 app.post("/checkJwt", function (req, res) {
     var token = req.body.token;
-    // console.log(token);
+    console.log(token);
     if (token.length > 0) {
         jwt.verify(token, 'superSecret', function (err, decoded) {
             if (err) {
                 console.log(err);
                 return res.send({ success: false });
             } else {
-                console.log(decoded._doc);
-                userDB.find(decoded._doc).then(function (data) {
+                console.log(decoded);
+                userDB.find({ email: decoded.email, _id: decoded._id, role: decoded.role }).then(function (data) {
                     if (data.length == 0) {
                         return res.send({ success: false });
                     } else {
@@ -202,6 +202,13 @@ app.post('/login', function (req, res) {
             // console.log(req.body);
             console.log(data[0].email);
             var token = getToken(data[0]);
+            jwt.verify(token, 'superSecret', function (err, decoded) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(decoded);
+                }
+            });
             res.send({ token: token, user: data[0] });
         } else {
             console.log(req.body);
