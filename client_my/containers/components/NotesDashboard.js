@@ -94,7 +94,7 @@ export default class NotesDashboard extends Component {
     }
 
     addBtn(){
-        return  observer?"":(<div className="addBtn">
+        return  this.props.observer!=undefined?"":(<div className="addBtn">
                 <FloatingActionButton onClick={this.addClick.bind(this)}
                                       secondary={true}><ContentAdd /></FloatingActionButton></div>
             )

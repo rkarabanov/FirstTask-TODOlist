@@ -34,7 +34,7 @@ export default class UsersList extends Component {
         });
     }
     watchUserList(e,i){
-        console.log(""+e);
+        console.log(this.props.getAllUsers[""+e]);
         this.setState({
             watchUser:this.props.getAllUsers[""+e]
         });
@@ -47,7 +47,7 @@ export default class UsersList extends Component {
 
     render() {
 
-        console.log(Array.isArray(this.props.allUsers));
+        // console.log(Array.isArray(this.props.allUsers));
             const listItems = (Array.isArray(this.props.allUsers)&&this.props.allUsers.length>0) ? this.props.allUsers.map((user, index) =>
                 <span> <ListItem primaryText={user.email} key={index}
                                  leftAvatar={user.data_uri?<Avatar size={30} src={user.data_uri} alt={user.email}></Avatar>:<Avatar size={30}>{user.email.charAt(0)}</Avatar>}
@@ -55,7 +55,7 @@ export default class UsersList extends Component {
                                       onClick={this.watchUserList.bind(this, index)}/></IconButton>}/>
                <Divider /></span>
             ) : "";
-        const {userInSystem,tasks} = this.props;
+        const {tasks} = this.props;
         const {changeTaskStatus,addTask,getTasks,cleanTasks,removeTask} = this.props;
             return (
 
@@ -83,9 +83,9 @@ export default class UsersList extends Component {
             // return <div>Hello, World!</div>
         }
 
-        shouldComponentUpdate(nextProps,nextState){
-            return true;
-        }
+        // shouldComponentUpdate(nextProps,nextState){
+        //     return true;
+        // }
         componentWillUnmount()
         {
             this.props.cleanUsers();
