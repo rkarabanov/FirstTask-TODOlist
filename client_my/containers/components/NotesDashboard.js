@@ -89,6 +89,7 @@ export default class NotesDashboard extends Component {
     }
 
     componentWillMount() {
+        console.log(this.props.userInSystem, "getTasks");
         let userinfo={pass:this.props.userInSystem.pass,_id:this.props.userInSystem._id};
         this.props.getTasks(userinfo);
     }
@@ -103,15 +104,22 @@ export default class NotesDashboard extends Component {
     render() {
         console.log(this.props.tasks);
         const listItems = (Array.isArray(this.props.tasks)
-            // && this.props.tasks.length > 0
-        ) ? this.props.tasks.map((note, index) =>
+            && this.props.tasks.length > 0
+        )?(this.props.observer!=undefined?(this.props.tasks.map((note, index) =>
+            <span> <ListItem primaryText={note.task} key={index}
+                             leftCheckbox={<Checkbox
+                                 value={index}
+                                 checked={note.status} disabled={true}></Checkbox>}
+                            />
+               <Divider /></span>))
+            : this.props.tasks.map((note, index) =>
             <span> <ListItem primaryText={note.task} key={index}
                              leftCheckbox={<Checkbox onCheck={this.onCheck.bind(this)}
                                                      value={index}
                                                      defaultChecked={note.status}></Checkbox>}
                              rightIconButton={<IconButton> <ContentRemove onClick={this.deleteTask.bind(this,index)}/></IconButton>}/>
                <Divider /></span>
-        ) : "У вас нету ни одного задания";
+        )) : "У вас нету ни одного задания";
         const {email} = this.state;
         return (
             <div>

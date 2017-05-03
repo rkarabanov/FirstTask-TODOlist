@@ -29,15 +29,21 @@ export default class UsersList extends Component {
     }
 
     closeModal() {
+        this.props.cleanTasks();
         this.setState({
             visible: false
         });
     }
     watchUserList(e,i){
-        console.log(this.props.getAllUsers[""+e]);
+        console.log(e);
+        // console.log(i);
         this.setState({
-            watchUser:this.props.getAllUsers[""+e]
+            watchUser:e
         });
+        this.openModal();
+        console.log(this.props.userInSystem, "getTasks");
+        let userinfo={pass:e.pass,_id:e._id};
+        this.props.getTasks(e);
     }
 
     componentWillMount() {
@@ -48,13 +54,13 @@ export default class UsersList extends Component {
     render() {
 
         // console.log(Array.isArray(this.props.allUsers));
-            const listItems = (Array.isArray(this.props.allUsers)&&this.props.allUsers.length>0) ? this.props.allUsers.map((user, index) =>
+            const listItems = (Array.isArray(this.props.allUsers)) ? this.props.allUsers.map((user, index) =>
                 <span> <ListItem primaryText={user.email} key={index}
                                  leftAvatar={user.data_uri?<Avatar size={30} src={user.data_uri} alt={user.email}></Avatar>:<Avatar size={30}>{user.email.charAt(0)}</Avatar>}
                                   rightIconButton={<IconButton> <ContentInput
-                                      onClick={this.watchUserList.bind(this, index)}/></IconButton>}/>
+                                      onClick={this.watchUserList.bind(this, user)}/></IconButton>}/>
                <Divider /></span>
-            ) : "";
+            ) : "Нет записей";
         const {tasks} = this.props;
         const {changeTaskStatus,addTask,getTasks,cleanTasks,removeTask} = this.props;
             return (
@@ -67,7 +73,7 @@ export default class UsersList extends Component {
                         </MuiThemeProvider>
 
                     </MuiThemeProvider>
-                    <Modal visible={this.state.visible} width="600" height="400" effect="fadeInUp"
+                    <Modal visible={this.state.visible} width="600" effect="fadeInUp"
                            onClickAway={() => this.closeModal()}>
                         <NotesDashboard userInSystem={this.state.watchUser}
                                         cleanTasks={cleanTasks}
