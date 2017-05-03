@@ -123,7 +123,8 @@ export default class NotesDashboard extends Component {
                 </MuiThemeProvider>
                 <Modal visible={this.state.visible} width="400" height="300" effect="fadeInUp"
                        onClickAway={() => this.closeModal()}>
-                    <div>
+                    <div className="main-container">
+                        <div>
                         {/*<h1>Title</h1>*/}
                         {/*<p>Some Contents</p>*/}
                         {/*<a href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>*/}
@@ -145,6 +146,7 @@ export default class NotesDashboard extends Component {
                             {this.state.btn}
                             <br/>
                         </ValidatorForm>
+                        </div>
                     </div>
                 </Modal>
             </div>)
