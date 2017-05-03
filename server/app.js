@@ -96,7 +96,7 @@ app.post('/addTask', (req, res) => {
 app.post('/getTasks', (req, res) => {
     console.log('/getTasks');
     console.log(req.body);
-    userDB.find(req.body).then(data => {
+    userDB.findByIDAndPass(req.body).then(data => {
         if (data.length != 0)
             noteDB.findByUserID({userID:data[0]._id}).then(data => {
                     console.log(data);
@@ -107,6 +107,38 @@ app.post('/getTasks', (req, res) => {
         res.send("Ошибка обработки сервера!");
     });
 });
+
+app.post('/getTasks', (req, res) => {
+    // console.log('/getTasks');
+    console.log(req.body);
+    userDB.findByIDAndPass(req.body).then(data => {
+        if (data.length != 0)
+            noteDB.findByUserID({userID:data[0]._id}).then(data => {
+                console.log(data);
+                res.send( data);
+            });
+        else res.send("Неверный данные пользователя")
+    }).catch((error) => {
+        res.send("Ошибка обработки сервера!");
+    });
+});
+
+
+app.post('/getAllUsers', (req, res) => {
+    console.log('/getAllUsers');
+    console.log(req.body);
+    userDB.findByIDAndPass(req.body).then(data => {
+        if (data.length != 0 && data[0].role=="admin")
+            userDB.getAll().then(data => {
+                console.log(data);
+                res.send( data);
+            });
+        else res.send("Неверный данные пользователя")
+    }).catch((error) => {
+        res.send("Ошибка обработки сервера!");
+    });
+});
+
 
 app.post('/changeTaskStatus', (req, res) => {
     let userinfo={pass:req.body.pass, _id:req.body.userID};

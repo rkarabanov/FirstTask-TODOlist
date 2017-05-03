@@ -7,7 +7,8 @@ const initialState = {
     information: "",
     userInSystem: {},
     loadingStatus: enums.LOAD_REQUEST,
-    tasks:[]
+    tasks:[],
+    allUsers:[]
 };
 
 export default  function reduce(state = initialState, action) {
@@ -15,6 +16,10 @@ export default  function reduce(state = initialState, action) {
     switch (action.type) {
         case "CLEAN_TASKS":{
             return {...state, tasks: []};
+            break;
+        }
+        case "CLEAN_USERS":{
+            return {...state, allUsers: []};
             break;
         }
         case 'REMOVE_TASK_FULFILLED':{
@@ -28,6 +33,21 @@ export default  function reduce(state = initialState, action) {
                     ...state,
                     information: "",
                     tasks:data,
+                    loadingStatus: enums.LOAD_USER_SUCCESS
+                }
+            }}
+            break;
+        case 'GET_ALL_USERS_FULFILLED':{
+            let data = action.payload;
+            if (typeof data == 'string') {
+                return {...state, information: data};
+            }
+            else {
+                // console.log(data);
+                return {
+                    ...state,
+                    information: "",
+                    allUsers:data,
                     loadingStatus: enums.LOAD_USER_SUCCESS
                 }
             }}

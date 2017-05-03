@@ -56,6 +56,8 @@ export default {
     },
     removeTask(data){
         return axios.post(adressServer + "/removeTask", data);
+    },getAllUsers(data){
+        return axios.post(adressServer + "/getAllUsers", data);
     },
 
 }

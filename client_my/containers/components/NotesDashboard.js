@@ -89,8 +89,15 @@ export default class NotesDashboard extends Component {
     }
 
     componentWillMount() {
+        let userinfo={pass:this.props.userInSystem.pass,_id:this.props.userInSystem._id};
+        this.props.getTasks(userinfo);
+    }
 
-        this.props.getTasks(this.props.userInSystem);
+    addBtn(){
+        return  observer?"":(<div className="addBtn">
+                <FloatingActionButton onClick={this.addClick.bind(this)}
+                                      secondary={true}><ContentAdd /></FloatingActionButton></div>
+            )
     }
 
     render() {
@@ -114,9 +121,7 @@ export default class NotesDashboard extends Component {
                         <div className="pb10">
                             <List>{listItems}</List>
                             <br/>
-                            <div className="addBtn">
-                                <FloatingActionButton onClick={this.addClick.bind(this)}
-                                                      secondary={true}><ContentAdd /></FloatingActionButton></div>
+                            {this.addBtn()}
                         </div>
                     </Paper>
 
@@ -164,6 +169,7 @@ export default class NotesDashboard extends Component {
 
 
 NotesDashboard.propTypes = {
+    observer:PropTypes.bool,
     tasks: PropTypes.array,
     userInSystem: PropTypes.object.isRequired,
     changeTaskStatus: PropTypes.func.isRequired,

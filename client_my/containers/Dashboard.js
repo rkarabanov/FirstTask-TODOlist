@@ -26,7 +26,7 @@ export default class Dashboard extends Component {
 
     render() {
         const {userInSystem,tasks} = this.props;
-        const {changeTaskStatus,addNote,addTask,getTasks,cleanTasks,removeTask} = this.props;
+        const {changeTaskStatus,addTask,getTasks,cleanTasks,removeTask} = this.props;
         switch (this.props.loadingStatus) {
             case enums.LOAD_REQUEST:
                 return <LoadingPage/>;
@@ -47,7 +47,7 @@ export default class Dashboard extends Component {
                             <div><ExitBtn/></div>
                         </div>
                     </Paper>
-                    <NotesDashboard userInSystem={userInSystem} cleanTasks={cleanTasks} removeTask={removeTask} tasks={tasks} changeTaskStatus={changeTaskStatus} getTasks={getTasks} addNote={addNote} addTask={addTask}/>
+                    <NotesDashboard userInSystem={userInSystem} cleanTasks={cleanTasks} removeTask={removeTask} tasks={tasks} changeTaskStatus={changeTaskStatus} getTasks={getTasks} addTask={addTask}/>
                     </div>
                 </MuiThemeProvider>)
             }

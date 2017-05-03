@@ -115,8 +115,34 @@ app.post('/addTask', function (req, res) {
 app.post('/getTasks', function (req, res) {
     console.log('/getTasks');
     console.log(req.body);
-    userDB.find(req.body).then(function (data) {
+    userDB.findByIDAndPass(req.body).then(function (data) {
         if (data.length != 0) noteDB.findByUserID({ userID: data[0]._id }).then(function (data) {
+            console.log(data);
+            res.send(data);
+        });else res.send("Неверный данные пользователя");
+    })['catch'](function (error) {
+        res.send("Ошибка обработки сервера!");
+    });
+});
+
+app.post('/getTasks', function (req, res) {
+    // console.log('/getTasks');
+    console.log(req.body);
+    userDB.findByIDAndPass(req.body).then(function (data) {
+        if (data.length != 0) noteDB.findByUserID({ userID: data[0]._id }).then(function (data) {
+            console.log(data);
+            res.send(data);
+        });else res.send("Неверный данные пользователя");
+    })['catch'](function (error) {
+        res.send("Ошибка обработки сервера!");
+    });
+});
+
+app.post('/getAllUsers', function (req, res) {
+    console.log('/getAllUsers');
+    console.log(req.body);
+    userDB.findByIDAndPass(req.body).then(function (data) {
+        if (data.length != 0 && data[0].role == "admin") userDB.getAll().then(function (data) {
             console.log(data);
             res.send(data);
         });else res.send("Неверный данные пользователя");
