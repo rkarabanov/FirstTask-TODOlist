@@ -39,7 +39,7 @@ export default class RestorePass extends Component {
     }
 
     componentWillMount() {
-        // console.log(this.state.id);
+        // onCheck.log(this.state.id);
         this.props.isInSystem();
         this.props.checkToAccessRestore(this.props.location.query.id);
         ValidatorForm.addValidationRule('isPasswordMatch', (value) => {

@@ -54,7 +54,7 @@ class Registration extends Component {
     render() {
         const { user } = this.state;
 
-        //console.log(this.props.userInSystem);
+        //onCheck.log(this.props.userInSystem);
         switch (this.props.loadingStatus) {
             case enums.LOAD_REQUEST:
                 return <LoadingPage/>;

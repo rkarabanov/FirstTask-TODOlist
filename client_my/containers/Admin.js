@@ -17,7 +17,7 @@ class Admin extends Component {
 
 
     render() {
-        //console.log(this.props.userInSystem);
+        //onCheck.log(this.props.userInSystem);
         switch (this.props.loadingStatus) {
             case enums.LOAD_REQUEST:
                 return <LoadingPage/>;

@@ -14,6 +14,6 @@ export default function configureStore() {
         })
     }
 
-    // store.subscribe(()=>console.log("Store update!",store.getState()));
+    // store.subscribe(()=>onCheck.log("Store update!",store.getState()));
     return store;
 }

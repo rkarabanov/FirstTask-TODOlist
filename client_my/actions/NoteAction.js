@@ -18,11 +18,28 @@ export function addTask(data) {
     })
 }
 
-export function addNote(data) {
+export function removeTask(data) {
     return dispatch=>dispatch({
-        type: "ADD_NOTE",
-        payload:new Promise((resolve, reject)=>{res.addNote(data)
+        type: "REMOVE_TASK",
+        payload:new Promise((resolve, reject)=>{res.removeTask(data)
             .then((response)=>{
                 resolve( response.data) })})
     })
 }
+
+export function getTasks(data) {
+    return dispatch=>dispatch({
+        type: "GET_TASKS",
+        payload:new Promise((resolve, reject)=>{res.getUserTasks(data)
+            .then((response)=>{
+                resolve( response.data) })})
+    })
+}
+
+    export function cleanTasks() {
+        return dispatch=>dispatch({
+            type: "CLEAN_TASKS"
+        })
+}
+
+

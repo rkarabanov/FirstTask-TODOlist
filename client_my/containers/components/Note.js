@@ -13,9 +13,9 @@ export default class Note extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            color: props.initialColor
-        };
+        // this.state = {
+        //     color: props.initialColor
+        // };
     }
 
 

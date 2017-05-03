@@ -7,12 +7,31 @@ const initialState = {
     information: "",
     userInSystem: {},
     loadingStatus: enums.LOAD_REQUEST,
-    notes:[]
+    tasks:[]
 };
 
 export default  function reduce(state = initialState, action) {
 
     switch (action.type) {
+        case "CLEAN_TASKS":{
+            return {...state, tasks: []};
+            break;
+        }
+        case 'REMOVE_TASK_FULFILLED':{
+            let data = action.payload;
+            if (typeof data == 'string') {
+                return {...state, information: data,loadingStatus: enums.LOAD_USER_FAIL};
+            }
+            else {
+                console.log(data);
+                return {
+                    ...state,
+                    information: "",
+                    tasks:data,
+                    loadingStatus: enums.LOAD_USER_SUCCESS
+                }
+            }}
+            break;
         case 'IS_IN_SYSTEM_FULFILLED': {
             let response = action.payload;
             console.log(response);
@@ -27,8 +46,60 @@ export default  function reduce(state = initialState, action) {
             console.log(action.payload);
             return {...state, loadingStatus: action.payload};
             break;
+
+        case 'ADD_TASK_FULFILLED':{
+            let data = action.payload;
+            if (typeof data == 'string') {
+                return {...state, information: data,loadingStatus: enums.LOAD_USER_FAIL};
+            }
+            else {
+
+                console.log(data);
+                // document.cookie = "jwtUser=" + data.token + ";";
+                // console.log(document.cookie);
+                // browserHistory.push("/dashboard");
+                return {
+                    ...state,
+                    information: "",
+                    tasks:data,
+                    // userInSystem: data.user,
+                    loadingStatus: enums.LOAD_USER_SUCCESS
+                }
+            }}
+            break;
+        case 'GET_TASKS_FULFILLED':{
+            let data = action.payload;
+            if (typeof data == 'string') {
+                return {...state, information: data,loadingStatus: enums.LOAD_USER_FAIL};
+            }
+            else {
+                console.log(data);
+                return {
+                    ...state,
+                    information: "",
+                    tasks:data,
+                    loadingStatus: enums.LOAD_USER_SUCCESS
+                }
+            }}
+            break;
+
+        case 'CHANGE_TASK_STATUS_FULFILLED':{
+            let data = action.payload;
+            if (typeof data == 'string') {
+                return {...state, information: data,loadingStatus: enums.LOAD_USER_FAIL};
+            }
+            else {
+                console.log(data);
+                return {
+                    ...state,
+                    information: "",
+                    tasks:data,
+                    loadingStatus: enums.LOAD_USER_SUCCESS
+                }
+            }}
+            break;
         case 'EXIT_USER':{
-            // console.log(action.payload);
+            // onCheck.log(action.payload);
             let cook="";
             let arrCookie=document.cookie.split(";");
             for (let cookie of arrCookie){
@@ -113,9 +184,9 @@ export default  function reduce(state = initialState, action) {
             }
             else {
 
-                // console.log(data);
+                // onCheck.log(data);
                 document.cookie = "jwtUser=" + data.token + ";";
-                // console.log(document.cookie);
+                // onCheck.log(document.cookie);
                 return {
                     ...state,
                     information: data.information,
@@ -132,9 +203,9 @@ export default  function reduce(state = initialState, action) {
             }
             else {
 
-                // console.log(data);
+                // onCheck.log(data);
                 document.cookie = "jwtUser=" + data.token + ";";
-                // console.log(document.cookie);
+                // onCheck.log(document.cookie);
                 return {
                     ...state,
                     information: data.information,
@@ -153,7 +224,7 @@ export default  function reduce(state = initialState, action) {
 
                 console.log(data);
                 document.cookie = "jwtUser=" + data.token + ";";
-                // console.log(document.cookie);
+                // onCheck.log(document.cookie);
                 return {
                     ...state,
                     information: data.information,

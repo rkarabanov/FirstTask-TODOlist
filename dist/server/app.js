@@ -24,6 +24,10 @@ var _utilsForgotPassDBUtils = require('./utils/ForgotPassDBUtils');
 
 var forgotPassDB = _interopRequireWildcard(_utilsForgotPassDBUtils);
 
+var _utilsNoteDBUtils = require('./utils/NoteDBUtils');
+
+var noteDB = _interopRequireWildcard(_utilsNoteDBUtils);
+
 var session = require('express-session');
 
 var morgan = require('morgan');
@@ -68,21 +72,21 @@ function getToken(data) {
 
 app.post("/checkJwt", function (req, res) {
     var token = req.body.token;
-    console.log(token);
+    // console.log(token);
     if (token.length > 0) {
         jwt.verify(token, 'superSecret', function (err, decoded) {
             if (err) {
-                console.log(err);
+                // console.log(err);
                 return res.send({ success: false });
             } else {
-                console.log(decoded);
+                // console.log(decoded);
                 userDB.find({ email: decoded.email, _id: decoded._id, role: decoded.role }).then(function (data) {
                     if (data.length == 0) {
                         return res.send({ success: false });
                     } else {
-                        console.log(data);
+                        // console.log(data);
                         var _token = getToken(data[0]);
-                        console.log({ success: true, user: data[0], token: _token });
+                        // console.log({success: true, user: data[0], token: token});
                         return res.send({ success: true, user: data[0], token: _token });
                     }
                 });
@@ -91,6 +95,72 @@ app.post("/checkJwt", function (req, res) {
     } else {
         return res.send({ success: false });
     }
+});
+
+app.post('/addTask', function (req, res) {
+    console.log(req.body);
+    var userinfo = { pass: req.body.pass, _id: req.body.userID };
+    userDB.findByIDAndPass(userinfo).then(function (data) {
+        if (data.length != 0) noteDB.createNote(req.body).then(function (data) {
+            noteDB.findByUserID(req.body).then(function (data) {
+                console.log(data);
+                res.send(data);
+            });
+        });else res.send("Неверный данные пользователя");
+    })['catch'](function (error) {
+        res.send("Ошибка обработки сервера!");
+    });
+});
+
+app.post('/getTasks', function (req, res) {
+    console.log('/getTasks');
+    console.log(req.body);
+    userDB.find(req.body).then(function (data) {
+        if (data.length != 0) noteDB.findByUserID({ userID: data[0]._id }).then(function (data) {
+            console.log(data);
+            res.send(data);
+        });else res.send("Неверный данные пользователя");
+    })['catch'](function (error) {
+        res.send("Ошибка обработки сервера!");
+    });
+});
+
+app.post('/changeTaskStatus', function (req, res) {
+    var userinfo = { pass: req.body.pass, _id: req.body.userID };
+    userDB.findByIDAndPass(userinfo).then(function (data) {
+        if (data.length != 0) noteDB.findByID(req.body).then(function (data) {
+            // console.log(data[0]);
+            if (data[0].userID == req.body.userID) {
+                noteDB.changeStatus(data[0]).then(function (data) {
+                    noteDB.findByUserID(req.body).then(function (data) {
+                        // console.log(data);
+                        res.send(data);
+                    });
+                });
+            } else res.send("Попытка неверно передать информацию");
+        });else res.send("Неверный данные пользователя");
+    })['catch'](function (error) {
+        res.send("Ошибка обработки сервера!");
+    });
+});
+
+app.post('/removeTask', function (req, res) {
+    var userinfo = { pass: req.body.pass, _id: req.body.userID };
+    userDB.findByIDAndPass(userinfo).then(function (data) {
+        if (data.length != 0) noteDB.findByID(req.body).then(function (data) {
+            console.log(data[0]);
+            if (data[0].userID == req.body.userID) {
+                noteDB.deleteNote(data[0]).then(function (data) {
+                    noteDB.findByUserID(req.body).then(function (data) {
+                        console.log(data);
+                        res.send(data);
+                    });
+                });
+            } else res.send("Попытка неверно передать информацию");
+        });else res.send("Неверный данные пользователя");
+    })['catch'](function (error) {
+        res.send("Ошибка обработки сервера!");
+    });
 });
 
 app.post('/sendInsructions', function (req, res) {
@@ -106,7 +176,7 @@ app.post('/sendInsructions', function (req, res) {
                         from: '"R-key" <5600t0@gmail.com>', // sender address
                         to: '' + req.body.email, // list of receivers
                         subject: 'Hello ✔', // Subject line
-                        text: 'Hello world ?', // plain text body
+                        email: 'Hello world ?', // plain email body
                         html: '<div><div><b>Если вы хотите изметь ваш пароль, то пройдите по ссылке внизу</b></div>' + '<div><a href="http://localhost:8090/restorePass?id=' + id + '">Ссылка</a></div></div> ' // html body
                     };
 
@@ -144,9 +214,9 @@ app.post('/changeImage', function (req, res) {
         if (data.length == 0) {
             res.send("Неверный ID пользователя");
         } else {
-            // console.log(data[0],req.body.newPass);
+            // onCheck.log(data[0],req.body.newPass);
             userDB.restoreImage(data[0], req.body).then(function (data) {
-                // console.log({information:"Успешно изменён пароль",user:data,token:getToken(data)});
+                // onCheck.log({information:"Успешно изменён пароль",user:data,token:getToken(data)});
                 res.send({ information: "Успешно изменён аватар", user: data, token: getToken(data) });
             })['catch'](function (err) {
                 return console.log(err);
@@ -165,7 +235,7 @@ app.post('/changePass', function (req, res) {
         } else {
             console.log(data[0], req.body.newPass);
             userDB.restorePass(data[0], req.body.newPass).then(function (data) {
-                // console.log({information:"Успешно изменён пароль",user:data,token:getToken(data)});
+                // onCheck.log({information:"Успешно изменён пароль",user:data,token:getToken(data)});
                 res.send({ information: "Успешно изменён пароль", user: data, token: getToken(data) });
             })['catch'](function (err) {
                 return console.log(err);
@@ -185,7 +255,7 @@ app.post('/changeEmail', function (req, res) {
                     res.send("Неверный пароль");
                 } else {
                     userDB.restoreEmail(data[0], req.body.email).then(function (data) {
-                        // console.log({information:"Успешно изменён email",user:data,token:getToken(data)});
+                        // onCheck.log({information:"Успешно изменён email",user:data,token:getToken(data)});
                         res.send({ information: "Успешно изменён email", user: data, token: getToken(data) });
                     });
                 }
@@ -199,7 +269,7 @@ app.post('/changeEmail', function (req, res) {
 app.post('/login', function (req, res) {
     userDB.findByEmailAndPass(req.body).then(function (data) {
         if (data.length != 0) {
-            // console.log(req.body);
+            // onCheck.log(req.body);
             console.log(data[0].email);
             var token = getToken(data[0]);
             jwt.verify(token, 'superSecret', function (err, decoded) {

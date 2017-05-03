@@ -95,7 +95,7 @@ class PersonalSettings extends Component {
         this.setState({
             processing: true
         });
-// console.log(this.state.data_uri,
+// onCheck.log(this.state.data_uri,
 //              // this.state.filename,
 //              this.state.filetype);
 
@@ -111,7 +111,7 @@ class PersonalSettings extends Component {
     render() {
         const {user} = this.state;
 
-        //console.log(this.props.userInSystem);
+        //onCheck.log(this.props.userInSystem);
         switch (this.props.loadingStatus) {
             case enums.LOAD_REQUEST:
                 return <LoadingPage/>;

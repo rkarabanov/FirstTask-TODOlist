@@ -51,7 +51,7 @@ export default class ForgotPass extends Component {
 
 
         this.setState({email: this.state.email,btn:<RaisedButton label="Отправить" type="submit"/>});
-        // console.log(this.state.btn);
+        // onCheck.log(this.state.btn);
         return true;
     }
 

@@ -23,7 +23,7 @@ export default {
     },
 
     inSystem(jwtUser){
-        // console.log(jwtUser);
+        // onCheck.log(jwtUser);
         return axios.post(adressServer + "/checkJwt", jwtUser);
     },
 
@@ -40,20 +40,22 @@ export default {
     },
 
     changeImage(data){
-        // console.log(data);
+        // onCheck.log(data);
         return axios.post(adressServer + "/changeImage", data,{headers:{"Access-Control-Allow-Origin": "*"}})
     },
     changeTaskStatus(data){
-        // console.log(id);
+        // onCheck.log(id);
         return axios.post(adressServer + "/changeTaskStatus", data)
     },
-    addNote(data){
-        // console.log(data);
-        return axios.post(adressServer + "/addNote", data)
-    },
     addTask(data){
-        // console.log(data);
+        // onCheck.log(data);
         return axios.post(adressServer + "/addTask", data)
+    },
+    getUserTasks(data){
+        return axios.post(adressServer + "/getTasks", data);
+    },
+    removeTask(data){
+        return axios.post(adressServer + "/removeTask", data);
     },
 
 }

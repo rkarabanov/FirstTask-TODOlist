@@ -5,7 +5,7 @@ export function checkToAccessRestore(id) {
         type: "CHECK_TO_ACCESS_RESTORE",
         payload:new Promise((resolve, reject)=>{res.checkToAccessRestore(id)
             .then((response)=>{
-            // console.log(response);
+            // onCheck.log(response);
                 resolve( response.data) })})
     })
 }

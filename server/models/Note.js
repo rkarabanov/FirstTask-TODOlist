@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
 
 const NoteSchema = new Schema({
-    title: {type: String,required:true},
-    tasks: {type: []},
-    userID:{type: String,required:true}
+    task:{type: String},
+    userID:{type: String,required:true},
+    status:{type:Boolean}
 });
 
 const Note = mongoose.model('Note', NoteSchema);

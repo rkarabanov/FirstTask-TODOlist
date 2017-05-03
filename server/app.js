@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import * as userDB from './utils/UserDBUtils';
 import * as forgotPassDB from './utils/ForgotPassDBUtils';
+import * as noteDB from './utils/NoteDBUtils';
 let session = require('express-session');
 
 const morgan = require('morgan');
@@ -49,22 +50,22 @@ function getToken(data) {
 
 app.post("/checkJwt", function (req, res) {
     let token = req.body.token;
-    console.log(token);
+    // console.log(token);
     if (token.length > 0) {
         jwt.verify(token, 'superSecret', function (err, decoded) {
             if (err) {
-                console.log(err);
+                // console.log(err);
                 return res.send({success: false});
             } else {
-                console.log(decoded);
+                // console.log(decoded);
                 userDB.find({email: decoded.email, _id: decoded._id, role: decoded.role}).then(data => {
                     if (data.length == 0) {
                         return res.send({success: false});
                     }
                     else {
-                        console.log(data);
+                        // console.log(data);
                         let token = getToken(data[0]);
-                        console.log({success: true, user: data[0], token: token});
+                        // console.log({success: true, user: data[0], token: token});
                         return res.send({success: true, user: data[0], token: token});
                     }
                 });
@@ -73,6 +74,78 @@ app.post("/checkJwt", function (req, res) {
     } else {
         return res.send({success: false});
     }
+});
+
+app.post('/addTask', (req, res) => {
+    console.log(req.body);
+    let userinfo={pass:req.body.pass, _id:req.body.userID};
+    userDB.findByIDAndPass(userinfo).then(data => {
+        if (data.length != 0)
+            noteDB.createNote(req.body).then(data => {
+                noteDB.findByUserID(req.body).then(data => {
+                console.log(data);
+                res.send( data);}
+            );
+            });
+        else res.send("Неверный данные пользователя")
+    }).catch((error) => {
+        res.send("Ошибка обработки сервера!");
+    });
+});
+
+app.post('/getTasks', (req, res) => {
+    console.log('/getTasks');
+    console.log(req.body);
+    userDB.find(req.body).then(data => {
+        if (data.length != 0)
+            noteDB.findByUserID({userID:data[0]._id}).then(data => {
+                    console.log(data);
+                    res.send( data);
+            });
+        else res.send("Неверный данные пользователя")
+    }).catch((error) => {
+        res.send("Ошибка обработки сервера!");
+    });
+});
+
+app.post('/changeTaskStatus', (req, res) => {
+    let userinfo={pass:req.body.pass, _id:req.body.userID};
+    userDB.findByIDAndPass(userinfo).then(data => {
+        if (data.length != 0)
+            noteDB.findByID(req.body).then(data => {
+                // console.log(data[0]);
+                if(data[0].userID==req.body.userID){
+                noteDB.changeStatus(data[0]).then(data => {
+                    noteDB.findByUserID(req.body).then(data => {
+                        // console.log(data);
+                        res.send( data);
+                    });})}
+                    else res.send( "Попытка неверно передать информацию");
+            });
+        else res.send("Неверный данные пользователя")
+    }).catch((error) => {
+        res.send("Ошибка обработки сервера!");
+    });
+});
+
+app.post('/removeTask', (req, res) => {
+    let userinfo={pass:req.body.pass, _id:req.body.userID};
+    userDB.findByIDAndPass(userinfo).then(data => {
+        if (data.length != 0)
+            noteDB.findByID(req.body).then(data => {
+                console.log(data[0]);
+                if(data[0].userID==req.body.userID){
+                    noteDB.deleteNote(data[0]).then(data => {
+                        noteDB.findByUserID(req.body).then(data => {
+                            console.log(data);
+                            res.send( data);
+                        });})}
+                else res.send( "Попытка неверно передать информацию");
+            });
+        else res.send("Неверный данные пользователя")
+    }).catch((error) => {
+        res.send("Ошибка обработки сервера!");
+    });
 });
 
 
@@ -89,7 +162,7 @@ app.post('/sendInsructions', function (req, res) {
                             from: '"R-key" <5600t0@gmail.com>', // sender address
                             to: '' + req.body.email, // list of receivers
                             subject: 'Hello ✔', // Subject line
-                            text: 'Hello world ?', // plain text body
+                            email: 'Hello world ?', // plain email body
                             html: '<div><div><b>Если вы хотите изметь ваш пароль, то пройдите по ссылке внизу</b></div>' +
                             '<div><a href="http://localhost:8090/restorePass?id=' +
                             id +
@@ -137,9 +210,9 @@ app.post('/changeImage', (req, res) => {
             res.send("Неверный ID пользователя");
         }
         else {
-            // console.log(data[0],req.body.newPass);
+            // onCheck.log(data[0],req.body.newPass);
             userDB.restoreImage(data[0], req.body).then((data) => {
-                // console.log({information:"Успешно изменён пароль",user:data,token:getToken(data)});
+                // onCheck.log({information:"Успешно изменён пароль",user:data,token:getToken(data)});
                 res.send({information: "Успешно изменён аватар", user: data, token: getToken(data)});
             }).catch(err => console.log(err))
         }
@@ -157,7 +230,7 @@ app.post('/changePass', (req, res) => {
         else {
             console.log(data[0], req.body.newPass);
             userDB.restorePass(data[0], req.body.newPass).then((data) => {
-                // console.log({information:"Успешно изменён пароль",user:data,token:getToken(data)});
+                // onCheck.log({information:"Успешно изменён пароль",user:data,token:getToken(data)});
                 res.send({information: "Успешно изменён пароль", user: data, token: getToken(data)});
             }).catch(err => console.log(err))
         }
@@ -176,7 +249,7 @@ app.post('/changeEmail', (req, res) => {
                 }
                 else {
                     userDB.restoreEmail(data[0], req.body.email).then(data => {
-                        // console.log({information:"Успешно изменён email",user:data,token:getToken(data)});
+                        // onCheck.log({information:"Успешно изменён email",user:data,token:getToken(data)});
                         res.send({information: "Успешно изменён email", user: data, token: getToken(data)});
                     })
                 }
@@ -192,7 +265,7 @@ app.post('/changeEmail', (req, res) => {
 app.post('/login', (req, res) => {
     userDB.findByEmailAndPass(req.body).then((data) => {
         if (data.length != 0) {
-            // console.log(req.body);
+            // onCheck.log(req.body);
             console.log(data[0].email);
             let token = getToken(data[0]);
             jwt.verify(token, 'superSecret', function (err, decoded) {

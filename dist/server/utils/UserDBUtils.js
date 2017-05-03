@@ -49,7 +49,7 @@ function restoreImage(data, newData) {
     data.data_uri = newData.data_uri;
     data.filename = newData.filename;
     data.filetype = newData.filetype;
-    // console.log(data);
+    // onCheck.log(data);
     var user = new User(data);
     return user.save();
 }

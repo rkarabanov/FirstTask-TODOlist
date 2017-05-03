@@ -18,14 +18,15 @@ export default class Dashboard extends Component {
 
     componentWillMount() {
         this.props.isInSystem();
+
     }
     isAdmin(){
         return this.props.userInSystem.role=="admin"? <RaisedButton className="button"  label="Администратор" href="/admin"/>:"";
     }
 
     render() {
-        const {userInSystem,notes} = this.props;
-        const {changeTaskStatus,addNote,addTask} = this.props;
+        const {userInSystem,tasks} = this.props;
+        const {changeTaskStatus,addNote,addTask,getTasks,cleanTasks,removeTask} = this.props;
         switch (this.props.loadingStatus) {
             case enums.LOAD_REQUEST:
                 return <LoadingPage/>;
@@ -33,6 +34,7 @@ export default class Dashboard extends Component {
             case enums.LOAD_USER_SUCCESS: {
                 return(
                 <MuiThemeProvider>
+                    <div>
                     <Paper>
                         <div className="main-container">
                             <div>
@@ -45,7 +47,8 @@ export default class Dashboard extends Component {
                             <div><ExitBtn/></div>
                         </div>
                     </Paper>
-                    {/*<NotesDashboard userInSystem={userInSystem} notes={notes} changeTaskStatus={changeTaskStatus} addNote={addNote} addTask={addTask}/>*/}
+                    <NotesDashboard userInSystem={userInSystem} cleanTasks={cleanTasks} removeTask={removeTask} tasks={tasks} changeTaskStatus={changeTaskStatus} getTasks={getTasks} addNote={addNote} addTask={addTask}/>
+                    </div>
                 </MuiThemeProvider>)
             }
             break;
@@ -66,7 +69,7 @@ function mapStateToProps (state) {
     return {
         userInSystem:state.userInSystem,
         loadingStatus:state.loadingStatus,
-        notes:state.notes
+        tasks:state.tasks
     }
 }
 
@@ -75,8 +78,10 @@ function mapDispatchToProps(dispatch) {
         isInSystem:bindActionCreators(login.isInSystem, dispatch),
         loadComponentAction:bindActionCreators(loadCompAction.loadComponentAction, dispatch),
         changeTaskStatus:bindActionCreators(noteAction.changeTaskStatus, dispatch),
-        addNote:bindActionCreators(noteAction.addNote, dispatch),
-        addTask:bindActionCreators(noteAction.addTask, dispatch)
+        addTask:bindActionCreators(noteAction.addTask, dispatch),
+        getTasks:bindActionCreators(noteAction.getTasks, dispatch),
+        cleanTasks:bindActionCreators(noteAction.cleanTasks, dispatch),
+        removeTask:bindActionCreators(noteAction.removeTask, dispatch)
     }
 }
 
