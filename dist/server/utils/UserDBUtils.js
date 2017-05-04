@@ -30,11 +30,25 @@ function setUpConnection() {
 }
 
 function createUser(data) {
-    var user = new User({
-        email: data.email,
-        pass: data.pass,
-        role: "user"
-    });
+    var buffer = {};
+    if (data.OAuth != undefined) {
+        buffer = {
+            email: data.email,
+            pass: data.pass,
+            role: "user",
+            data_uri: data.imageUrl,
+            filename: data.filename,
+            OAuth: data.OAuth,
+            filetype: data.filetype
+        };
+    } else {
+        buffer = {
+            email: data.email,
+            pass: data.pass,
+            role: "user"
+        };
+    }
+    var user = new User(buffer);
     return user.save();
 }
 

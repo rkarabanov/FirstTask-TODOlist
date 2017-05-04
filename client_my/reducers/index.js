@@ -161,7 +161,7 @@ export default  function reduce(state = initialState, action) {
             let cook="";
             let arrCookie=document.cookie.split(";");
             for (let cookie of arrCookie){
-                if(cookie.split("=")[0]!="jwtUser"){
+                if(cookie.split("=")[0]!="jwtUser"&&cookie.split("=")[0]!=" jwtUser"){
                     cook=cookie+";";
             }
             else{
@@ -193,7 +193,7 @@ export default  function reduce(state = initialState, action) {
         case 'SEND_INSTRUCTIONS_FULFILLED':
             return {
                 ...state,
-                information: action.payload ? "Успех! Проверьте свой почтовый ящик на наличие инструкций" : "Неверный email или ошибка на сервере"
+                information: action.payload ? "Успех! Проверьте свой почтовый ящик на наличие инструкций" : "Неверный email или вы входили с Google или ошибка на сервере"
             };
             break;
         case 'IS_LOGIN_FULFILLED':{

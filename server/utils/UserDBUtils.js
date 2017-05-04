@@ -10,11 +10,25 @@ export function setUpConnection(){
 }
 
 export function createUser(data) {
-    const user = new User({
-        email: data.email,
-        pass: data.pass,
-        role:"user"
-    });
+    let buffer={};
+    if(data.OAuth!=undefined){
+        buffer={
+            email: data.email,
+            pass: data.pass,
+            role:"user",
+            data_uri:data.imageUrl,
+            filename:data.filename,
+            OAuth:data.OAuth,
+            filetype:data.filetype
+        }
+    }else{
+        buffer= {
+            email: data.email,
+            pass: data.pass,
+            role:"user"
+        }
+    }
+    const user = new User(buffer);
     return user.save();
 }
 

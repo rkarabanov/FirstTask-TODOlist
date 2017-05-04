@@ -129,6 +129,7 @@ class PersonalSettings extends Component {
                                 <div>
                                     <h3> {this.informationPrint()}</h3>
                                     <br/>
+                                    <div  hidden={this.props.userInSystem.OAuth!=undefined}>
                                     <Paper>
                                         <ValidatorForm
                                             onSubmit={this.handleSubmitEmail.bind(this)}
@@ -196,6 +197,7 @@ class PersonalSettings extends Component {
                                     </Paper>
                                     <br/>
                                     <RaisedButton labelColor="#32CD32" href="/dashboard" label="Dashboard"/>
+                                </div>
                                 </div>
                             </div>
 

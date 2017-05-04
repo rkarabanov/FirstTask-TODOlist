@@ -125,17 +125,18 @@ export default class LoginForm extends Component {
 
                                     </ValidatorForm>
                                     <br/>
-                                    {/*<RaisedButton  secondary='true' href="/login" label="Регистрация"/>*/}
-                                </div>
-                                <div className="forgot">
-                                    <RaisedButton  secondary='true' href="/registration" label="Регистрация"/>
-                                    <RaisedButton className="button" label="Забыли пароль?" href="/forgotPass"/>
                                     <GoogleLogin
                                         clientId={secret.googleAuth.clientID}
                                         buttonText="Google Login"
                                         onSuccess={responseGoogle}
                                         onFailure={responseFGoogle}
                                     />
+                                    {/*<RaisedButton  secondary='true' href="/login" label="Регистрация"/>*/}
+                                </div>
+                                <div className="forgot">
+                                    <RaisedButton  secondary='true' href="/registration" label="Регистрация"/>
+                                    <RaisedButton className="button" label="Забыли пароль?" href="/forgotPass"/>
+
                                 </div>
                             </div>
 

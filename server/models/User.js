@@ -7,6 +7,7 @@ const UserSchema = new Schema({
     email: {type: String, required: true},
     pass: {type: String, required: true},
     role: {type: String, required: true},
+    OAuth: {type: Boolean},
     //image
     data_uri: {type: String},
     filename: {type: String},

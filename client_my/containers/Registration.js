@@ -9,7 +9,9 @@ import enums from "../constans/Const"
 import {browserHistory} from 'react-router'
 import {RaisedButton, Paper} from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator'
+import GoogleLogin from 'react-google-login'
+import secret from "../../config/auth"
 import * as funcs from '../actions/ForgotPass'
 import '../css/main.css'
 
@@ -64,6 +66,20 @@ class Registration extends Component {
                 return <LoadingPage/>;
                 break;
             default:
+                const responseGoogle = (response) => {
+                    console.log(response.profileObj);
+                    this.props.regAction({
+                        "email": "" + response.profileObj.email,
+                        "OAuth":true,
+                        "pass":""+response.profileObj.googleId,
+                        "imageUrl":""+response.profileObj.imageUrl,
+                        "filename":""+response.profileObj.name,
+                        "filetype": "image/jpeg"
+                    });
+                };
+                const responseFGoogle=(err)=>{
+                    console.log("fail",err);
+                };
                 return(
                     <MuiThemeProvider>
                         <Paper>
@@ -108,7 +124,18 @@ class Registration extends Component {
                                                       fullWidth="true" />
                                     </ValidatorForm>
                                     <br/>
+                                    <div className="mtb">
+                                    <GoogleLogin
+                                        clientId={secret.googleAuth.clientID}
+                                        buttonText="Google Registration"
+                                        onSuccess={responseGoogle}
+                                        onFailure={responseFGoogle}
+                                    />
+                                    </div>
+                                    <br/>
                                     <RaisedButton labelColor="#32CD32" href="/login" label="Войти"/>
+                                    <br/>
+
                                 </div>
                             </div>
                         </Paper>

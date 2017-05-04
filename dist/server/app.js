@@ -77,14 +77,15 @@ function getToken(data) {
 
 app.post("/checkJwt", function (req, res) {
     var token = req.body.token;
-    // console.log(token);
+    console.log(req.body.token);
     if (token.length > 0) {
         jwt.verify(token, 'superSecret', function (err, decoded) {
             if (err) {
-                // console.log(err);
+                console.log(err);
                 return res.send({ success: false });
             } else {
-                // console.log(decoded);
+                console.log("lol");
+                console.log(decoded);
                 userDB.find({ email: decoded.email, _id: decoded._id, role: decoded.role }).then(function (data) {
                     if (data.length == 0) {
                         return res.send({ success: false });
@@ -143,58 +144,59 @@ app.post('/getTasks', function (req, res) {
     });
 });
 
-app.get('/xml', function (req, res) {
-    // let conf ={};
-    // // conf.stylesXmlFile = "styles.xml";
-    // // conf.name = "mysheet";
-    // conf.cols = [{
-    //     caption:'string',
-    //     type:'string',
-    //     beforeCellWrite:function(row, cellData){
-    //         return cellData.toUpperCase();
-    //     },
-    //     width:28.7109375
-    // },{
-    //     caption:'date',
-    //     type:'date',
-    //     beforeCellWrite:function(){
-    //         let originDate = new Date(Date.UTC(1899,11,30));
-    //         return function(row, cellData, eOpt){
-    //             if (eOpt.rowNum%2){
-    //                 eOpt.styleIndex = 1;
-    //             }
-    //             else{
-    //                 eOpt.styleIndex = 2;
-    //             }
-    //             if (cellData === null){
-    //                 eOpt.cellType = 'string';
-    //                 return 'N/A';
-    //             } else
-    //                 return (cellData - originDate) / (24 * 60 * 60 * 1000);
-    //         }
-    //     }()
-    // },{
-    //     caption:'bool',
-    //     type:'bool'
-    // },{
-    //     caption:'number',
-    //     type:'number'
-    // }];
-    // conf.rows = [
-    //     ['pi', new Date(Date.UTC(2013, 4, 1)), true, 3.14],
-    //     ["e", new Date(2012, 4, 1), false, 2.7182],
-    //     ["M&M<>'", new Date(Date.UTC(2013, 6, 9)), false, 1.61803],
-    //     ["null date", null, true, 1.414]
-    // ];
-    // let result = nodeExcel.execute(conf);
-    // res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    // res.setHeader("Content-Disposition", "attachment; filename=" + "Report.xlsx");
-    // res.end(result, 'binary');
-
-    var data = [[1, 2, 3], [true, false, null, 'sheetjs'], ['foo', 'bar', new Date('2014-02-19T14:30Z'), '0.3'], ['baz', null, 'qux']];
-    var buffer = _nodeXlsx2['default'].build([{ name: "mySheetName", data: data }]); // Returns a buffer
-    res.end(buffer.toString('base64'));
-});
+// app.get('/xml', function(req, res){
+//     // let conf ={};
+//     // // conf.stylesXmlFile = "styles.xml";
+//     // // conf.name = "mysheet";
+//     // conf.cols = [{
+//     //     caption:'string',
+//     //     type:'string',
+//     //     beforeCellWrite:function(row, cellData){
+//     //         return cellData.toUpperCase();
+//     //     },
+//     //     width:28.7109375
+//     // },{
+//     //     caption:'date',
+//     //     type:'date',
+//     //     beforeCellWrite:function(){
+//     //         let originDate = new Date(Date.UTC(1899,11,30));
+//     //         return function(row, cellData, eOpt){
+//     //             if (eOpt.rowNum%2){
+//     //                 eOpt.styleIndex = 1;
+//     //             }
+//     //             else{
+//     //                 eOpt.styleIndex = 2;
+//     //             }
+//     //             if (cellData === null){
+//     //                 eOpt.cellType = 'string';
+//     //                 return 'N/A';
+//     //             } else
+//     //                 return (cellData - originDate) / (24 * 60 * 60 * 1000);
+//     //         }
+//     //     }()
+//     // },{
+//     //     caption:'bool',
+//     //     type:'bool'
+//     // },{
+//     //     caption:'number',
+//     //     type:'number'
+//     // }];
+//     // conf.rows = [
+//     //     ['pi', new Date(Date.UTC(2013, 4, 1)), true, 3.14],
+//     //     ["e", new Date(2012, 4, 1), false, 2.7182],
+//     //     ["M&M<>'", new Date(Date.UTC(2013, 6, 9)), false, 1.61803],
+//     //     ["null date", null, true, 1.414]
+//     // ];
+//     // let result = nodeExcel.execute(conf);
+//     // res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+//     // res.setHeader("Content-Disposition", "attachment; filename=" + "Report.xlsx");
+//     // res.end(result, 'binary');
+//
+//
+//     const data = [[1, 2, 3], [true, false, null, 'sheetjs'], ['foo', 'bar', new Date('2014-02-19T14:30Z'), '0.3'], ['baz', null, 'qux']];
+//     let buffer = xlsx.build([{name: "mySheetName", data: data}]); // Returns a buffer
+//     res.end(buffer.toString('base64'));
+// });
 
 app.post('/getXlsx', function (req, res) {
     console.log(req.body);
@@ -272,7 +274,7 @@ app.post('/removeTask', function (req, res) {
 
 app.post('/sendInsructions', function (req, res) {
     userDB.findByEmail(req.body).then(function (data) {
-        if (data.length == 0) {
+        if (data.length == 0 || data[0].Auth != undefined) {
             res.send(false);
         } else {
             forgotPassDB.removeByEmail(req.body).then(function () {
@@ -375,7 +377,9 @@ app.post('/changeEmail', function (req, res) {
 
 app.post('/login', function (req, res) {
     userDB.findByEmailAndPass(req.body).then(function (data) {
-        if (data.length != 0) {
+        // console.log((req.body.OAuth==data[0].OAuth));
+        // console.log(data[0]);
+        if (data.length != 0 && (req.body.OAuth == undefined && data[0].OAuth == undefined || req.body.OAuth == data[0].OAuth)) {
             // onCheck.log(req.body);
             console.log(data[0].email);
             var token = getToken(data[0]);
@@ -386,6 +390,7 @@ app.post('/login', function (req, res) {
                     console.log(decoded);
                 }
             });
+            console.log("all ok");
             res.send({ token: token, user: data[0] });
         } else {
             console.log(req.body);
