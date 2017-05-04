@@ -12,6 +12,7 @@ import * as noteAction from '../actions/NoteAction'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import ExitBtn from './components/ExitBtn'
 import NotesDashboard from './components/NotesDashboard'
+import * as download from '../actions/DownloadFileAction'
 import '../css/main.css'
 
 export default class Dashboard extends Component {
@@ -26,7 +27,7 @@ export default class Dashboard extends Component {
 
     render() {
         const {userInSystem,tasks} = this.props;
-        const {changeTaskStatus,addTask,getTasks,cleanTasks,removeTask} = this.props;
+        const {changeTaskStatus,addTask,getTasks,cleanTasks,removeTask,downloadExcel} = this.props;
         switch (this.props.loadingStatus) {
             case enums.LOAD_REQUEST:
                 return <LoadingPage/>;
@@ -47,7 +48,7 @@ export default class Dashboard extends Component {
                             <div><ExitBtn/></div>
                         </div>
                     </Paper>
-                    <NotesDashboard userInSystem={userInSystem} cleanTasks={cleanTasks} removeTask={removeTask} tasks={tasks} changeTaskStatus={changeTaskStatus} getTasks={getTasks} addTask={addTask}/>
+                    <NotesDashboard userInSystem={userInSystem} downloadExcel={downloadExcel} cleanTasks={cleanTasks} removeTask={removeTask} tasks={tasks} changeTaskStatus={changeTaskStatus} getTasks={getTasks} addTask={addTask}/>
                     </div>
                 </MuiThemeProvider>)
             }
@@ -81,7 +82,7 @@ function mapDispatchToProps(dispatch) {
         addTask:bindActionCreators(noteAction.addTask, dispatch),
         getTasks:bindActionCreators(noteAction.getTasks, dispatch),
         cleanTasks:bindActionCreators(noteAction.cleanTasks, dispatch),
-        removeTask:bindActionCreators(noteAction.removeTask, dispatch)
+        removeTask:bindActionCreators(noteAction.removeTask, dispatch),downloadExcel: bindActionCreators(download.downloadExcel, dispatch)
     }
 }
 

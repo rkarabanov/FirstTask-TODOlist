@@ -4,9 +4,21 @@ import LoadingPage from "./LoadingPage"
 import {browserHistory} from 'react-router'
 import { RaisedButton, Paper} from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import GoogleLogin from 'react-google-login'
 import '../css/main.css'
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import * as firebase from "firebase";
 
+
+var config = {
+    apiKey: "AIzaSyCyugkXlKWM910SLjgnRKKKL7FvVIhuWWM",
+    authDomain: "quick-start-ac407.firebaseapp.com",
+    databaseURL: "https://quick-start-ac407.firebaseio.com",
+    projectId: "quick-start-ac407",
+    storageBucket: "quick-start-ac407.appspot.com",
+    messagingSenderId: "438876745891"
+};
+firebase.initializeApp(config);
 
 export default class LoginForm extends Component {
 
@@ -28,6 +40,7 @@ export default class LoginForm extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
+
     }
 
     componentWillMount() {
@@ -48,8 +61,28 @@ export default class LoginForm extends Component {
         this.setState({email: this.state.email, pass: pass});
     }
 
+
     render() {
+        // let GoogleAuth; // Google Auth object.
+        // function initClient() {
+        //     gapi.client.init({
+        //         'apiKey': 'AIzaSyBSC2CnsxwNZm4B5bWMSA5z-CF5SvJhvGs',
+        //         'clientId': '862453605228-gqunseeo604i6cl9g1mfr56logrhnacq.apps.googleusercontent.com',
+        //         'scope': 'https://www.googleapis.com/auth/drive.metadata.readonly',
+        //         'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
+        //     }).then(function () {
+        //         GoogleAuth = gapi.auth2.getAuthInstance();
+        //
+        //         // Listen for sign-in state changes.
+        //         GoogleAuth.isSignedIn.listen(updateSigninStatus);
+        //         console.log(GoogleAuth);
+        //     });
+        // }
+        // GoogleAuth.signIn();
         const {email, pass} = this.state;
+        const responseGoogle = (response) => {
+            console.log(response);
+        };
         switch (this.props.loadingStatus) {
             case enums.LOAD_REQUEST:
                 return <LoadingPage/>;
@@ -98,6 +131,12 @@ export default class LoginForm extends Component {
                                     <RaisedButton className="button" label="Забыли пароль?" href="/forgotPass"/>
                                 </div>
                             </div>
+                            <GoogleLogin
+                                clientId="862453605228-gqunseeo604i6cl9g1mfr56logrhnacq.apps.googleusercontent.com"
+                                buttonText="Login"
+                                onSuccess={responseGoogle}
+                                onFailure={responseGoogle}
+                            />
                         </Paper>
                     </MuiThemeProvider>
                 );

@@ -59,6 +59,10 @@ export default {
     },getAllUsers(data){
         return axios.post(adressServer + "/getAllUsers", data);
     },
+    downloadExcel(data){
+        return axios.post(adressServer + "/getXlsx",data);
+    },
+
 
 }
 

@@ -33,3 +33,8 @@
 .pb10{
     padding-bottom: 5px;
 }
+.fr{
+    float: right;
+    margin-top: -50px;
+    padding-right: 10px;
+}

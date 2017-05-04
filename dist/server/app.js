@@ -28,7 +28,12 @@ var _utilsNoteDBUtils = require('./utils/NoteDBUtils');
 
 var noteDB = _interopRequireWildcard(_utilsNoteDBUtils);
 
+var _nodeXlsx = require('node-xlsx');
+
+var _nodeXlsx2 = _interopRequireDefault(_nodeXlsx);
+
 var session = require('express-session');
+var nodeExcel = require('excel-export');
 
 var morgan = require('morgan');
 
@@ -139,18 +144,79 @@ app.post('/getTasks', function (req, res) {
 });
 
 app.get('/xml', function (req, res) {
-    var fs = require('fs');
-    var writeStream = fs.createWriteStream("file.xls");
+    // let conf ={};
+    // // conf.stylesXmlFile = "styles.xml";
+    // // conf.name = "mysheet";
+    // conf.cols = [{
+    //     caption:'string',
+    //     type:'string',
+    //     beforeCellWrite:function(row, cellData){
+    //         return cellData.toUpperCase();
+    //     },
+    //     width:28.7109375
+    // },{
+    //     caption:'date',
+    //     type:'date',
+    //     beforeCellWrite:function(){
+    //         let originDate = new Date(Date.UTC(1899,11,30));
+    //         return function(row, cellData, eOpt){
+    //             if (eOpt.rowNum%2){
+    //                 eOpt.styleIndex = 1;
+    //             }
+    //             else{
+    //                 eOpt.styleIndex = 2;
+    //             }
+    //             if (cellData === null){
+    //                 eOpt.cellType = 'string';
+    //                 return 'N/A';
+    //             } else
+    //                 return (cellData - originDate) / (24 * 60 * 60 * 1000);
+    //         }
+    //     }()
+    // },{
+    //     caption:'bool',
+    //     type:'bool'
+    // },{
+    //     caption:'number',
+    //     type:'number'
+    // }];
+    // conf.rows = [
+    //     ['pi', new Date(Date.UTC(2013, 4, 1)), true, 3.14],
+    //     ["e", new Date(2012, 4, 1), false, 2.7182],
+    //     ["M&M<>'", new Date(Date.UTC(2013, 6, 9)), false, 1.61803],
+    //     ["null date", null, true, 1.414]
+    // ];
+    // let result = nodeExcel.execute(conf);
+    // res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    // res.setHeader("Content-Disposition", "attachment; filename=" + "Report.xlsx");
+    // res.end(result, 'binary');
 
-    var header = "Sl No" + "\t" + " Age" + "\t" + "Name" + "\n";
-    var row1 = "0" + "\t" + " 21" + "\t" + "Rob" + "\n";
-    var row2 = "1" + "\t" + " 22" + "\t" + "bob" + "\n";
+    var data = [[1, 2, 3], [true, false, null, 'sheetjs'], ['foo', 'bar', new Date('2014-02-19T14:30Z'), '0.3'], ['baz', null, 'qux']];
+    var buffer = _nodeXlsx2['default'].build([{ name: "mySheetName", data: data }]); // Returns a buffer
+    res.end(buffer.toString('base64'));
+});
 
-    writeStream.write(header);
-    writeStream.write(row1);
-    writeStream.write(row2);
-
-    writeStream.close();
+app.post('/getXlsx', function (req, res) {
+    console.log(req.body);
+    userDB.findByIDAndPass(req.body).then(function (data) {
+        if (data.length != 0) noteDB.findByUserID({ userID: data[0]._id }).then(function (data) {
+            // console.log(data);
+            var headers = ["Tasks", "Is finish"];
+            var arr = [];
+            arr.push(headers);
+            data.map(function (e) {
+                var a = [];
+                a.push(e.task);
+                a.push(e.status ? "Yes" : "No");
+                arr.push(a);
+            });
+            // res.send(data);
+            var buffer = _nodeXlsx2['default'].build([{ name: "mySheetName", data: arr }]); // Returns a buffer
+            res.end(buffer.toString('base64'));
+        });else res.send("Неверный данные пользователя");
+    })['catch'](function (error) {
+        res.send("Ошибка обработки сервера!");
+    });
 });
 
 app.post('/getAllUsers', function (req, res) {

@@ -11,6 +11,7 @@ import * as noteAction from '../actions/NoteAction'
 import { Paper,Avatar,FloatingActionButton, FontIcon, IconButton, ListItem, List,} from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import ContentInput from 'material-ui/svg-icons/action/input'
+import * as download from '../actions/DownloadFileAction'
 import '../css/main.css'
 
 class Admin extends Component {
@@ -35,7 +36,7 @@ class Admin extends Component {
 
                 if (this.props.userInSystem.role != undefined && this.props.userInSystem.role == 'admin') {
                     const {userInSystem,tasks,allUsers} = this.props;
-                    const {changeTaskStatus,addNote,addTask,getTasks,cleanTasks,removeTask,cleanUsers,getAllUsers} = this.props;
+                    const {changeTaskStatus,addNote,addTask,getTasks,cleanTasks,removeTask,cleanUsers,getAllUsers,downloadExcel} = this.props;
                     return(
                     <MuiThemeProvider>
                         <Paper>
@@ -58,6 +59,7 @@ class Admin extends Component {
                                        getAllUsers={getAllUsers}
                                        cleanUsers={cleanUsers}
                                        allUsers={allUsers}
+                                       downloadExcel={downloadExcel}
                             />
                         </Paper>
 
@@ -104,7 +106,8 @@ function mapDispatchToProps(dispatch) {
         addTask:bindActionCreators(noteAction.addTask, dispatch),
         getTasks:bindActionCreators(noteAction.getTasks, dispatch),
         cleanTasks:bindActionCreators(noteAction.cleanTasks, dispatch),
-        removeTask:bindActionCreators(noteAction.removeTask, dispatch)
+        removeTask:bindActionCreators(noteAction.removeTask, dispatch),
+        downloadExcel: bindActionCreators(download.downloadExcel, dispatch)
     }
 }
 

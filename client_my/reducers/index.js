@@ -1,6 +1,8 @@
 import {browserHistory} from 'react-router'
 import "babel-polyfill";
 import enums from "../constans/Const"
+const fileDownload = require('react-file-download');
+const fileSaver = require("file-saver");
 
 const initialState = {
     errorToAccess: true,
@@ -8,7 +10,8 @@ const initialState = {
     userInSystem: {},
     loadingStatus: enums.LOAD_REQUEST,
     tasks:[],
-    allUsers:[]
+    allUsers:[],
+    file:{}
 };
 
 export default  function reduce(state = initialState, action) {
@@ -20,6 +23,41 @@ export default  function reduce(state = initialState, action) {
         }
         case "CLEAN_USERS":{
             return {...state, allUsers: []};
+            break;
+        }
+        case "DOWNLOAD_EXCEL_FULFILLED":{
+
+            let data=action.payload;
+            // fileDownload(action.payload, 'Report.xlsx');
+            // fileDownload(action.payload, 'Report.xlsx');
+
+
+            // function s2ab(s) {
+            //     var buf = new ArrayBuffer(s.length);
+            //     var view = new Uint8Array(buf);
+            //     for (var i = 0; i != s.length; ++i) {
+            //         view[i] = s.charCodeAt(i) & 0xFF;
+            //     }
+            //     return buf;
+            // }
+            //
+            // let dataF = s2ab(data);
+            // fileSaver.saveAs(new Blob([dataF], {type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}), "test.xlsx");
+            // console.log(dataF);
+            // console.log(data);
+            let blob = new Blob([base64ToArrayBuffer(data)]);
+            function base64ToArrayBuffer (base64) {
+                let binary_string = window.atob(base64);
+                let len = binary_string.length;
+                let bytes = new Uint8Array(len);
+                for (let i = 0; i < len; i++) {
+                    bytes[i] = binary_string.charCodeAt(i);
+                }
+                return bytes.buffer;
+            }
+            fileSaver.saveAs(blob, 'todolist.xlsx');
+            // require("downloadjs")(data, "doog.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            return {...state};
             break;
         }
         case 'REMOVE_TASK_FULFILLED':{

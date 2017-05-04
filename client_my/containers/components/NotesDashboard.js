@@ -6,6 +6,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add'
 import ContentRemove from 'material-ui/svg-icons/content/delete-sweep'
 import Modal from 'react-awesome-modal'
 import Divider from 'material-ui/Divider';
+
 import '../../css/main.css'
 
 export default class NotesDashboard extends Component {
@@ -101,8 +102,15 @@ export default class NotesDashboard extends Component {
             )
     }
 
+    download(){
+        this.props.downloadExcel({pass:this.props.userInSystem.pass,_id:this.props.userInSystem._id})
+    }
+
     render() {
         console.log(this.props.tasks);
+        const responseGoogle = (response) => {
+            console.log(response);
+        }
         const listItems = (Array.isArray(this.props.tasks)
             && this.props.tasks.length > 0
         )?(this.props.observer!=undefined?(this.props.tasks.map((note, index) =>
@@ -124,12 +132,13 @@ export default class NotesDashboard extends Component {
         return (
             <div>
                 <MuiThemeProvider>
-
                     <Paper>
                         <div className="pb10">
                             <List>{listItems}</List>
                             <br/>
                             {this.addBtn()}
+                            {/*<br/>*/}
+                            <div className="fr"><RaisedButton label="Скачать в .xlsx"  onClick={this.download.bind(this)}/></div>
                         </div>
                     </Paper>
 
@@ -158,6 +167,7 @@ export default class NotesDashboard extends Component {
                             {/*<RaisedButton label="Отправить" type="submit"/>*/}
                             {this.state.btn}
                             <br/>
+
                         </ValidatorForm>
                         </div>
                     </div>
@@ -184,5 +194,6 @@ NotesDashboard.propTypes = {
     addTask: PropTypes.func.isRequired,
     getTasks: PropTypes.func.isRequired,
     cleanTasks: PropTypes.func.isRequired,
+    downloadExcel: PropTypes.func.isRequired,
     removeTask: PropTypes.func.isRequired
 };
