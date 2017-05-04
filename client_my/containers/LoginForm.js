@@ -6,19 +6,11 @@ import { RaisedButton, Paper} from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import GoogleLogin from 'react-google-login'
 import '../css/main.css'
+import secret from "../../config/auth"
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import * as firebase from "firebase";
 
 
-var config = {
-    apiKey: "AIzaSyCyugkXlKWM910SLjgnRKKKL7FvVIhuWWM",
-    authDomain: "quick-start-ac407.firebaseapp.com",
-    databaseURL: "https://quick-start-ac407.firebaseio.com",
-    projectId: "quick-start-ac407",
-    storageBucket: "quick-start-ac407.appspot.com",
-    messagingSenderId: "438876745891"
-};
-firebase.initializeApp(config);
+
 
 export default class LoginForm extends Component {
 
@@ -81,7 +73,15 @@ export default class LoginForm extends Component {
         // GoogleAuth.signIn();
         const {email, pass} = this.state;
         const responseGoogle = (response) => {
-            console.log(response);
+            console.log(response.profileObj);
+            this.props.loginAction({
+                "email": "" + response.profileObj.email,
+                "OAuth":true,
+                "pass":""+response.profileObj.googleId
+            });
+        };
+        const responseFGoogle=(err)=>{
+            console.log("fail",err);
         };
         switch (this.props.loadingStatus) {
             case enums.LOAD_REQUEST:
@@ -122,6 +122,7 @@ export default class LoginForm extends Component {
                                         <RaisedButton primary='true' type="submit" className="button" id="ok"
                                                       label="Подтвердить"
                                                       fullWidth="true"/>
+
                                     </ValidatorForm>
                                     <br/>
                                     {/*<RaisedButton  secondary='true' href="/login" label="Регистрация"/>*/}
@@ -129,14 +130,15 @@ export default class LoginForm extends Component {
                                 <div className="forgot">
                                     <RaisedButton  secondary='true' href="/registration" label="Регистрация"/>
                                     <RaisedButton className="button" label="Забыли пароль?" href="/forgotPass"/>
+                                    <GoogleLogin
+                                        clientId={secret.googleAuth.clientID}
+                                        buttonText="Google Login"
+                                        onSuccess={responseGoogle}
+                                        onFailure={responseFGoogle}
+                                    />
                                 </div>
                             </div>
-                            <GoogleLogin
-                                clientId="862453605228-gqunseeo604i6cl9g1mfr56logrhnacq.apps.googleusercontent.com"
-                                buttonText="Login"
-                                onSuccess={responseGoogle}
-                                onFailure={responseGoogle}
-                            />
+
                         </Paper>
                     </MuiThemeProvider>
                 );
