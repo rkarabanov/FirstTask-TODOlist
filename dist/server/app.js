@@ -12,10 +12,6 @@ var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
-var _cors = require('cors');
-
-var _cors2 = _interopRequireDefault(_cors);
-
 var _utilsUserDBUtils = require('./utils/UserDBUtils');
 
 var userDB = _interopRequireWildcard(_utilsUserDBUtils);
@@ -54,7 +50,7 @@ var transporter = nodemailer.createTransport({
 userDB.setUpConnection();
 
 app.use(_bodyParser2['default'].json({ limit: '5mb' }));
-app.use((0, _cors2['default'])({ origin: "*" }));
+app.use(cors({ origin: "*" }));
 
 app.use(morgan('dev'));
 

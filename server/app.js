@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import cors from 'cors';
+
 import * as userDB from './utils/UserDBUtils';
 import * as forgotPassDB from './utils/ForgotPassDBUtils';
 import * as noteDB from './utils/NoteDBUtils';
