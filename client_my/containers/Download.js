@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 import * as loadCompAction from '../actions/LoadComponentAction'
 import * as login from '../actions/LoginAction'
 import * as reg from '../actions/RegAction'
@@ -26,9 +26,9 @@ class Registration extends Component {
         this.props.downloadExcel();
     }
 
-    link(){
-if(this.props.file!=undefined)
-    return <a href={this.props.file}>Here</a>
+    link() {
+        if (this.props.file != undefined)
+            return <a href={this.props.file}>Here</a>
 
         else return "";
     }
@@ -43,17 +43,16 @@ if(this.props.file!=undefined)
         </div>
 
     }
+
     componentWillUnmount() {
         // this.props.backupInformation();
         // this.props.loadComponentAction();
     }
 }
 
-
-
-function mapStateToProps (state) {
+function mapStateToProps(state) {
     return {
-        file:state.file
+        file: state.file
     }
 }
 
@@ -64,4 +63,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(Registration)
+export default connect(mapStateToProps, mapDispatchToProps)(Registration)

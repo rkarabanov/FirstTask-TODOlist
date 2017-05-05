@@ -3,7 +3,6 @@
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
-exports.setUpConnection = setUpConnection;
 exports.createUser = createUser;
 exports.restorePass = restorePass;
 exports.restoreImage = restoreImage;
@@ -24,10 +23,6 @@ var _mongoose2 = _interopRequireDefault(_mongoose);
 require('../models/User');
 
 var User = _mongoose2['default'].model('User');
-
-function setUpConnection() {
-    _mongoose2['default'].connect('mongodb://test:test@ds157390.mlab.com:57390/newdb');
-}
 
 function createUser(data) {
     var buffer = {};

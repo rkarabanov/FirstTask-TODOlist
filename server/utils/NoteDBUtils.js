@@ -4,9 +4,6 @@ import '../models/Note';
 
 const Note = mongoose.model('Note');
 
-export function setUpConnection(){
-    mongoose.connect(`mongodb://test:test@ds157390.mlab.com:57390/newdb`);
-}
 
 export function createNote(data) {
     const note = new Note({

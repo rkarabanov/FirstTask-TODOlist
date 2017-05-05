@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 import * as loadCompAction from '../actions/LoadComponentAction'
 import * as login from '../actions/LoginAction'
 import * as reg from '../actions/RegAction'
@@ -20,20 +20,21 @@ class Registration extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user:{}
+            user: {}
         };
         this.handleChange = this.handleChange.bind(this);
     }
 
-    informationPrint(){
-        return this.props.information ? this.props.information:"Регистрация";
+    informationPrint() {
+        return this.props.information ? this.props.information : "Регистрация";
     }
 
     handleChange(event) {
-        const { user } = this.state;
+        const {user} = this.state;
         user[event.target.name] = event.target.value;
-        this.setState({ user });
+        this.setState({user});
     }
+
     handleSubmit() {
         this.props.regAction({
             "email": "" + document.getElementsByName("email")[0].value,
@@ -54,7 +55,7 @@ class Registration extends Component {
 
 
     render() {
-        const { user } = this.state;
+        const {user} = this.state;
 
         //onCheck.log(this.props.userInSystem);
         switch (this.props.loadingStatus) {
@@ -70,17 +71,17 @@ class Registration extends Component {
                     console.log(response.profileObj);
                     this.props.regAction({
                         "email": "" + response.profileObj.email,
-                        "OAuth":true,
-                        "pass":""+response.profileObj.googleId,
-                        "imageUrl":""+response.profileObj.imageUrl,
-                        "filename":""+response.profileObj.name,
+                        "OAuth": true,
+                        "pass": "" + response.profileObj.googleId,
+                        "imageUrl": "" + response.profileObj.imageUrl,
+                        "filename": "" + response.profileObj.name,
                         "filetype": "image/jpeg"
                     });
                 };
-                const responseFGoogle=(err)=>{
-                    console.log("fail",err);
+                const responseFGoogle = (err) => {
+                    console.log("fail", err);
                 };
-                return(
+                return (
                     <MuiThemeProvider>
                         <Paper>
                             <div className="main-container">
@@ -121,16 +122,16 @@ class Registration extends Component {
                                         <br/>
                                         <RaisedButton primary='true' type="submit" className="button"
                                                       label="Подтвердить"
-                                                      fullWidth="true" />
+                                                      fullWidth="true"/>
                                     </ValidatorForm>
                                     <br/>
                                     <div className="mtb">
-                                    <GoogleLogin
-                                        clientId={secret.googleAuth.clientID}
-                                        buttonText="Google Registration"
-                                        onSuccess={responseGoogle}
-                                        onFailure={responseFGoogle}
-                                    />
+                                        <GoogleLogin
+                                            clientId={secret.googleAuth.clientID}
+                                            buttonText="Google Registration"
+                                            onSuccess={responseGoogle}
+                                            onFailure={responseFGoogle}
+                                        />
                                     </div>
                                     <br/>
                                     <RaisedButton labelColor="#32CD32" href="/login" label="Войти"/>
@@ -141,10 +142,11 @@ class Registration extends Component {
                         </Paper>
                     </MuiThemeProvider>);
 
-               break;
+                break;
 
         }
     }
+
     componentWillUnmount() {
         this.props.backupInformation();
         this.props.loadComponentAction();
@@ -152,22 +154,21 @@ class Registration extends Component {
 }
 
 
-
-function mapStateToProps (state) {
+function mapStateToProps(state) {
     return {
-        loadingStatus:state.loadingStatus,
-        information:state.information
+        loadingStatus: state.loadingStatus,
+        information: state.information
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         backupInformation: bindActionCreators(funcs.backupInformation, dispatch),
-        regAction:bindActionCreators(reg.regAction,dispatch),
-        isInSystem:bindActionCreators(login.isInSystem, dispatch),
-        loadComponentAction:bindActionCreators(loadCompAction.loadComponentAction, dispatch)
+        regAction: bindActionCreators(reg.regAction, dispatch),
+        isInSystem: bindActionCreators(login.isInSystem, dispatch),
+        loadComponentAction: bindActionCreators(loadCompAction.loadComponentAction, dispatch)
     }
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(Registration)
+export default connect(mapStateToProps, mapDispatchToProps)(Registration)

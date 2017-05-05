@@ -4,10 +4,7 @@ import '../models/User';
 
 const User = mongoose.model('User');
 
-export function setUpConnection(){
-    mongoose.connect(`mongodb://test:test@ds157390.mlab.com:57390/newdb`);
 
-}
 
 export function createUser(data) {
     let buffer={};
