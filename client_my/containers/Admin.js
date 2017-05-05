@@ -38,7 +38,6 @@ class Admin extends Component {
                     const {userInSystem,tasks,allUsers} = this.props;
                     const {changeTaskStatus,addNote,addTask,getTasks,cleanTasks,removeTask,cleanUsers,getAllUsers,downloadExcel} = this.props;
                     return(
-                    <MuiThemeProvider>
                         <Paper>
                             <div className="main-container">
                                 <div>
@@ -62,11 +61,8 @@ class Admin extends Component {
                                        downloadExcel={downloadExcel}
                             />
                         </Paper>
-
-
-                    </MuiThemeProvider>);}
+);}
                 else  return(
-                    <MuiThemeProvider style="heigth:100vh;">
                         <Paper style="heigth:100vh;">
                             <div className="main-container" >
                                 <div>
@@ -74,7 +70,6 @@ class Admin extends Component {
                                 </div>
                             </div>
                         </Paper>
-                    </MuiThemeProvider>
                 )
             }
         }

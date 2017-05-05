@@ -1,6 +1,5 @@
 import React, {PropTypes, Component} from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+
 import { Paper,Avatar,FloatingActionButton, FontIcon, IconButton, ListItem, List,} from 'material-ui'
 import Modal from 'react-awesome-modal'
 import Divider from 'material-ui/Divider';
@@ -65,13 +64,7 @@ export default class UsersList extends Component {
             return (
 
                 <div>
-                    <MuiThemeProvider>
-
-                        <MuiThemeProvider>
                             <List>{listItems}</List>
-                        </MuiThemeProvider>
-
-                    </MuiThemeProvider>
                     <Modal visible={this.state.visible} width="600" effect="fadeInUp"
                            onClickAway={() => this.closeModal()}>
                         <NotesDashboard userInSystem={this.state.watchUser}

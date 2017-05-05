@@ -5,7 +5,6 @@ import * as exit from '../../actions/ExitUserAction'
 
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import {RaisedButton} from 'material-ui'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 
 
@@ -17,7 +16,7 @@ export default class ExitBtn extends Component {
     }
 
     render() {
-        return <MuiThemeProvider><RaisedButton label="Выйти" secondary='true' onClick={this.exitUser.bind(this)}/></MuiThemeProvider>
+        return <RaisedButton label="Выйти" secondary='true' onClick={this.exitUser.bind(this)}/>
     }
 
 }
