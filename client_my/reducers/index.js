@@ -58,11 +58,13 @@ export default  function reduce(state = initialState, action) {
                 return {...state, loadingStatus: enums.LOAD_USER_FAIL};
             }
         }
+            break;
         case 'TO_LOAD_REQUEST':
             return {...state, loadingStatus: action.payload};
             break;
 
         case 'GET_TASKS_FULFILLED':
+        case 'CHANGE_TASK_FULFILLED':
         case 'CHANGE_TASK_STATUS_FULFILLED':{
             let data = action.payload;
             if (typeof data === 'string') {

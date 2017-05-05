@@ -36,7 +36,7 @@ class Admin extends Component {
 
                 if (this.props.userInSystem.role != undefined && this.props.userInSystem.role == 'admin') {
                     const {userInSystem,tasks,allUsers} = this.props;
-                    const {changeTaskStatus,addNote,addTask,getTasks,cleanTasks,removeTask,cleanUsers,getAllUsers,downloadExcel} = this.props;
+                    const {changeTaskStatus,addNote,addTask,changeTask,getTasks,cleanTasks,removeTask,cleanUsers,getAllUsers,downloadExcel} = this.props;
                     return(
                         <Paper>
                             <div className="main-container">
@@ -59,6 +59,7 @@ class Admin extends Component {
                                        cleanUsers={cleanUsers}
                                        allUsers={allUsers}
                                        downloadExcel={downloadExcel}
+                                       changeTask={changeTask}
                             />
                         </Paper>
 );}
@@ -100,6 +101,7 @@ function mapDispatchToProps(dispatch) {
         changeTaskStatus:bindActionCreators(noteAction.changeTaskStatus, dispatch),
         addTask:bindActionCreators(noteAction.addTask, dispatch),
         getTasks:bindActionCreators(noteAction.getTasks, dispatch),
+        changeTask:bindActionCreators(noteAction.changeTask, dispatch),
         cleanTasks:bindActionCreators(noteAction.cleanTasks, dispatch),
         removeTask:bindActionCreators(noteAction.removeTask, dispatch),
         downloadExcel: bindActionCreators(download.downloadExcel, dispatch)

@@ -7,15 +7,19 @@ const Note = mongoose.model('Note');
 
 export function createNote(data) {
     const note = new Note({
+        title:data.title,
         userID: data.userID,
         task: data.task||"",
-        status:false
+        status:false,
+        created_at:new Date(),
+        updated_at:new Date()
     });
     return note.save();
 }
 
 export function changeStatus(data) {
     data.status=!data.status;
+    data.updated_at=new Date();
     console.log(data);
     const note = new Note(
         data
@@ -25,6 +29,8 @@ export function changeStatus(data) {
 
 export function changeTask(data, newObj) {
     data.task=newObj.task;
+    data.title=newObj.title;
+    data.updated_at=new Date();
     console.log(data);
     const note = new Note(
         data

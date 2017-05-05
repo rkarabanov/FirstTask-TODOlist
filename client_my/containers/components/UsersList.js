@@ -60,7 +60,7 @@ export default class UsersList extends Component {
                <Divider /></span>
             ) : "Нет записей";
         const {tasks} = this.props;
-        const {changeTaskStatus,addTask,getTasks,cleanTasks,removeTask,downloadExcel} = this.props;
+        const {changeTaskStatus,addTask,getTasks,cleanTasks,removeTask,downloadExcel,changeTask} = this.props;
             return (
 
                 <div>
@@ -76,6 +76,7 @@ export default class UsersList extends Component {
                                         addTask={addTask}
                                         observer={true}
                                         downloadExcel={downloadExcel}
+                                        changeTask={changeTask}
                         />
                     </Modal>
                 </div>)
@@ -103,5 +104,6 @@ UsersList.propTypes = {
     cleanTasks: PropTypes.func.isRequired,
     removeTask: PropTypes.func.isRequired,
     cleanUsers: PropTypes.func.isRequired,
-    getAllUsers: PropTypes.func.isRequired
+    getAllUsers: PropTypes.func.isRequired,
+    changeTask:PropTypes.func.isRequired
 };

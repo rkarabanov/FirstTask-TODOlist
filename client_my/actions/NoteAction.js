@@ -8,6 +8,13 @@ export function changeTaskStatus(data) {
     })
 }
 
+export function changeTask(data) {
+    return dispatch=>dispatch({
+        type: "CHANGE_TASK",
+        payload:promise(res.changeTask,data)
+    })
+}
+
 export function addTask(data) {
     return dispatch=>dispatch({
         type: "ADD_TASK",

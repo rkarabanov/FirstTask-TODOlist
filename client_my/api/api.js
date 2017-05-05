@@ -44,8 +44,10 @@ export default {
         return axios.post(adressServer + "/changeImage", data,{headers:{"Access-Control-Allow-Origin": "*"}})
     },
     changeTaskStatus(data){
-        // onCheck.log(id);
         return axios.post(adressServer + "/changeTaskStatus", data)
+    },
+    changeTask(data){
+        return axios.post(adressServer + "/changeTask", data)
     },
     addTask(data){
         // onCheck.log(data);

@@ -25,7 +25,7 @@ export default class Dashboard extends Component {
 
     render() {
         const {userInSystem,tasks} = this.props;
-        const {changeTaskStatus,addTask,getTasks,cleanTasks,removeTask,downloadExcel} = this.props;
+        const {changeTaskStatus,addTask,getTasks,cleanTasks,removeTask,downloadExcel,changeTask} = this.props;
         switch (this.props.loadingStatus) {
             case enums.LOAD_REQUEST:
                 return <LoadingPage/>;
@@ -45,7 +45,7 @@ export default class Dashboard extends Component {
                             <div><ExitBtn/></div>
                         </div>
                     </Paper>
-                    <NotesDashboard userInSystem={userInSystem} downloadExcel={downloadExcel} cleanTasks={cleanTasks} removeTask={removeTask} tasks={tasks} changeTaskStatus={changeTaskStatus} getTasks={getTasks} addTask={addTask}/>
+                    <NotesDashboard changeTask={changeTask} userInSystem={userInSystem} downloadExcel={downloadExcel} cleanTasks={cleanTasks} removeTask={removeTask} tasks={tasks} changeTaskStatus={changeTaskStatus} getTasks={getTasks} addTask={addTask}/>
                     </div>)
             }
             break;
@@ -75,6 +75,7 @@ function mapDispatchToProps(dispatch) {
         isInSystem:bindActionCreators(login.isInSystem, dispatch),
         loadComponentAction:bindActionCreators(loadCompAction.loadComponentAction, dispatch),
         changeTaskStatus:bindActionCreators(noteAction.changeTaskStatus, dispatch),
+        changeTask:bindActionCreators(noteAction.changeTask, dispatch),
         addTask:bindActionCreators(noteAction.addTask, dispatch),
         getTasks:bindActionCreators(noteAction.getTasks, dispatch),
         cleanTasks:bindActionCreators(noteAction.cleanTasks, dispatch),

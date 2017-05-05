@@ -33,6 +33,9 @@
 .pb10{
     padding-bottom: 5px;
 }
+.p10>svg{
+    padding: 10px;
+}
 .fr{
     float: right;
     margin-top: -50px;
@@ -43,4 +46,8 @@
 }
 .centerLoading{
     text-align: center;
+}
+.ml-10{
+    position: absolute;
+    margin-left: -10px;
 }
