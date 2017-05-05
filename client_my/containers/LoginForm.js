@@ -118,9 +118,9 @@ export default class LoginForm extends Component {
                                             errorMessages={['это поле обязатальное']}
                                         />
                                         <br/>
-                                        <RaisedButton primary='true' type="submit" className="button" id="ok"
+                                        <RaisedButton primary={true} type="submit" className="button" id="ok"
                                                       label="Подтвердить"
-                                                      fullWidth="true"/>
+                                                      fullWidth={true}/>
 
                                     </ValidatorForm>
                                     <br/>
@@ -133,7 +133,7 @@ export default class LoginForm extends Component {
                                     {/*<RaisedButton  secondary='true' href="/login" label="Регистрация"/>*/}
                                 </div>
                                 <div className="forgot">
-                                    <RaisedButton  secondary='true' href="/registration" label="Регистрация"/>
+                                    <RaisedButton  secondary={true} href="/registration" label="Регистрация"/>
                                     <RaisedButton className="button" label="Забыли пароль?" href="/forgotPass"/>
 
                                 </div>

@@ -32,7 +32,7 @@ router.post("/checkJwt", function (req, res) {
                 console.log("lol");
                 console.log(decoded);
                 userDB.find({email: decoded.email, _id: decoded._id, role: decoded.role}).then(data => {
-                    if (data.length == 0) {
+                    if (data.length === 0) {
                         return res.send({success: false});
                     }
                     else {
@@ -54,7 +54,7 @@ router.post('/getAllUsers', (req, res) => {
     console.log('/getAllUsers');
     console.log(req.body);
     userDB.findByIDAndPass(req.body).then(data => {
-        if (data.length != 0 && data[0].role == "admin")
+        if (data.length !== 0 && data[0].role === "admin")
             userDB.getAll().then(data => {
                 console.log(data);
                 res.send(data);
@@ -68,7 +68,7 @@ router.post('/getAllUsers', (req, res) => {
 router.post('/reg', (req, res) => {
     console.log(req.body);
     userDB.findByEmail(req.body).then(data => {
-        if (data.length == 0)
+        if (data.length === 0)
             userDB.createUser(req.body).then(data => {
                 console.log(data);
                 let token = getToken(data);
@@ -84,7 +84,7 @@ router.post('/reg', (req, res) => {
 router.post('/changeImage', (req, res) => {
     console.log(req.body);
     userDB.findByID(req.body).then(data => {
-        if (data.length == 0) {
+        if (data.length === 0) {
             res.send("Неверный ID пользователя");
         }
         else {
@@ -102,7 +102,7 @@ router.post('/changeImage', (req, res) => {
 router.post('/changePass', (req, res) => {
     console.log(req.body);
     userDB.findByIDAndPass(req.body).then(data => {
-        if (data.length == 0) {
+        if (data.length === 0) {
             res.send("Неверный пароль");
         }
         else {
@@ -120,9 +120,9 @@ router.post('/changePass', (req, res) => {
 router.post('/changeEmail', (req, res) => {
     console.log(req.body);
     userDB.findByEmail(req.body).then(data => {
-        if (data.length == 0) {
+        if (data.length === 0) {
             userDB.findByIDAndPass(req.body).then(data => {
-                if (data.length == 0) {
+                if (data.length === 0) {
                     res.send("Неверный пароль");
                 }
                 else {
@@ -144,7 +144,7 @@ router.post('/login', (req, res) => {
     userDB.findByEmailAndPass(req.body).then((data) => {
         // console.log((req.body.OAuth==data[0].OAuth));
         // console.log(data[0]);
-        if (data.length != 0 && ((req.body.OAuth == undefined && data[0].OAuth == undefined) || req.body.OAuth == data[0].OAuth)) {
+        if (data.length !== 0 && ((req.body.OAuth === undefined && data[0].OAuth === undefined) || req.body.OAuth === data[0].OAuth)) {
             // onCheck.log(req.body);
             console.log(data[0].email);
             let token = getToken(data[0]);

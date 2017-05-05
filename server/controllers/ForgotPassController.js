@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
 
 router.post('/sendInsructions', function (req, res) {
     userDB.findByEmail(req.body).then((data) => {
-        if (data.length == 0||data[0].Auth!=undefined) {
+        if (data.length === 0||data[0].OAuth!==undefined) {
             res.send(false);
         } else {
             forgotPassDB.removeByEmail(req.body).then(() => {
@@ -43,7 +43,7 @@ router.post('/sendInsructions', function (req, res) {
                                 res.send(false);
                                 console.log(error);
                             }
-                            // console.log('Message %s sent: %s', info.messageId, info.response);
+
                             console.log(info);
                             res.send(true);
 
@@ -63,11 +63,11 @@ router.get('/restorePass', (req, res) => {
         let dt1 = new Date(date1);
         let dt2 = new Date();
         return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) / (1000 * 60 * 60 * 24));
-    };
+    }
 
     forgotPassDB.findById(req.query.id).then((data) => {
         console.log(data);
-        if (data.length == 0 || date_diff_indays(data[0].date) > 2) {
+        if (data.length === 0 || date_diff_indays(data[0].date) > 2) {
             res.send(false);
         }
         res.send(true);

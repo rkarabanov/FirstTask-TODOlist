@@ -1,6 +1,4 @@
-import *as res from "../api/api"
-
-export function exitUser(email) {
+export function exitUser() {
     return dispatch=>dispatch({
         type: "EXIT_USER"
     })
