@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 import * as loadCompAction from '../actions/LoadComponentAction'
 import * as login from '../actions/LoginAction'
 import LoadingPage from "./LoadingPage"
 import enums from "../constans/Const"
-import {browserHistory} from 'react-router'
 import { RaisedButton, Paper} from 'material-ui'
 import * as noteAction from '../actions/NoteAction'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -54,7 +53,7 @@ export default class Dashboard extends Component {
             }
             break;
             default:{
-                browserHistory.push("/login");
+                BrowserRouter.push("/login");
                 return <div>Вы не имеете доступ в Dashboard!
                 </div>}
                 break;

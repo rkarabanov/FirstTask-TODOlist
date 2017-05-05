@@ -1,15 +1,15 @@
-const express = require('express')
-    , router = express.Router();
-import cors from 'cors';
+import express from 'express';
 
+import cors from 'cors';
+import jwt from 'jsonwebtoken'; // used to create, sign, and verify tokens
 import * as userDB from '../utils/UserDBUtils';
 
 
-router.use(cors({origin: "*"}));
 import bodyParser from 'body-parser';
-router.use(bodyParser.json({limit: '5mb'}));
+const router = express.Router()
+    .use(bodyParser.json({limit: '5mb'}))
+    .use(cors({origin: "*"}));
 
-const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
 
 
@@ -54,10 +54,10 @@ router.post('/getAllUsers', (req, res) => {
     console.log('/getAllUsers');
     console.log(req.body);
     userDB.findByIDAndPass(req.body).then(data => {
-        if (data.length != 0 && data[0].role=="admin")
+        if (data.length != 0 && data[0].role == "admin")
             userDB.getAll().then(data => {
                 console.log(data);
-                res.send( data);
+                res.send(data);
             });
         else res.send("Неверный данные пользователя")
     }).catch((error) => {
@@ -144,7 +144,7 @@ router.post('/login', (req, res) => {
     userDB.findByEmailAndPass(req.body).then((data) => {
         // console.log((req.body.OAuth==data[0].OAuth));
         // console.log(data[0]);
-        if (data.length != 0&&((req.body.OAuth==undefined &&data[0].OAuth==undefined)||req.body.OAuth==data[0].OAuth)) {
+        if (data.length != 0 && ((req.body.OAuth == undefined && data[0].OAuth == undefined) || req.body.OAuth == data[0].OAuth)) {
             // onCheck.log(req.body);
             console.log(data[0].email);
             let token = getToken(data[0]);

@@ -1,13 +1,12 @@
-const express = require('express'),
-    router = express.Router();
-
+import express from 'express';
+import xlsx from 'node-xlsx';
+import bodyParser from 'body-parser';
 
 import * as userDB from '../utils/UserDBUtils';
 import * as noteDB from '../utils/NoteDBUtils';
 
-import xlsx from 'node-xlsx';
-import bodyParser from 'body-parser';
-router.use(bodyParser.json({limit: '5mb'}));
+const  router = express.Router().use(bodyParser.json({limit: '5mb'}));
+// router
 
 
 

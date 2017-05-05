@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as exit from '../../actions/ExitUserAction'
 
-import {browserHistory} from 'react-router'
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 import {RaisedButton} from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
@@ -13,7 +13,7 @@ export default class ExitBtn extends Component {
 
     exitUser(){
         this.props.exitUser();
-        browserHistory.push("/login");
+        BrowserRouter.push("/login");
     }
 
     render() {

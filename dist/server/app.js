@@ -8,16 +8,18 @@ var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
 
+var _morgan = require('morgan');
+
+var _morgan2 = _interopRequireDefault(_morgan);
+
 var _connectionDbConnection = require("./connection/dbConnection");
 
 var connect = _interopRequireWildcard(_connectionDbConnection);
 
-var morgan = require('morgan');
-
 var app = (0, _express2["default"])();
 
 connect.setUpConnection();
-app.use(morgan('dev'));
+app.use((0, _morgan2["default"])('dev'));
 app.use(require('./controllers/UserController'));
 app.use(require('./controllers/ForgotPassController'));
 app.use(require('./controllers/NoteController'));

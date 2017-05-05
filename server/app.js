@@ -1,10 +1,10 @@
 import express from "express";
-const morgan = require('morgan');
-
+import morgan from 'morgan';
+import * as connect from "./connection/dbConnection"
 const app = express();
 
 
-import * as connect from "./connection/dbConnection"
+
 connect.setUpConnection();
 app.use(morgan('dev'));
 app.use(require('./controllers/UserController'));

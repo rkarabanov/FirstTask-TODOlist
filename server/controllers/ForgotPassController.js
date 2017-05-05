@@ -1,12 +1,11 @@
-const express = require('express'),
-    router = express.Router();
+import express from 'express';
+import bodyParser from 'body-parser';
+import nodemailer from 'nodemailer';
 
 import * as userDB from '../utils/UserDBUtils';
 import * as forgotPassDB from '../utils/ForgotPassDBUtils';
-import bodyParser from 'body-parser';
-router.use(bodyParser.json({limit: '5mb'}));
 
-const nodemailer = require('nodemailer');
+const router = express.Router().use(bodyParser.json({limit: '5mb'}));
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -44,7 +43,7 @@ router.post('/sendInsructions', function (req, res) {
                                 res.send(false);
                                 console.log(error);
                             }
-                            console.log('Message %s sent: %s', info.messageId, info.response);
+                            // console.log('Message %s sent: %s', info.messageId, info.response);
                             res.send(true);
 
                         });

@@ -3,13 +3,12 @@ import rootReducer from '../reducers'
 import thunk from "redux-thunk"
 import promise from "redux-promise-middleware"
 import { createLogger } from 'redux-logger'
-
+import nextRootReducer from '../reducers'
 export default function configureStore() {
     const store = createStore(rootReducer, applyMiddleware(createLogger(),thunk,promise()));
 
     if (module.hot) {
         module.hot.accept('../reducers', function(){
-            const nextRootReducer = require('../reducers');
             store.replaceReducer(nextRootReducer);
         })
     }

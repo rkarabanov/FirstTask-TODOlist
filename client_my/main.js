@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { Router, Route, browserHistory } from 'react-router'
+// import { Router, Route, browserHistory } from 'react-router'
 import App from './containers/App'
 import Dashboard from './containers/Dashboard'
 import ForgotPass from './containers/ForgotPass'
@@ -10,8 +10,9 @@ import PersonalSettings from './containers/PersonalSettings'
 import Admin from './containers/Admin'
 // import Download from './containers/Download'
 import configureStore from './store/configureStore'
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
+// import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 import Registration from './containers/Registration'
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 
 const store = configureStore();
 
@@ -19,7 +20,8 @@ const store = configureStore();
 
 render(
     <Provider store={store}>
-        <Router history={browserHistory}>
+        <BrowserRouter>
+            <div>
             <Route path="/login" component={App}/>
             {/*<Route path="/download" component={Download}/>*/}
             <Route path="/dashboard" component={Dashboard}/>
@@ -28,7 +30,8 @@ render(
             <Route path="/personalSettings" component={PersonalSettings}/>
             <Route path="/registration" component={Registration}/>
             <Route path="/admin" component={Admin}/>
-        </Router>
+            </div>
+        </BrowserRouter>
     </Provider>,
     document.getElementById('my-app')
 );

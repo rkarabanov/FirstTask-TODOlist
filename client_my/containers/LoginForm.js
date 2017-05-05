@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import enums from "../constans/Const"
 import LoadingPage from "./LoadingPage"
-import {browserHistory} from 'react-router'
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 import { RaisedButton, Paper} from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import GoogleLogin from 'react-google-login'
@@ -88,7 +88,7 @@ export default class LoginForm extends Component {
                 return <LoadingPage/>;
                 break;
             case enums.LOAD_USER_SUCCESS: {
-                browserHistory.push("/dashboard");
+                BrowserRouter.push("/dashboard");
                 return <LoadingPage/>;
                 break;
             }
