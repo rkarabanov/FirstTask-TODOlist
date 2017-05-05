@@ -2,7 +2,6 @@ import React, {PropTypes, Component} from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Paper,Avatar,FloatingActionButton, FontIcon, IconButton, ListItem, List,} from 'material-ui'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Modal from 'react-awesome-modal'
 import Divider from 'material-ui/Divider';
 import ContentInput from 'material-ui/svg-icons/action/input'

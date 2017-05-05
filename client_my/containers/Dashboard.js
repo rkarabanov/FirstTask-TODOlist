@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { BrowserRouter, Route, Link } from 'react-router-dom'
+import { browserHistory} from 'react-router'
 import * as loadCompAction from '../actions/LoadComponentAction'
 import * as login from '../actions/LoginAction'
 import LoadingPage from "./LoadingPage"
 import enums from "../constans/Const"
 import { RaisedButton, Paper} from 'material-ui'
 import * as noteAction from '../actions/NoteAction'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import ExitBtn from './components/ExitBtn'
 import NotesDashboard from './components/NotesDashboard'
 import * as download from '../actions/DownloadFileAction'
@@ -33,7 +32,6 @@ export default class Dashboard extends Component {
                 break;
             case enums.LOAD_USER_SUCCESS: {
                 return(
-                <MuiThemeProvider>
                     <div>
                     <Paper>
                         <div className="main-container">
@@ -48,12 +46,11 @@ export default class Dashboard extends Component {
                         </div>
                     </Paper>
                     <NotesDashboard userInSystem={userInSystem} downloadExcel={downloadExcel} cleanTasks={cleanTasks} removeTask={removeTask} tasks={tasks} changeTaskStatus={changeTaskStatus} getTasks={getTasks} addTask={addTask}/>
-                    </div>
-                </MuiThemeProvider>)
+                    </div>)
             }
             break;
             default:{
-                BrowserRouter.push("/login");
+                browserHistory.push("/login");
                 return <div>Вы не имеете доступ в Dashboard!
                 </div>}
                 break;

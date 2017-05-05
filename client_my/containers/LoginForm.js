@@ -1,9 +1,9 @@
 import React, {PropTypes, Component} from 'react'
 import enums from "../constans/Const"
 import LoadingPage from "./LoadingPage"
-import { BrowserRouter, Route, Link } from 'react-router-dom'
+import { browserHistory} from 'react-router'
 import { RaisedButton, Paper} from 'material-ui'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+
 import GoogleLogin from 'react-google-login'
 import '../css/main.css'
 import secret from "../../config/auth"
@@ -88,13 +88,12 @@ export default class LoginForm extends Component {
                 return <LoadingPage/>;
                 break;
             case enums.LOAD_USER_SUCCESS: {
-                BrowserRouter.push("/dashboard");
+                browserHistory.push("/dashboard");
                 return <LoadingPage/>;
                 break;
             }
             default:
                 return (
-                    <MuiThemeProvider>
                         <Paper>
                             <div className="main-container">
                                 <div>
@@ -141,7 +140,6 @@ export default class LoginForm extends Component {
                             </div>
 
                         </Paper>
-                    </MuiThemeProvider>
                 );
 
         }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-// import { Router, Route, browserHistory } from 'react-router'
+import {Router,  browserHistory } from 'react-router'
 import App from './containers/App'
 import Dashboard from './containers/Dashboard'
 import ForgotPass from './containers/ForgotPass'
@@ -12,15 +12,16 @@ import Admin from './containers/Admin'
 import configureStore from './store/configureStore'
 // import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 import Registration from './containers/Registration'
-import { BrowserRouter, Route, Link } from 'react-router-dom'
-
+import { Route } from 'react-router-dom'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 const store = configureStore();
 
 
 
 render(
+    <MuiThemeProvider>
     <Provider store={store}>
-        <BrowserRouter>
+        <Router history={browserHistory}>
             <div>
             <Route path="/login" component={App}/>
             {/*<Route path="/download" component={Download}/>*/}
@@ -30,8 +31,10 @@ render(
             <Route path="/personalSettings" component={PersonalSettings}/>
             <Route path="/registration" component={Registration}/>
             <Route path="/admin" component={Admin}/>
+
             </div>
-        </BrowserRouter>
-    </Provider>,
+        </Router>
+    </Provider>
+    </MuiThemeProvider>,
     document.getElementById('my-app')
 );

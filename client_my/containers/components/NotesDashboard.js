@@ -1,7 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator'
 import {Paper, ListItem, List, Checkbox, FloatingActionButton, FontIcon, IconButton, RaisedButton} from 'material-ui'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 import ContentRemove from 'material-ui/svg-icons/content/delete-sweep'
 import Modal from 'react-awesome-modal'
@@ -131,7 +130,6 @@ export default class NotesDashboard extends Component {
         const {email} = this.state;
         return (
             <div>
-                <MuiThemeProvider>
                     <Paper>
                         <div className="pb10">
                             <List>{listItems}</List>
@@ -142,7 +140,6 @@ export default class NotesDashboard extends Component {
                         </div>
                     </Paper>
 
-                </MuiThemeProvider>
                 <Modal visible={this.state.visible} width="400" height="300" effect="fadeInUp"
                        onClickAway={() => this.closeModal()}>
                     <div className="main-container">

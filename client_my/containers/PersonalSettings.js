@@ -6,6 +6,7 @@ import * as login from '../actions/LoginAction'
 import LoadingPage from "./LoadingPage"
 import enums from "../constans/Const"
 import { BrowserRouter, Route, Link } from 'react-router-dom'
+import { browserHistory } from 'react-router'
 import {RaisedButton, Paper, Avatar} from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
@@ -117,7 +118,7 @@ class PersonalSettings extends Component {
                 return <LoadingPage/>;
                 break;
             case enums.LOAD_USER_FAIL:
-                BrowserRouter.push("/login");
+                browserHistory.push("/login");
                 return <LoadingPage/>;
                 break;
             default:

@@ -6,7 +6,7 @@ import * as login from '../actions/LoginAction'
 import * as reg from '../actions/RegAction'
 import LoadingPage from "./LoadingPage"
 import enums from "../constans/Const"
-import { BrowserRouter, Route, Link } from 'react-router-dom'
+import { browserHistory} from 'react-router'
 import {RaisedButton, Paper} from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator'
@@ -63,7 +63,7 @@ class Registration extends Component {
                 return <LoadingPage/>;
                 break;
             case enums.LOAD_USER_SUCCESS:
-                BrowserRouter.push("/dashboard");
+                browserHistory.push("/dashboard");
                 return <LoadingPage/>;
                 break;
             default:
