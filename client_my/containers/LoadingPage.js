@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import CircularProgress from 'material-ui/CircularProgress';
 
-import '../css/style.css'
+import '../css/main.css'
 
 const LoadingPage = () => (
     <div className="centerLoading">

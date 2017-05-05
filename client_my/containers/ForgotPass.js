@@ -25,9 +25,7 @@ export default class ForgotPass extends Component {
     }
 
     sendInstructionsClick(e) {
-        // this.props.backupInformation();
         this.setState({email:this.state.email, btn:<RaisedButton label="Отправка..." disabled="true" type="submit"/>});
-
         this.props.sendInstructions({"email": "" + document.getElementsByName("email")[0].value});
         setTimeout(function() { this.setState({email: this.state.email,btn:<RaisedButton label="Отправить" type="submit"/>}); }.bind(this), 3000);
     }
@@ -48,10 +46,7 @@ export default class ForgotPass extends Component {
 
     shouldComponentUpdate(nextProps,nextState){
         console.log(nextProps,nextState);
-
-
         this.setState({email: this.state.email,btn:<RaisedButton label="Отправить" type="submit"/>});
-        // onCheck.log(this.state.btn);
         return true;
     }
 
@@ -86,7 +81,6 @@ export default class ForgotPass extends Component {
                                         errorMessages={['это не email', 'это поле обязатальное']}
                                     />
                                     <br/>
-                                    {/*<RaisedButton label="Отправить" type="submit"/>*/}
                                     {this.state.btn}
                                     <br/>
                                 </ValidatorForm>
