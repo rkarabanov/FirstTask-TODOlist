@@ -1,4 +1,5 @@
 import *as res from "../api/api"
+import promise from "./promisecallback"
 
 export function cleanUsers() {
     return dispatch=>dispatch({
@@ -9,8 +10,6 @@ export function cleanUsers() {
 export function getAllUsers(data) {
     return dispatch=>dispatch({
         type: "GET_ALL_USERS",
-        payload:new Promise((resolve, reject)=>{res.getAllUsers(data)
-            .then((response)=>{
-                resolve( response.data) })})
+        payload:promise(res.getAllUsers,data)
     })
 }

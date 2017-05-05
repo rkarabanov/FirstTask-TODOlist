@@ -1,16 +1,15 @@
 import *as res from "../api/api"
+import promise from "./promisecallback"
 
 export function sendInstructions(email) {
-    return dispatch=>dispatch({
+    return dispatch => dispatch({
         type: "SEND_INSTRUCTIONS",
-        payload:new Promise((resolve, reject)=>{res.sendIns(email)
-            .then((response)=>{
-                resolve( response.data) })})
+        payload: promise(res.sendIns, email)
     })
 }
 
 export function backupInformation() {
-    return dispatch=>dispatch({
+    return dispatch => dispatch({
         type: "BACKUP_INFORMATION"
     })
 }

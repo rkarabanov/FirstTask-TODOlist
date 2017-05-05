@@ -1,14 +1,12 @@
 import React, {Component} from 'react'
+import CircularProgress from 'material-ui/CircularProgress';
 
 import '../css/style.css'
 
-export default class LoadingPage extends Component {
-    render() {
-        return <div className='loading-bro'>
-            <h1>Loading</h1>
-            <svg id="load" x="0px" y="0px" viewBox="0 0 150 150">
-                <circle id="loading-inner" cx="75" cy="75" r="60"/>
-            </svg>
-        </div>;
-    }
-}
+const LoadingPage = () => (
+    <div className="centerLoading">
+        <h3>Loading</h3>
+       <CircularProgress size={80} thickness={7} color="#51BBA7"/>
+    </div>
+);
+export default LoadingPage;

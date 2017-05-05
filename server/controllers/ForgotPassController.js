@@ -44,6 +44,7 @@ router.post('/sendInsructions', function (req, res) {
                                 console.log(error);
                             }
                             // console.log('Message %s sent: %s', info.messageId, info.response);
+                            console.log(info);
                             res.send(true);
 
                         });

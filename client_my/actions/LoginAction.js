@@ -1,11 +1,13 @@
 import *as res from "../api/api"
+import promise from "./promisecallback"
 
 export function loginAction(user) {
     return dispatch=>dispatch({
         type: "IS_LOGIN",
-        payload:new Promise((resolve, reject)=>{res.login(user)
-            .then((response)=>{
-                resolve( response.data) })})
+        payload:promise(res.login,user)
+            // new Promise((resolve, reject)=>{res.login(user)
+            // .then((response)=>{
+            //     resolve( response.data) })})
     })
 }
 

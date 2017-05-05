@@ -1,20 +1,18 @@
 import *as res from "../api/api"
+import promise from "./promisecallback"
 
 export function checkToAccessRestore(id) {
     return dispatch=>dispatch({
         type: "CHECK_TO_ACCESS_RESTORE",
-        payload:new Promise((resolve, reject)=>{res.checkToAccessRestore(id)
-            .then((response)=>{
-            // onCheck.log(response);
-                resolve( response.data) })})
+        payload:promise(res.checkToAccessRestore,id)
+
     })
 }
 
 export function restorePass(id,emailObj) {
     return dispatch=>dispatch({
         type: "RESTORE_PASSWORD",
-        payload:new Promise((resolve, reject)=>{res.restorePass(id,emailObj)
-            .then((response)=>{
-                resolve( response.data) })})
+        payload:promise(res.restorePass,id,emailObj)
+            
     })
 }

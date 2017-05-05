@@ -1,10 +1,8 @@
 import *as res from "../api/api"
-
+import promise from "./promisecallback"
 export function downloadExcel(data) {
     return dispatch=>dispatch({
         type: "DOWNLOAD_EXCEL",
-        payload:new Promise((resolve, reject)=>{res.downloadExcel(data)
-            .then((response)=>{
-                resolve( response.data) })})
+        payload:promise(res.downloadExcel,data)
     })
 }
