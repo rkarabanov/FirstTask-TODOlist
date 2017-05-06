@@ -31,11 +31,9 @@
     margin: 10px;
 }
 .pb10{
-    padding-bottom: 5px;
+    padding-bottom: 10px;
 }
-.p10>svg{
-    padding: 10px;
-}
+
 .fr{
     float: right;
     margin-top: -50px;

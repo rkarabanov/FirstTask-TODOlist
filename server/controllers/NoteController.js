@@ -93,13 +93,15 @@ router.post('/changeTaskStatus', (req, res) => {
 });
 
 router.post('/changeTask', (req, res) => {
+    // console.log(req.body);
     let userinfo={pass:req.body.pass, _id:req.body.userID};
     userDB.findByIDAndPass(userinfo).then(data => {
         if (data.length !== 0)
             noteDB.findByID(req.body.note).then(data => {
                 // console.log(data[0]);
                 if(data[0].userID===req.body.userID){
-                    noteDB.changeTask(data[0]).then(data => {
+                    noteDB.changeTask(data[0],req.body).then(data => {
+                        // console.log(data);
                         noteDB.findByUserID(req.body).then(data => {
                             // console.log(data);
                             res.send(data);

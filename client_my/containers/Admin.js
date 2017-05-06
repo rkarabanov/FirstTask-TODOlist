@@ -8,7 +8,7 @@ import LoadingPage from "./LoadingPage"
 import enums from "../constans/Const"
 import UsersList from "./components/UsersList"
 import * as noteAction from '../actions/NoteAction'
-import { Paper,Avatar,FloatingActionButton, FontIcon, IconButton, ListItem, List,} from 'material-ui'
+import { Paper,Avatar,FloatingActionButton, FontIcon, IconButton, ListItem, List,RaisedButton} from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import ContentInput from 'material-ui/svg-icons/action/input'
 import * as download from '../actions/DownloadFileAction'
@@ -61,6 +61,9 @@ class Admin extends Component {
                                        downloadExcel={downloadExcel}
                                        changeTask={changeTask}
                             />
+                            <br/><div className="addBtn pb10">
+                            <RaisedButton labelColor="#32CD32" href="/dashboard" label="Dashboard"/>
+                        </div>
                         </Paper>
 );}
                 else  return(

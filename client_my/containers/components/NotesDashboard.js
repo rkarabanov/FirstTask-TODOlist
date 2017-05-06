@@ -115,7 +115,9 @@ export default class NotesDashboard extends Component {
             this.props.changeTask({
                 userID: this.props.userInSystem._id,
                 pass: this.props.userInSystem.pass,
-                task: "" + document.getElementsByName("text")[0].value
+                note: this.state.note,
+                task: "" + document.getElementsByName("text")[0].value,
+                title: "" + document.getElementsByName("title")[0].value
             });
         }
         else {
@@ -131,7 +133,7 @@ export default class NotesDashboard extends Component {
         //     console.log(2000);
         //     this.closeModal();
         // }.bind(this), 2000);
-        this.setState({email: "", title: "", edit: false, btn: <RaisedButton label="Отправить" type="submit"/>});
+        this.setState({email: "", title: "", note:{}, edit: false, btn: <RaisedButton label="Отправить" type="submit"/>});
         this.closeModal();
     }
 
@@ -168,7 +170,7 @@ export default class NotesDashboard extends Component {
                <Divider /></span>))
             : this.props.tasks.map((note, index) =>
                 <span> <ListItem primaryText={note.title.toUpperCase() + ": " + note.task}
-                                 onClick={this.edit.bind(this, index)}
+                                 // onClick={this.edit.bind(this, index)}
                                  secondaryText={
                                      "Изменён: " + dateFormat(note.updated_at, "mmmm dS, yyyy, h:MM")}
                                  key={index}
