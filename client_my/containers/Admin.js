@@ -8,22 +8,39 @@ import LoadingPage from "./LoadingPage"
 import enums from "../constans/Const"
 import UsersList from "./components/UsersList"
 import * as noteAction from '../actions/NoteAction'
-import { Paper,Avatar,FloatingActionButton, FontIcon, IconButton, ListItem, List,RaisedButton} from 'material-ui'
+import { Paper,Avatar,FloatingActionButton, FontIcon, IconButton, TextField,RaisedButton} from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import ContentInput from 'material-ui/svg-icons/action/input'
 import * as download from '../actions/DownloadFileAction'
+
 import '../css/main.css'
 
 class Admin extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            filterField: ""
+        };
+        this.handleChange = this.handleChange.bind(this);
+    }
 
     componentWillMount() {
         this.props.isInSystem();
         this.props.getAllUsers();
     }
     avatar(){
-        if(this.props.userInSystem.data_uri==undefined)
+        if(this.props.userInSystem.data_uri===undefined)
             return"";
         return <Avatar size={60} src={this.props.userInSystem.data_uri} alt={this.props.userInSystem.filename}/>
+    }
+
+    handleChange(event,i) {
+        // console.log(event.target.value);
+        // console.log(event);
+        console.log(i);
+        // const filterField = event.target.value;
+        this.setState({filterField: i});
     }
 
     render() {
@@ -34,7 +51,7 @@ class Admin extends Component {
                 break;
             default: {
 
-                if (this.props.userInSystem.role != undefined && this.props.userInSystem.role == 'admin') {
+                if (this.props.userInSystem.role !== undefined && this.props.userInSystem.role === 'admin') {
                     const {userInSystem,tasks,allUsers} = this.props;
                     const {changeTaskStatus,addNote,addTask,changeTask,getTasks,cleanTasks,removeTask,cleanUsers,getAllUsers,downloadExcel} = this.props;
                     return(
@@ -47,6 +64,10 @@ class Admin extends Component {
                                 </div>
 
                             </div>
+                            <TextField
+                                hintText="Поиск по email-у:"
+                                onChange={this.handleChange.bind(this)}
+                            /><br />
                             <UsersList userInSystem={userInSystem}
                                        cleanTasks={cleanTasks}
                                        removeTask={removeTask}
@@ -57,7 +78,7 @@ class Admin extends Component {
                                        addTask={addTask}
                                        getAllUsers={getAllUsers}
                                        cleanUsers={cleanUsers}
-                                       allUsers={allUsers}
+                                       allUsers={allUsers.filter(a=>this.state.filterField===undefined?true:a.email.includes(this.state.filterField))}
                                        downloadExcel={downloadExcel}
                                        changeTask={changeTask}
                             />

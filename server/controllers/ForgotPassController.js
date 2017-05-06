@@ -24,7 +24,7 @@ router.post('/sendInsructions', function (req, res) {
         } else {
             forgotPassDB.removeByEmail(req.body).then(() => {
                 forgotPassDB.createForgotPass(req.body).then((data) => {
-                        console.log(data);
+                        // console.log(data);
                         let id = data._id;
                         let mailOptions = {
                             from: '"R-key" <5600t0@gmail.com>', // sender address
@@ -41,10 +41,10 @@ router.post('/sendInsructions', function (req, res) {
                         transporter.sendMail(mailOptions, (error, info) => {
                             if (error) {
                                 res.send(false);
-                                console.log(error);
+                                // console.log(error);
                             }
 
-                            console.log(info);
+                            // console.log(info);
                             res.send(true);
 
                         });
@@ -58,7 +58,7 @@ router.post('/sendInsructions', function (req, res) {
 
 
 router.get('/restorePass', (req, res) => {
-    console.log(req.query.id);
+    // console.log(req.query.id);
     function date_diff_indays(date1) {
         let dt1 = new Date(date1);
         let dt2 = new Date();
@@ -66,12 +66,12 @@ router.get('/restorePass', (req, res) => {
     }
 
     forgotPassDB.findById(req.query.id).then((data) => {
-        console.log(data);
+        // console.log(data);
         if (data.length === 0 || date_diff_indays(data[0].date) > 2) {
             res.send(false);
         }
         res.send(true);
-    }).catch((error) => {
+    }).catch(() => {
         res.send(false);
     });
 });
@@ -80,13 +80,13 @@ router.post('/restorePass', (req, res) => {
     let email;
     forgotPassDB.findById(req.query.id).then((data) => {
         email = data[0].email;
-        console.log(data);
-        console.log(email);
+        // console.log(data);
+        // console.log(email);
         userDB.findByEmail({email: email}).then(data => {
-            console.log(data[0]);
-            console.log(req.body);
-            userDB.restorePass(data[0], req.body.pass).then(date => {
-                forgotPassDB.removeByEmail({email: email}).then(date => {
+            // console.log(data[0]);
+            // console.log(req.body);
+            userDB.restorePass(data[0], req.body.pass).then(() => {
+                forgotPassDB.removeByEmail({email: email}).then(() => {
                     res.send(true);
                 })
             })

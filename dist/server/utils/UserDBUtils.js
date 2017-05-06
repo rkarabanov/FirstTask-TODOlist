@@ -26,7 +26,7 @@ var User = _mongoose2['default'].model('User');
 
 function createUser(data) {
     var buffer = {};
-    if (data.OAuth != undefined) {
+    if (data.OAuth !== undefined) {
         buffer = {
             email: data.email,
             pass: data.pass,
@@ -49,7 +49,7 @@ function createUser(data) {
 
 function restorePass(data, newPass) {
     data.pass = newPass;
-    console.log(data);
+    // console.log(data);
     var user = new User(data);
     return user.save();
 }
@@ -65,7 +65,7 @@ function restoreImage(data, newData) {
 
 function restoreEmail(data, newEmail) {
     data.email = newEmail;
-    console.log(data);
+    // console.log(data);
     var user = new User(data);
     return user.save();
 }

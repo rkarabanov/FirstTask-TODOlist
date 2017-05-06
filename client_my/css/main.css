@@ -53,3 +53,18 @@
     float: right;
     margin-top: -5px;
 }
+
+.paginaton>ul{
+    list-style-type: none;
+    text-align: center;
+}
+.paginaton>ul>li{
+    display: inline-block;
+    padding: 5px;
+    border: 1px solid #2d82ed;
+    margin: 0 2px;
+    cursor: pointer;
+    border-radius: 2px;
+    font-size: 15pt;
+    font-weight: 500;
+}

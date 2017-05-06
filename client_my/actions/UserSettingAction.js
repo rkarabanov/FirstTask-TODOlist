@@ -1,4 +1,4 @@
-import *as res from "../api/api"
+import * as res from "../api/api"
 import promise from "./promisecallback"
 
 export function changePass(data) {

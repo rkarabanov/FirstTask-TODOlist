@@ -18,7 +18,7 @@ export default {
     },
 
     restorePass(id, data){
-        console.log(data);
+        // console.log(data);
         return axios.post(adressServer + "/restorePass?id=" + id, data);
     },
 
@@ -41,7 +41,7 @@ export default {
 
     changeImage(data){
         // onCheck.log(data);
-        return axios.post(adressServer + "/changeImage", data,{headers:{"Access-Control-Allow-Origin": "*"}})
+        return axios.post(adressServer + "/changeImage", data, {headers: {"Access-Control-Allow-Origin": "*"}})
     },
     changeTaskStatus(data){
         return axios.post(adressServer + "/changeTaskStatus", data)
@@ -58,11 +58,11 @@ export default {
     },
     removeTask(data){
         return axios.post(adressServer + "/removeTask", data);
-    },getAllUsers(data){
+    }, getAllUsers(data){
         return axios.post(adressServer + "/getAllUsers", data);
     },
     downloadExcel(data){
-        return axios.post(adressServer + "/getXlsx",data);
+        return axios.post(adressServer + "/getXlsx", data);
     },
 
 

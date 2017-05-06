@@ -9,3 +9,4 @@ const ForgotPassSchema = new Schema({
 });
 
 const ForgotPass = mongoose.model('ForgotPass', ForgotPassSchema);
+export default ForgotPass;

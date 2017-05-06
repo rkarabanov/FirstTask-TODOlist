@@ -20,7 +20,7 @@ export function createNote(data) {
 export function changeStatus(data) {
     data.status=!data.status;
     data.updated_at=new Date();
-    console.log(data);
+    // console.log(data);
     const note = new Note(
         data
     );
@@ -31,7 +31,7 @@ export function changeTask(data, newObj) {
     data.task=newObj.task;
     data.title=newObj.title;
     data.updated_at=new Date();
-    console.log(data);
+    // console.log(data);
     const note = new Note(
         data
     );

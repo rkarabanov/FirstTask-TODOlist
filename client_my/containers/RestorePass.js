@@ -22,15 +22,10 @@ export default class RestorePass extends Component {
     }
 
 
-
-
-
     handleSubmit() {
         this.props.restorePass(this.props.location.query.id, {"pass": "" + document.getElementsByName("password")[0].value});
         browserHistory.push("/login");
     }
-
-
 
     handleChange(event) {
         const { user } = this.state;

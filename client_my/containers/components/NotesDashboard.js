@@ -155,7 +155,7 @@ export default class NotesDashboard extends Component {
     }
 
     render() {
-        console.log(this.props.tasks);
+        // console.log(this.props.tasks);
 
 
         const listItems = (Array.isArray(this.props.tasks)

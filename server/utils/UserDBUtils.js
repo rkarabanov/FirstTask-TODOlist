@@ -8,7 +8,7 @@ const User = mongoose.model('User');
 
 export function createUser(data) {
     let buffer={};
-    if(data.OAuth!=undefined){
+    if (data.OAuth!==undefined){
         buffer={
             email: data.email,
             pass: data.pass,
@@ -18,7 +18,7 @@ export function createUser(data) {
             OAuth:data.OAuth,
             filetype:data.filetype
         }
-    }else{
+    } else {
         buffer= {
             email: data.email,
             pass: data.pass,
@@ -31,7 +31,7 @@ export function createUser(data) {
 
 export function restorePass(data, newPass) {
     data.pass=newPass;
-    console.log(data);
+    // console.log(data);
     const user = new User(
         data
     );
@@ -51,7 +51,7 @@ export function restoreImage(data, newData) {
 
 export function restoreEmail(data, newEmail) {
     data.email=newEmail;
-    console.log(data);
+    // console.log(data);
     const user = new User(
         data
     );
