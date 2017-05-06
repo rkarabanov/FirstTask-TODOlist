@@ -16,7 +16,7 @@ export default class ExitBtn extends Component {
     }
 
     render() {
-        return <RaisedButton label="Выйти" secondary='true' onClick={this.exitUser.bind(this)}/>
+        return <RaisedButton label="Выйти" secondary={true} onClick={this.exitUser.bind(this)}/>
     }
 
 }

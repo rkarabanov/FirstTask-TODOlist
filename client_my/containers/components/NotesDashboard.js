@@ -161,7 +161,7 @@ export default class NotesDashboard extends Component {
         const listItems = (Array.isArray(this.props.tasks)
             && this.props.tasks.length > 0
         ) ? (this.props.observer !== undefined ? (this.props.tasks.map((note, index) =>
-            <span> <ListItem primaryText={<b>note.title</b> + " " + note.task}
+            <span> <ListItem primaryText={note.title.toUpperCase() + ": "  + note.task}
                              secondaryText={"Изменён " + note.updated_at} key={index}
                              leftCheckbox={<Checkbox
                                  value={index}

@@ -14,7 +14,8 @@ import configureStore from './store/configureStore'
 import Registration from './containers/Registration'
 import { Route } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-
+import injectTapEventPlugin from "react-tap-event-plugin"
+injectTapEventPlugin();
 const store = configureStore();
 
 
