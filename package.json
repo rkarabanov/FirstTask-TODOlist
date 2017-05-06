@@ -44,6 +44,7 @@
     "nodemailer": "^4.0.1",
     "nunjucks": "^3.0.0",
     "passport-google-oauth": "^1.0.0",
+    "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-awesome-modal": "^2.0.1",
     "react-dom": "^15.5.4",
