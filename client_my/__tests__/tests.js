@@ -5,6 +5,18 @@
 // import expect from 'chai';
 // import renderer from 'react-test-renderer';
 const LoadingPage = require( '../containers/LoadingPage');
+// const Login = require( '../containers/LoadingPage');
+const Admin = require( '../containers/Admin');
+const React = require('react');
+// import React from 'react';
+// import {shallow, mount} from 'enzyme';
+// const assert = require('chai');
+const sinon = require('sinon');
+const mount = require('enzyme');
+const chai = require("chai");
+const sinonChai = require("sinon-chai");
+chai.should();
+chai.use(sinonChai);
 // import { shallow, mount, render } from 'enzyme';
 // import muiTheme from 'themes/base';
 
@@ -20,14 +32,23 @@ const LoadingPage = require( '../containers/LoadingPage');
 //     });
 // });
 
-const assert = require('assert');
+const assertMocha = require('assert');
 describe('LoadingPage', function() {
     describe('getElementsByClassName()', function() {
         it('should return 1 in LoadingPage', function() {
-            assert.equal(1, LoadingPage.prototype.testing());
+            assertMocha.equal(1, LoadingPage.prototype.testing());
         });
     });
 });
+
+    describe('<Admin/>', function() {
+        it('calls componentDidMount() lifecycle method', function() {
+            const componentDidMountSpy = sinon.spy(Admin.prototype, 'componentDidMount');
+            // chai.assert.ok(Admin.prototype.componentDidMount.calledOnce);
+            componentDidMountSpy.restore();
+        });
+    });
+
 // test('Can see header', () => {
 //     const component = renderer.create(
 //         <ExitBtn/>

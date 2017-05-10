@@ -32,7 +32,8 @@ export default class LoginForm extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
-
+        this.responseGoogle=this.responseGoogle.bind(this);
+        this.responseFGoogle=this.responseFGoogle.bind(this);
     }
 
     componentWillMount() {
@@ -52,7 +53,19 @@ export default class LoginForm extends Component {
         const pass = event.target.value;
         this.setState({email: this.state.email, pass: pass});
     }
+    responseGoogle (response)  {
+        console.log(response.profileObj);
+        console.log(response);
+        this.props.loginAction({
+            "email": "" + response.profileObj.email,
+            "OAuth":true,
+            "pass":""+response.profileObj.googleId
+        });
+    }
 
+    responseFGoogle(err){
+        console.log("fail",err);
+    }
 
     render() {
         // let GoogleAuth; // Google Auth object.
@@ -72,17 +85,7 @@ export default class LoginForm extends Component {
         // }
         // GoogleAuth.signIn();
         const {email, pass} = this.state;
-        const responseGoogle = (response) => {
-            console.log(response.profileObj);
-            this.props.loginAction({
-                "email": "" + response.profileObj.email,
-                "OAuth":true,
-                "pass":""+response.profileObj.googleId
-            });
-        };
-        const responseFGoogle=(err)=>{
-            console.log("fail",err);
-        };
+
         switch (this.props.loadingStatus) {
             case enums.LOAD_REQUEST:
                 return <LoadingPage/>;
@@ -127,8 +130,8 @@ export default class LoginForm extends Component {
                                     <GoogleLogin
                                         clientId={secret.googleAuth.clientID}
                                         buttonText="Google Login"
-                                        onSuccess={responseGoogle}
-                                        onFailure={responseFGoogle}
+                                        onSuccess={this.responseGoogle}
+                                        onFailure={this.responseFGoogle}
                                     />
                                     {/*<RaisedButton  secondary='true' href="/login" label="Регистрация"/>*/}
                                 </div>

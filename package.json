@@ -2,8 +2,8 @@
   "name": "todolist",
   "version": "1.0.0",
   "transform": {
-  "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/jest/jestpreprocessor.js"
-},
+    "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/jest/jestpreprocessor.js"
+  },
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
@@ -24,7 +24,8 @@
       "jsx",
       "js",
       "json"
-    ],"transformIgnorePatterns": [
+    ],
+    "transformIgnorePatterns": [
       "<rootDir>/(node_modules)/"
     ]
   },
@@ -89,7 +90,9 @@
     "redux": "^3.6.0",
     "redux-logger": "^3.0.1",
     "redux-promise-middleware": "^4.2.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "sinon": "^2.2.0",
+    "sinon-chai": "^2.10.0"
   },
   "devDependencies": {
     "@types/file-saver": "0.0.1",
