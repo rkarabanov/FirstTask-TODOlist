@@ -1,4 +1,5 @@
-import React, {PropTypes, Component} from 'react'
+import React, { Component} from 'react'
+import PropTypes from 'prop-types';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator'
 import {
     Paper,

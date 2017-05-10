@@ -1,14 +1,16 @@
 import React, {Component} from 'react'
+
+import { BrowserRouter } from 'react-router-dom'
+import {RaisedButton} from 'material-ui'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as exit from '../../actions/ExitUserAction'
 
-import { BrowserRouter, Route, Link } from 'react-router-dom'
-import {RaisedButton} from 'material-ui'
 
-
-
-export default class ExitBtn extends Component {
+ class ExitBtn extends Component {
+     constructor(props) {
+         super(props);
+     }
 
     exitUser(){
         this.props.exitUser();
@@ -16,13 +18,12 @@ export default class ExitBtn extends Component {
     }
 
     render() {
-        return <RaisedButton label="Выйти" secondary={true} onClick={this.exitUser.bind(this)}/>
+        return  <RaisedButton label="Выйти" secondary={true} onClick={this.exitUser.bind(this)}/>;
     }
 
 }
 
-
-function mapStateToProps(state) {
+function mapStateToProps() {
     return {
     }
 }

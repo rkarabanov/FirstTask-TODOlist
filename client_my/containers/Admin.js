@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+// import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as loadCompAction from '../actions/LoadComponentAction'
@@ -9,13 +10,15 @@ import enums from "../constans/Const"
 import UsersList from "./components/UsersList"
 import * as noteAction from '../actions/NoteAction'
 import { Paper,Avatar,FloatingActionButton, FontIcon, IconButton, TextField,RaisedButton} from 'material-ui'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import ContentInput from 'material-ui/svg-icons/action/input'
+// import ContentInput from 'material-ui/svg-icons/action/input'
 import * as download from '../actions/DownloadFileAction'
+// import { createRenderer } from 'react-test-renderer/shallow';
 
 import '../css/main.css'
 
 class Admin extends Component {
+
+
 
     constructor(props) {
         super(props);
@@ -25,10 +28,15 @@ class Admin extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount(){
+        this.setState({filterField: ""});
+    }
+
+    componentWillMount(){
         this.props.isInSystem();
         this.props.getAllUsers();
     }
+
     avatar(){
         if(this.props.userInSystem.data_uri===undefined)
             return"";
@@ -36,10 +44,7 @@ class Admin extends Component {
     }
 
     handleChange(event,i) {
-        // console.log(event.target.value);
-        // console.log(event);
-        console.log(i);
-        // const filterField = event.target.value;
+        // console.log(i);
         this.setState({filterField: i});
     }
 
@@ -104,6 +109,7 @@ class Admin extends Component {
 
     }
 }
+
 
 
 

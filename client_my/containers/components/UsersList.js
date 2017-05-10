@@ -1,5 +1,6 @@
 
-import React, {PropTypes, Component} from 'react'
+import React, { Component} from 'react'
+import PropTypes from 'prop-types';
 import { Paper,Avatar,FloatingActionButton, FontIcon, IconButton, ListItem, List,} from 'material-ui'
 import Modal from 'react-awesome-modal'
 import Divider from 'material-ui/Divider'
@@ -21,14 +22,13 @@ export default class UsersList extends Component {
             total:1
         };
         // this.handleChange = this.handleChange.bind(this);
-
     }
-
 
     openModal() {
         this.setState({
             visible: true
         });
+        return true;
     }
 
     closeModal() {
@@ -37,15 +37,16 @@ export default class UsersList extends Component {
             visible: false
         });
     }
-    watchUserList(e,i){
-        console.log(e);
+
+    watchUserList(e){
+        // console.log(e);
         // console.log(i);
         this.setState({
             watchUser:e
         });
         this.openModal();
-        console.log(this.props.userInSystem, "getTasks");
-        let userinfo={pass:e.pass,_id:e._id};
+        // console.log(this.props.userInSystem, "getTasks");
+        // let userinfo={pass:e.pass,_id:e._id};
         this.props.getTasks(e);
     }
 
@@ -60,12 +61,13 @@ export default class UsersList extends Component {
     //     this.setState({total:Math.ceil(this.props.allUsers.length/10) });}
     // }
     changeNum(e)
-    {console.log(e.selected);
+    {
+        // console.log(e.selected);
         this.setState({number:+e.selected});
     }
 
     render() {
-        console.log(this.props.allUsers);
+        // console.log(this.props.allUsers);
 
             const listItems = (Array.isArray(this.props.allUsers)) ? this.props.allUsers
                 .filter((a,index)=>(index>=(this.state.number)*10&&index<(this.state.number+1)*10))
